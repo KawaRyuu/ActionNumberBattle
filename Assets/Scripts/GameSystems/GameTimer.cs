@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class GameTimer : MonoBehaviour
 {
-    int CountDownTime = 4;          //•ª
-    float CountDownSecond = 60f;       //•b
-    public Text TextCountDown;      //UI‚Ì•\Ž¦
-    bool CountUpFlg = false;
+    public Text   TextCountDown;                  //UI‚Ì•\Ž¦
+           int    CountDownTime           = 4;    //•ª
+           float  CountDownSecond         = 60f;  //•b
+           bool   CountUpFlg              = false;
 
 
     // Start is called before the first frame update
