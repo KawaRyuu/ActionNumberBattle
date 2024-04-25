@@ -34,6 +34,7 @@ public class GameTimer : MonoBehaviour
                 CountDownSecond -= Time.deltaTime;
 
                 //‚à‚µ•b”‚ª0‚È‚ç
+
                 if (CountDownSecond <= 0)
                 {
                     CountDownTime--;
