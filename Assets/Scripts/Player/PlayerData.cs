@@ -26,6 +26,7 @@ public class PlayerData : MonoBehaviour
     public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
 
     public float inv_count = 0.0f;      //無敵時間中のカウント
+    public float blunt_count = 0.0f;    //鈍足中のカウント
 
     //初期化
     void Start()
@@ -56,7 +57,7 @@ public class PlayerData : MonoBehaviour
             Speed = 5.0f;
         }
     }
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         //敵の攻撃（EnemyAttackというtag）に触れたとき
         if (other.gameObject.tag == "EnemyAttack")
@@ -80,8 +81,8 @@ public class PlayerData : MonoBehaviour
         //もし鈍足効果のTagに触れたら
         if (other.gameObject.tag == "BluntFootEffect")
         {
-            //速度を1から0.05の速度に変化する。
-            Speed = 0.05f;
+            //速度を5から2.5の速度に変化する。
+            Speed = 2.5f;
             BluntFootEffect_Flg = true;
         }
         else BluntFootEffect_Flg = false;
