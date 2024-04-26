@@ -19,7 +19,7 @@ public class PlayersData
 
     public float invincibility       = 0.5f;     //ダメージ喰らった際の無敵時間
     public bool SwoonFlg             = false;    //気絶フラグ
-    public bool StunFlag             = false;    //スタンフラグ
+    public bool StunFlg             = false;     //スタンフラグ
     public bool RecoveryTime_Flg     = false;    //回復タイムに入るフラグ
     public bool Invincibility_Flg    = false;    //無敵フラグ
     public bool ExchangeTakeover_Flg = false;    //交換奪取するフラグ
