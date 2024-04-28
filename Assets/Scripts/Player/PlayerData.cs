@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ using UnityEngine;
 //プレイヤーの基礎的なデータ
 public class PlayerData : MonoBehaviour
 {
+    public SpriteRenderer player;
 
     public string Id = ("");         //おそらく名前
     public int Hp = 3;               //体力（耐久値）
@@ -18,31 +20,31 @@ public class PlayerData : MonoBehaviour
     //技や奪取（交換）を含めたクールタイム全般
 
     public float invincibility = 0.5f;          //ダメージ喰らった際の無敵時間
-    public bool Swoon_Flg            = false;   //気絶フラグ
-    public bool Stun_Flg             = false;   //スタンフラグ
-    public bool RecoveryTime_Flg     = false;   //回復タイムに入るフラグ
-    public bool Invincibility_Flg    = false;   //無敵フラグ
+    public bool Swoon_Flg = false;   //気絶フラグ
+    public bool Stun_Flg = false;   //スタンフラグ
+    public bool RecoveryTime_Flg = false;   //回復タイムに入るフラグ
+    public bool Invincibility_Flg = false;   //無敵フラグ
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ
-    public bool BluntFootEffect_Flg  = false;   //鈍足効果のフラグ
+    public bool BluntFootEffect_Flg = false;   //鈍足効果のフラグ
 
-    public float inv_count   = 0.0f;            //無敵時間中のカウント
+    public float inv_count = 0.0f;            //無敵時間中のカウント
     public float blunt_count = 0.0f;            //鈍足中のカウント
-    public float hael_count  = 0.0f;            //回復中のカウント
+    public float hael_count = 0.0f;            //回復中のカウント
     public float swoon_count = 0.0f;            //気絶中のカウント
 
     //初期化
     void Start()
     {
-        Invincibility_Flg   = false;
-        Swoon_Flg           = false;
+        Invincibility_Flg = false;
+        Swoon_Flg = false;
         BluntFootEffect_Flg = false;
-        inv_count   = 0.0f;
+        inv_count = 0.0f;
         blunt_count = 0.0f;
-        hael_count  = 0.0f;
+        hael_count = 0.0f;
         swoon_count = 0.0f;
     }
 
-     void Update()
+    void Update()
     {
         /**********気絶の処理*************/
         //もし気絶フラグがtrue且つカウントが1.5秒以下なら
@@ -54,8 +56,8 @@ public class PlayerData : MonoBehaviour
         else if (swoon_count >= 1.5)          //もしカウントが1.5秒を超えたら
         {
             swoon_count = 0.0f;               //気絶カウントをリセット
-            Swoon_Flg   = false;              //気絶フラグをfalseに変える
-            Hp          = 3;                  //HPは強制で全回復
+            Swoon_Flg = false;              //気絶フラグをfalseに変える
+            Hp = 3;                  //HPは強制で全回復
         }
 
 
@@ -76,7 +78,7 @@ public class PlayerData : MonoBehaviour
             hael_count = 0;                         //カウントリセット
             RecoveryTime_Flg = false;               //回復フラグOFF
         }
-            
+
 
 
         /**********無敵の処理*************/
@@ -85,8 +87,10 @@ public class PlayerData : MonoBehaviour
         if (Invincibility_Flg && invincibility >= inv_count)
         {
             inv_count += Time.deltaTime;
-            RecoveryTime_Flg = true;                //回復フラグをONにする。
-            Debug.Log("回復フラグ通ったよ");
+            RecoveryTime_Flg = true;                //回復フラグをONにする
+            StartCoroutine(BlinkingControl());
+            Invincibility();                        //無敵時の点滅処理関数へ
+            Debug.Log("無敵時間" + inv_count);
         }
         else
         {
@@ -137,7 +141,7 @@ public class PlayerData : MonoBehaviour
                 Hp -= Attack;               //体力がAttackの攻撃参照で減る
                 Invincibility_Flg = true;   //無敵フラグON
             }
-          
+
             //もし体力が0以下になったら
             if (Hp <= 0)
             {
@@ -158,5 +162,22 @@ public class PlayerData : MonoBehaviour
     //移動速度UP関数
     public void SpeedUp()
     {
+    }
+
+    //無敵処理の関数(点滅処理)
+    public void Invincibility()
+    {
+        //点滅の処理(*20は点滅速度)
+        float level = Mathf.Abs(Mathf.Sin(Time.time * 20));
+        player.color = new Color(1f, 1f, 1f, level);
+    }
+
+    //点滅の制御関数
+    public IEnumerator BlinkingControl()
+    {
+        //0.5秒の間点滅を繰り返す
+        yield return new WaitForSeconds(0.5f);
+        // 通常状態に戻す
+        player.color = new Color(1f, 1f, 1f, 1f);
     }
 }
