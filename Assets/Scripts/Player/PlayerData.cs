@@ -35,6 +35,7 @@ public class PlayerData : MonoBehaviour
         SwoonFlg            = false;
         BluntFootEffect_Flg = false;
         inv_count = 0.0f;
+        blunt_count = 0.0f;
     }
 
      void Update()
@@ -52,9 +53,21 @@ public class PlayerData : MonoBehaviour
         }
 
         //もし鈍足効果のフラグがfalseなら通常の速度
-        if(!BluntFootEffect_Flg)
+        if (!BluntFootEffect_Flg)
         {
             Speed = 5.0f;
+        }
+
+
+        //鈍足効果がtrue且つ鈍足カウントが2.0秒以下なら
+        if (BluntFootEffect_Flg && blunt_count <= 2.0)
+        {
+            blunt_count += Time.deltaTime;
+        }
+        else
+        {
+            BluntFootEffect_Flg = false;
+            blunt_count = 0;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -85,6 +98,5 @@ public class PlayerData : MonoBehaviour
             Speed = 2.5f;
             BluntFootEffect_Flg = true;
         }
-        else BluntFootEffect_Flg = false;
     }
 }
