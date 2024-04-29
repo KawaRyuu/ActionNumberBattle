@@ -20,16 +20,16 @@ public class PlayerData : MonoBehaviour
     //技や奪取（交換）を含めたクールタイム全般
 
     public float invincibility = 0.5f;          //ダメージ喰らった際の無敵時間
-    public bool Swoon_Flg = false;   //気絶フラグ
-    public bool Stun_Flg = false;   //スタンフラグ
-    public bool RecoveryTime_Flg = false;   //回復タイムに入るフラグ
-    public bool Invincibility_Flg = false;   //無敵フラグ
+    public bool Swoon_Flg = false;              //気絶フラグ
+    public bool Stun_Flg = false;               //スタンフラグ
+    public bool RecoveryTime_Flg = false;       //回復タイムに入るフラグ
+    public bool Invincibility_Flg = false;      //無敵フラグ
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ
-    public bool BluntFootEffect_Flg = false;   //鈍足効果のフラグ
+    public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
 
-    public float inv_count = 0.0f;            //無敵時間中のカウント
+    public float inv_count = 0.0f;              //無敵時間中のカウント
     public float blunt_count = 0.0f;            //鈍足中のカウント
-    public float hael_count = 0.0f;            //回復中のカウント
+    public float hael_count = 0.0f;             //回復中のカウント
     public float swoon_count = 0.0f;            //気絶中のカウント
 
     //初期化
