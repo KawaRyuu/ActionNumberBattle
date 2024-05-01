@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TechnicalData : MonoBehaviour
 {
-    int technicalNomber  = 0;            //選んだ時点での箱の役割
+    //Playerのスクリプトから参照
+    Player player;
+    public int technicalNomber  = 0;            //選んだ時点での箱の役割
     int technicalNomber1 = 0;            //一個目の選択時に決めたわざを保存
     int technicalNomber2 = 0;            //二個目の選択時に決めたわざを保存
     bool technicalFlg = false;           //わざ発動したかのフラグ
     bool technicalFlg1 = false;          //わざ1を発動したかのフラグ
     bool technicalFlg2 = false;          //わざ2を発動したかのフラグ
 
-
     // Start is called before the first frame update
     void Start()
     {
         //初期化
+        player = GetComponent<Player>();
         technicalFlg = false;
         technicalFlg1 = false;
         technicalFlg2 = false;
@@ -105,6 +110,37 @@ public class TechnicalData : MonoBehaviour
     //ストライク&backの動き
     void StrikeBack()
     {
+        int count = 0;
+        //技が発動
+        float x ;
+        float y ;
+        //現在位置を技が発動後に記録
+        Vector2 posi = this.transform.position;
+
+        //一度前進して帰る場合もあるため位置を保持
+        x = posi.x;
+        y = posi.y;
+        Debug.Log("保持の内容" + x + y);
+
+        //ここで前進する
+        if (count < 1)
+        {
+            Debug.Log("カウント" + count);
+            posi.y = 2.0f + Time.deltaTime;
+            this.transform.position = posi;
+            count++;
+        }
+            //もし技のボタンを2回押したら以前記録した場所へ戻る
+            if (player.stBackFlg)
+            {
+                posi.x = x;
+                posi.y = y;
+                Debug.Log("現在のポジションは" + posi.x + posi.y);
+                //情報を初期化
+                player.stBackFlg = false;
+                technicalNomber = 0;
+            }
+        
     }
 
     //トッシンの動き
