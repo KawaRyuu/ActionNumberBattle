@@ -11,8 +11,10 @@ public class TechnicalData : MonoBehaviour
     Player player;
 
     //ツバメ返し時に出る自分周辺の当たり判定Obj
-    [SerializeField] GameObject Attack_obj;
-
+    [SerializeField] GameObject Attack_obj_tubame;
+    //ハネトバシ時に出る攻撃オブジェクト
+    [SerializeField] GameObject Attack_obj_wing;
+ 
     public int technicalNumber  = 0;     //選んだ時点での箱の役割
 
     public bool inactionableFlg = false; //一部の技が発動中、
@@ -26,14 +28,14 @@ public class TechnicalData : MonoBehaviour
     bool swallowReturn_F = false;        //ツバメ返しのフラグ
 
     float Waza_time = 0.0f;              //わざを発動中の時間
+    int wingCount = 0;                   //ハネトバシのカウント
 
     // Start is called before the first frame update
     void Start()
-
     {
         //初期化
         player = GetComponent<Player>();
-        Attack_obj.SetActive(false);
+        Attack_obj_tubame.SetActive(false);
         technicalFlg = false;
         technicalFlg1 = false;
         technicalFlg2 = false;
@@ -120,6 +122,25 @@ public class TechnicalData : MonoBehaviour
     //ハネトバシの動き
     void FeatherFlying()
     {
+        if (wingCount < 3)
+        {
+            //弾の生成
+            //200フレームに1度だけ弾を発射する
+            if (Time.frameCount % 200 == 0)
+            {
+                //ハネトバシ生成
+                Instantiate(Attack_obj_wing,//生成するオブジェクトのプレハブ
+                    this.transform.position,//初期位置
+                    Quaternion.identity);//初期回転情
+                wingCount++;
+            }
+            Debug.Log("wingCountは" + wingCount);
+        }
+        else
+        {
+            wingCount = 0;
+            technicalNumber = 0;
+        }
     }
 
     //ツバメ返しの動き
@@ -131,13 +152,13 @@ public class TechnicalData : MonoBehaviour
             //行動不可のフラグを一時的にONにし、
             //playerの操作scriptで操作を不可にさせる
             inactionableFlg = true;
-            Attack_obj.SetActive(true);         //技の範囲の当たり判定を表示
+            Attack_obj_tubame.SetActive(true);         //技の範囲の当たり判定を表示
             swallowReturn_F = true;
         }
         else if (Waza_time > 1.5f)
         {
             inactionableFlg = false;
-            Attack_obj.SetActive(false);
+            Attack_obj_tubame.SetActive(false);
             swallowReturn_F = false;
             Waza_time = 0.0f;
             technicalNumber = 0;

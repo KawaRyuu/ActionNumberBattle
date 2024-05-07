@@ -84,5 +84,10 @@ public class Player : MonoBehaviour
         {
             waza.technicalNumber = 2;
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            waza.technicalNumber = 1;
+        }
     }
 }
