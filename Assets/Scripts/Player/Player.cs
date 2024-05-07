@@ -32,23 +32,27 @@ public class Player : MonoBehaviour
         //もし気絶中なら行動不可
         if (!info.Swoon_Flg)
         {
-            if (Input.GetKey("left"))
+            //技発動中は行動不可
+            if (!waza.inactionableFlg)
             {
-                position.x -= info.Speed * Time.deltaTime;          //左方向
+                if (Input.GetKey("left"))
+                {
+                    position.x -= info.Speed * Time.deltaTime;          //左方向
+                }
+                else if (Input.GetKey("right"))
+                {
+                    position.x += info.Speed * Time.deltaTime;          //右方向
+                }
+                else if (Input.GetKey("up"))
+                {
+                    position.y += info.Speed * Time.deltaTime;          //上方向
+                }
+                else if (Input.GetKey("down"))
+                {
+                    position.y -= info.Speed * Time.deltaTime;          //下方向
+                }
+                transform.position = position;
             }
-            else if (Input.GetKey("right"))
-            {
-                position.x += info.Speed * Time.deltaTime;          //右方向
-            }
-            else if (Input.GetKey("up"))
-            {
-                position.y += info.Speed * Time.deltaTime;          //上方向
-            }
-            else if (Input.GetKey("down"))
-            {
-                position.y -= info.Speed * Time.deltaTime;          //下方向
-            }
-            transform.position = position;
         }
         //Debug.Log(("今のスピードは") + info.Speed);
         Debug.Log("今の体力は" + info.Hp);
@@ -63,7 +67,7 @@ public class Player : MonoBehaviour
             if (stBackCount < 3)
             {
                 stBackCount++;
-                waza.technicalNomber = 3;
+                waza.technicalNumber = 3;
                 //もし技ボタンを2回押したなら
                 if (stBackCount == 2)
                 {
@@ -76,5 +80,9 @@ public class Player : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            waza.technicalNumber = 2;
+        }
     }
 }

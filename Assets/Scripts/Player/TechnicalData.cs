@@ -9,47 +9,62 @@ public class TechnicalData : MonoBehaviour
 {
     //Playerのスクリプトから参照
     Player player;
-    public int technicalNomber  = 0;     //選んだ時点での箱の役割
+
+    //ツバメ返し時に出る自分周辺の当たり判定Obj
+    [SerializeField] GameObject Attack_obj;
+
+    public int technicalNumber  = 0;     //選んだ時点での箱の役割
 
     public bool inactionableFlg = false; //一部の技が発動中、
                                          //操作を一定時間無効にするフラグ
 
-    int technicalNomber1 = 0;            //一個目の選択時に決めたわざを保存
-    int technicalNomber2 = 0;            //二個目の選択時に決めたわざを保存
+    int technicalNumber1 = 0;            //一個目の選択時に決めたわざを保存
+    int technicalNumber2 = 0;            //二個目の選択時に決めたわざを保存
     bool technicalFlg = false;           //わざ発動したかのフラグ
     bool technicalFlg1 = false;          //わざ1を発動したかのフラグ
     bool technicalFlg2 = false;          //わざ2を発動したかのフラグ
+    bool swallowReturn_F = false;        //ツバメ返しのフラグ
+
+    float Waza_time = 0.0f;              //わざを発動中の時間
 
     // Start is called before the first frame update
     void Start()
+
     {
         //初期化
         player = GetComponent<Player>();
+        Attack_obj.SetActive(false);
         technicalFlg = false;
         technicalFlg1 = false;
         technicalFlg2 = false;
         inactionableFlg = false;
-        technicalNomber  = 0;
-        technicalNomber1 = 0;
-        technicalNomber2 = 0;
+        swallowReturn_F = false;
+        technicalNumber  = 0;
+        technicalNumber1 = 0;
+        technicalNumber2 = 0;
+        Waza_time = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //もしツバメ返しの技フラグがtrueなら
+        if(swallowReturn_F)
+        Waza_time += Time.deltaTime;
+
         //もし技を使用したなら
         if (technicalFlg)
         {
             //もし技1がtrueなら技の番号を判別後にswitchから発動
             if (technicalFlg1)
-                technicalNomber = technicalNomber1;
+                technicalNumber = technicalNumber1;
             else if (technicalFlg2)
-                technicalNomber = technicalNomber2;
+                technicalNumber = technicalNumber2;
         }
 
 
             //技選択時の区別受け取り
-            switch (technicalNomber)
+            switch (technicalNumber)
             {
                 //技1 仮称「ハネトバシ」
                 case 1:
@@ -110,9 +125,23 @@ public class TechnicalData : MonoBehaviour
     //ツバメ返しの動き
     void SwallowReturn()
     {
-        //行動不可のフラグを一時的にONにし、
-        //playerの操作scriptで操作を不可にさせる
-        inactionableFlg = true;
+        //もし時間が1.5秒以下なら
+        if (Waza_time < 1.5f)
+        {
+            //行動不可のフラグを一時的にONにし、
+            //playerの操作scriptで操作を不可にさせる
+            inactionableFlg = true;
+            Attack_obj.SetActive(true);         //技の範囲の当たり判定を表示
+            swallowReturn_F = true;
+        }
+        else if (Waza_time > 1.5f)
+        {
+            inactionableFlg = false;
+            Attack_obj.SetActive(false);
+            swallowReturn_F = false;
+            Waza_time = 0.0f;
+            technicalNumber = 0;
+        }
     }
 
     //ストライク&backの動き
@@ -146,7 +175,7 @@ public class TechnicalData : MonoBehaviour
                 Debug.Log("現在のポジションは" + posi.x + posi.y);
                 //情報を初期化
                 player.stBackFlg = false;
-                technicalNomber = 0;
+                technicalNumber = 0;
             }
         
     }
