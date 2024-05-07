@@ -22,7 +22,8 @@ public class Item
     public bool Spdown_Flg          = false;//相手に投げ飛ばして移動速度Down（2秒間）
     public bool Critical_Flg        = false;//一撃気絶のアイテム
 
-
+    /*アイテム処理時に使う変数*/
+    public float speed_up_timer = 0.0f;//関数Speed_Upで使用するタイマー
 
     /*アイテムの処理をする関数*/
 
@@ -30,7 +31,6 @@ public class Item
     public int Change_min()
     {
         int min = 9;
-        Pl.GetComponent<PlayerData>();
         //数字が入っている配列の中で一番小さい数字を取らせる
         //一番小さい数字を算出
 
@@ -68,20 +68,28 @@ public class Item
     /*アイテム使ったときに移動速度アップの関数を持ってくる*/
     public void Speed_Up()
     {
-        
+        Pl.Speed = 300.0f;
+        speed_up_timer += Time.deltaTime;
+        //別のアイテム使用時にバグ起きる可能性あり
+        if (speed_up_timer > 3.0f)
+            Pl.Speed = 5.0f;
+
     }
 
     //相手に投げ飛ばして移動速度Down（2秒間）
     /*PlayerDataに鈍足処理あり→鈍足タグついたオブジェクト召喚プログラムへ*/
     public void SpDown()
     {
-        
+        //plefab召喚→プレイヤーが向いている向きに発射(3マス分進んだら消える)
+        //plefab召喚
+
+        //召喚したplefabを一定方向に発射
+        //３マス進んだらdeleteする：if文
     }
 
     //一撃気絶のアイテム
     public void Critical()
     {
-        Pl.GetComponent<PlayerData>();
         Pl.Attack = 3;
     }
 
