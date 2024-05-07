@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     public SpriteRenderer player;
+    public TechnicalData tec;
 
     public string Id = ("");         //おそらく名前
     public int Hp = 3;               //体力（耐久値）
@@ -35,8 +36,10 @@ public class PlayerData : MonoBehaviour
     //初期化
     void Start()
     {
+        tec = GetComponent<TechnicalData>();
         Invincibility_Flg = false;
         Swoon_Flg = false;
+        Stun_Flg = false;
         BluntFootEffect_Flg = false;
         inv_count = 0.0f;
         blunt_count = 0.0f;
@@ -46,6 +49,12 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
+        /**********スタンの処理************/
+        if (Stun_Flg)
+        {
+            
+        }
+
         /**********気絶の処理*************/
         //もし気絶フラグがtrue且つカウントが1.5秒以下なら
         if (Swoon_Flg && swoon_count <= 1.5f)
@@ -78,8 +87,6 @@ public class PlayerData : MonoBehaviour
             hael_count = 0;                         //カウントリセット
             RecoveryTime_Flg = false;               //回復フラグOFF
         }
-
-
 
         /**********無敵の処理*************/
 
@@ -156,6 +163,11 @@ public class PlayerData : MonoBehaviour
             //速度を5から2.5の速度に変化する。
             Speed = 2.5f;
             BluntFootEffect_Flg = true;
+        }
+        //トッシン(技)が発動した際Playerに触れたとき
+        if (other.gameObject.tag == "Player" && tec.technicalNumber == 4)
+        {
+            Stun_Flg = true;
         }
     }
 

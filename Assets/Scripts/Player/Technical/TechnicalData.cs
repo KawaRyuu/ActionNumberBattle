@@ -14,8 +14,8 @@ public class TechnicalData : MonoBehaviour
     [SerializeField] GameObject Attack_obj_tubame;
     //ハネトバシ時に出る攻撃オブジェクト
     [SerializeField] GameObject Attack_obj_wing;
- 
-    public int technicalNumber  = 0;     //選んだ時点での箱の役割
+
+    public int technicalNumber = 0;     //選んだ時点での箱の役割
 
     public bool inactionableFlg = false; //一部の技が発動中、
                                          //操作を一定時間無効にするフラグ
@@ -41,7 +41,7 @@ public class TechnicalData : MonoBehaviour
         technicalFlg2 = false;
         inactionableFlg = false;
         swallowReturn_F = false;
-        technicalNumber  = 0;
+        technicalNumber = 0;
         technicalNumber1 = 0;
         technicalNumber2 = 0;
         Waza_time = 0.0f;
@@ -51,8 +51,8 @@ public class TechnicalData : MonoBehaviour
     void Update()
     {
         //もしツバメ返しの技フラグがtrueなら
-        if(swallowReturn_F)
-        Waza_time += Time.deltaTime;
+        if (swallowReturn_F)
+            Waza_time += Time.deltaTime;
 
         //もし技を使用したなら
         if (technicalFlg)
@@ -65,38 +65,38 @@ public class TechnicalData : MonoBehaviour
         }
 
 
-            //技選択時の区別受け取り
-            switch (technicalNumber)
-            {
-                //技1 仮称「ハネトバシ」
-                case 1:
-                    FeatherFlying();        //技1の関数を呼び出し
-                    Reset();                //技使用時に技使用フラグをリセット
-                    break;
-
-                //技2 仮称「ツバメ返し」
-                case 2:
-                    SwallowReturn();
-                    Reset();                //技使用時に技使用フラグをリセット
+        //技選択時の区別受け取り
+        switch (technicalNumber)
+        {
+            //技1 仮称「ハネトバシ」
+            case 1:
+                FeatherFlying();        //技1の関数を呼び出し
+                Reset();                //技使用時に技使用フラグをリセット
                 break;
 
-                //技3 仮称「ストライク＆back」
-                case 3:
-                    StrikeBack();
-                    Reset();                //技使用時に技使用フラグをリセット
+            //技2 仮称「ツバメ返し」
+            case 2:
+                SwallowReturn();
+                Reset();                //技使用時に技使用フラグをリセット
                 break;
 
-                //技4 仮称「トッシン」
-                case 4:
-                    Rush();
-                    Reset();                //技使用時に技使用フラグをリセット
+            //技3 仮称「ストライク＆back」
+            case 3:
+                StrikeBack();
+                Reset();                //技使用時に技使用フラグをリセット
                 break;
 
-                //技の選択時何も選ばなかった時ランダムで処理する(仮)
-                case 5:
-                    Reset();                //技使用時に技使用フラグをリセット
+            //技4 仮称「トッシン」
+            case 4:
+                Rush();
+                Reset();                //技使用時に技使用フラグをリセット
                 break;
-            }
+
+            //技の選択時何も選ばなかった時ランダムで処理する(仮)
+            case 5:
+                Reset();                //技使用時に技使用フラグをリセット
+                break;
+        }
 
         //技1or2を使った最後にリセットする
         Rest1_2();
@@ -110,10 +110,10 @@ public class TechnicalData : MonoBehaviour
     {
         //もしtechnicalFlg1がtrueなら
         if (technicalFlg1)
-        technicalFlg1 = false;
+            technicalFlg1 = false;
         //もしtechnicalFlg2がtrueなら
         else if (technicalFlg2)
-        technicalFlg2 = false;
+            technicalFlg2 = false;
 
     }
 
@@ -170,8 +170,8 @@ public class TechnicalData : MonoBehaviour
     {
         int count = 0;
         //技が発動
-        float x ;
-        float y ;
+        float x;
+        float y;
         //現在位置を技が発動後に記録
         Vector2 posi = this.transform.position;
 
@@ -188,17 +188,17 @@ public class TechnicalData : MonoBehaviour
             this.transform.position = posi;
             count++;
         }
-            //もし技のボタンを2回押したら以前記録した場所へ戻る
-            if (player.stBackFlg)
-            {
-                posi.x = x;
-                posi.y = y;
-                Debug.Log("現在のポジションは" + posi.x + posi.y);
-                //情報を初期化
-                player.stBackFlg = false;
-                technicalNumber = 0;
-            }
-        
+        //もし技のボタンを2回押したら以前記録した場所へ戻る
+        if (player.stBackFlg)
+        {
+            posi.x = x;
+            posi.y = y;
+            Debug.Log("現在のポジションは" + posi.x + posi.y);
+            //情報を初期化
+            player.stBackFlg = false;
+            technicalNumber = 0;
+        }
+
     }
 
     //トッシンの動き
