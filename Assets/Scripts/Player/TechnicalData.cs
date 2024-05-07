@@ -9,7 +9,11 @@ public class TechnicalData : MonoBehaviour
 {
     //Playerのスクリプトから参照
     Player player;
-    public int technicalNomber  = 0;            //選んだ時点での箱の役割
+    public int technicalNomber  = 0;     //選んだ時点での箱の役割
+
+    public bool inactionableFlg = false; //一部の技が発動中、
+                                         //操作を一定時間無効にするフラグ
+
     int technicalNomber1 = 0;            //一個目の選択時に決めたわざを保存
     int technicalNomber2 = 0;            //二個目の選択時に決めたわざを保存
     bool technicalFlg = false;           //わざ発動したかのフラグ
@@ -24,6 +28,7 @@ public class TechnicalData : MonoBehaviour
         technicalFlg = false;
         technicalFlg1 = false;
         technicalFlg2 = false;
+        inactionableFlg = false;
         technicalNomber  = 0;
         technicalNomber1 = 0;
         technicalNomber2 = 0;
@@ -105,6 +110,9 @@ public class TechnicalData : MonoBehaviour
     //ツバメ返しの動き
     void SwallowReturn()
     {
+        //行動不可のフラグを一時的にONにし、
+        //playerの操作scriptで操作を不可にさせる
+        inactionableFlg = true;
     }
 
     //ストライク&backの動き
