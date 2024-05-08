@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -60,7 +61,7 @@ public class Player : MonoBehaviour
 
 
         //技ストライク&backの技を最大2回分カウントする。
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log("ストライク&back");
             //もし技ボタンが3回より小さいならカウントup
