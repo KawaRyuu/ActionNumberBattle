@@ -204,5 +204,8 @@ public class TechnicalData : MonoBehaviour
     //トッシンの動き
     void Rush()
     {
+        /*この関数へ切り替わるとPlayerDataでここの関数番号から技発動を検知し
+         * playerDataでスタン処理を行います*/
+        /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
     }
 }

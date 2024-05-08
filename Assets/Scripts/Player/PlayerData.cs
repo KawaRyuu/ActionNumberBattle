@@ -29,6 +29,7 @@ public class PlayerData : MonoBehaviour
     public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
 
     public float inv_count = 0.0f;              //無敵時間中のカウント
+    public float stun_count = 0.0f;             //スタン中のカウント
     public float blunt_count = 0.0f;            //鈍足中のカウント
     public float hael_count = 0.0f;             //回復中のカウント
     public float swoon_count = 0.0f;            //気絶中のカウント
@@ -45,14 +46,23 @@ public class PlayerData : MonoBehaviour
         blunt_count = 0.0f;
         hael_count = 0.0f;
         swoon_count = 0.0f;
+        stun_count = 0.0f;
     }
 
     void Update()
     {
         /**********スタンの処理************/
-        if (Stun_Flg)
+        //もしスタンフラグがtrue且つカウントが1.0秒以下なら
+        if (Stun_Flg && stun_count <= 1.0f)
         {
-            
+            Debug.Log("スタン中");
+            stun_count += Time.deltaTime;   //カウント加算
+        }
+        else if (stun_count >= 1)           //もしカウントが1秒を超えたら
+        {
+            //スタン状態を解除
+            stun_count = 0.0f;
+            Stun_Flg = false;
         }
 
         /**********気絶の処理*************/
@@ -88,8 +98,8 @@ public class PlayerData : MonoBehaviour
             RecoveryTime_Flg = false;               //回復フラグOFF
         }
 
-        /**********無敵の処理*************/
 
+        /**********無敵の処理*************/
         //無敵フラグがON且つもし無敵時間が0.5秒以下なら
         if (Invincibility_Flg && invincibility >= inv_count)
         {
@@ -106,8 +116,8 @@ public class PlayerData : MonoBehaviour
             inv_count = 0;
         }
 
-        /**********鈍足効果の処理************/
 
+        /**********鈍足効果の処理************/
         //もし鈍足効果のフラグがfalseなら通常の速度
         if (!BluntFootEffect_Flg)
         {
@@ -121,10 +131,37 @@ public class PlayerData : MonoBehaviour
         }
         else
         {
+            //鈍足状態解除
             BluntFootEffect_Flg = false;
             blunt_count = 0;
         }
     }
+
+    //移動速度UP関数
+    public void SpeedUp()
+    {
+    }
+
+    //無敵処理の関数(点滅処理)
+    public void Invincibility()
+    {
+        //点滅の処理(*20は点滅速度)
+        float level = Mathf.Abs(Mathf.Sin(Time.time * 20));
+        player.color = new Color(1f, 1f, 1f, level);
+    }
+
+    //点滅の制御関数
+    public IEnumerator BlinkingControl()
+    {
+        //0.5秒の間点滅を繰り返す
+        yield return new WaitForSeconds(0.5f);
+        // 通常状態に戻す
+        player.color = new Color(1f, 1f, 1f, 1f);
+    }
+
+
+
+
 
 
     /************当たった時の処理(何かの当たった時)*****************/
@@ -169,27 +206,5 @@ public class PlayerData : MonoBehaviour
         {
             Stun_Flg = true;
         }
-    }
-
-    //移動速度UP関数
-    public void SpeedUp()
-    {
-    }
-
-    //無敵処理の関数(点滅処理)
-    public void Invincibility()
-    {
-        //点滅の処理(*20は点滅速度)
-        float level = Mathf.Abs(Mathf.Sin(Time.time * 20));
-        player.color = new Color(1f, 1f, 1f, level);
-    }
-
-    //点滅の制御関数
-    public IEnumerator BlinkingControl()
-    {
-        //0.5秒の間点滅を繰り返す
-        yield return new WaitForSeconds(0.5f);
-        // 通常状態に戻す
-        player.color = new Color(1f, 1f, 1f, 1f);
     }
 }
