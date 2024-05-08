@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class TechnicalData : MonoBehaviour
 {
     //Playerのスクリプトから参照
     Player player;
+    //PlayerDataのスクリプトから参照
+    PlayerData playerD;
 
     //ツバメ返し時に出る自分周辺の当たり判定Obj
     [SerializeField] GameObject Attack_obj_tubame;
     //ハネトバシ時に出る攻撃オブジェクト
     [SerializeField] GameObject Attack_obj_wing;
 
-    public int technicalNumber = 0;     //選んだ時点での箱の役割
-
+    public Text TecCool1;                //技1のクールタイム表示
+    public Text TecCool2;                //技2のクールタイム表示
+    public int technicalNumber = 0;      //選んだ時点での箱の役割
     public bool inactionableFlg = false; //一部の技が発動中、
                                          //操作を一定時間無効にするフラグ
 
@@ -35,6 +39,7 @@ public class TechnicalData : MonoBehaviour
     {
         //初期化
         player = GetComponent<Player>();
+        playerD = GetComponent<PlayerData>();
         Attack_obj_tubame.SetActive(false);
         technicalFlg = false;
         technicalFlg1 = false;
@@ -50,6 +55,24 @@ public class TechnicalData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //文字表示
+        TecCool1.text = (int)playerD.Tec0_CoolTime + "秒";
+
+        //もしクールタイムがあるなら
+        if (playerD.Tec0_CoolTime >= 0)
+        {
+            Debug.Log("技1が使えるまで" + playerD.Tec0_CoolTime);
+            playerD.Tec0_CoolTime -= Time.deltaTime;        //カウントダウン
+        }
+        else
+        {
+            /*もしクールタイムが0を下回ったら
+            空きのクールタイムを0へ戻す*/
+            playerD.Tec0_CoolTime = 0.0f;
+        }
+
+
         //もしツバメ返しの技フラグがtrueなら
         if (swallowReturn_F)
             Waza_time += Time.deltaTime;
@@ -101,6 +124,7 @@ public class TechnicalData : MonoBehaviour
         //技1or2を使った最後にリセットする
         Rest1_2();
     }
+
     /*************フラグ打消しの処理***************************/
     private void Reset()
     {
@@ -122,24 +146,32 @@ public class TechnicalData : MonoBehaviour
     //ハネトバシの動き
     void FeatherFlying()
     {
-        if (wingCount < 3)
+        //もしクールタイムが0秒以下なら
+        if (playerD.Tec0_CoolTime <= 0)
         {
-            //弾の生成
-            //200フレームに1度だけ弾を発射する
-            if (Time.frameCount % 200 == 0)
+            if (wingCount < 3)
             {
-                //ハネトバシ生成
-                Instantiate(Attack_obj_wing,//生成するオブジェクトのプレハブ
-                    this.transform.position,//初期位置
-                    Quaternion.identity);//初期回転情
-                wingCount++;
+                //弾の生成
+                //200フレームに1度だけ弾を発射する
+                if (Time.frameCount % 200 == 0)
+                {
+                    //ハネトバシ生成
+                    Instantiate(Attack_obj_wing,//生成するオブジェクトのプレハブ
+                        this.transform.position,//初期位置
+                        Quaternion.identity);//初期回転情
+                    wingCount++;
+                }
+                //Debug.Log("wingCountは" + wingCount);
             }
-            Debug.Log("wingCountは" + wingCount);
-        }
-        else
-        {
-            wingCount = 0;
-            technicalNumber = 0;
+            else
+            {
+                //羽の状態を初期化
+                wingCount = 0;
+                technicalNumber = 0;
+                //PlayerのDataにある、空きのクールタイムに
+                //技1のクールタイムを入れる。
+                playerD.Tec0_CoolTime = playerD.Tec1_CoolTime;
+            }
         }
     }
 

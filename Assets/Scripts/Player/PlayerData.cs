@@ -17,8 +17,13 @@ public class PlayerData : MonoBehaviour
     public int NomberBox = 4;        //4つの数を保持する
     public int RandomNomber = 0;     //自分の数を出すランダム数をここに
     public float Speed = 5.0f;       //移動速度
-    public float CoolTime = 4f;
-    //技や奪取（交換）を含めたクールタイム全般
+
+    /********クールタイムのカウントたち************/
+    public float Tec0_CoolTime = 0.0f;           //空のクールタイム
+    public float Tec1_CoolTime = 11.0f;          //技1専用のクールタイム時間
+    public float Tec2_CoolTime = 11.0f;          //技2専用のクールタイム時間
+    public float Tec3_CoolTime = 11.0f;          //技3専用のクールタイム時間
+    public float Tec4_CoolTime = 11.0f;          //技4専用のクールタイム時間
 
     public float invincibility = 0.5f;          //ダメージ喰らった際の無敵時間
     public bool Swoon_Flg = false;              //気絶フラグ
@@ -47,6 +52,11 @@ public class PlayerData : MonoBehaviour
         hael_count = 0.0f;
         swoon_count = 0.0f;
         stun_count = 0.0f;
+        Tec0_CoolTime = 0.0f;
+        Tec1_CoolTime = 10.0f;
+        Tec2_CoolTime = 10.0f;
+        Tec3_CoolTime = 10.0f;
+        Tec4_CoolTime = 10.0f;
     }
 
     void Update()

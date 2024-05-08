@@ -86,7 +86,8 @@ public class Player : MonoBehaviour
             waza.technicalNumber = 2;
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        //もしｐボタンを押したとき且つクールタイムが0の時のみ
+        if (Input.GetKeyDown(KeyCode.P) && info.Tec0_CoolTime <= 0)
         {
             waza.technicalNumber = 1;
         }
