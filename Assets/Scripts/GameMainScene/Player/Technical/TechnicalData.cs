@@ -24,8 +24,8 @@ public class TechnicalData : MonoBehaviour
     public bool inactionableFlg = false; //一部の技が発動中、
                                          //操作を一定時間無効にするフラグ
 
-    int technicalNumber1 = 0;            //一個目の選択時に決めたわざを保存
-    int technicalNumber2 = 0;            //二個目の選択時に決めたわざを保存
+    public int technicalNumber1 = 0;            //一個目の選択時に決めたわざを保存
+    public int technicalNumber2 = 0;            //二個目の選択時に決めたわざを保存
     bool technicalFlg = false;           //わざ発動したかのフラグ
     bool technicalFlg1 = false;          //わざ1を発動したかのフラグ
     bool technicalFlg2 = false;          //わざ2を発動したかのフラグ
