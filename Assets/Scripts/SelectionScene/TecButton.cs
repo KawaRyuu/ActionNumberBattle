@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,18 +6,23 @@ using UnityEngine;
 
 public class TecButton : MonoBehaviour
 {
-    //参照
-    TechnicalData tec;
-
-    public GameObject Tec1;
-    public GameObject Tec2;
-    public GameObject Tec3;
-    public GameObject Tec4;
+    public int public_number = 0;
+    public bool Tec1Flg = false;
+    public bool Tec2Flg = false;
+    public bool Tec3Flg = false;
+    public bool Tec4Flg = false;
+    public bool PushButtonFlg = false;
+    public int TecFontsNum = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        tec.GetComponent<TechnicalData>();
+        Tec1Flg = false;
+        Tec2Flg = false;
+        Tec3Flg = false;
+        Tec4Flg = false;
+        PushButtonFlg = false;
+        TecFontsNum = 0;
     }
 
     // Update is called once per frame
@@ -26,22 +32,10 @@ public class TecButton : MonoBehaviour
     }
 
     //ボタンを押したら実行する関数　実行するためにはボタンへ関数登録が必要
-    public void Push_Button()
+    public void Push_Button(int number)
     {
-        //もし技1なら技1のデータを入れる
-        if (Tec1)
-            tec.technicalNumber = 1;
-
-        //もし技2なら技2のデータを入れる
-        if (Tec2)
-            tec.technicalNumber = 2;
-
-        //もし技3なら技3のデータを入れる
-        if (Tec3)
-            tec.technicalNumber = 3;
-
-        //もし技4なら技4のデータを入れる
-        if (Tec1)
-            tec.technicalNumber = 4;
+        public_number = number;
+        PushButtonFlg = true;       //ボタンを押してtrueにし、
+                                    //fontsのswitchで処理が1週終わったらfalseへ
     }
 }

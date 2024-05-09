@@ -134,8 +134,6 @@ GameObject:
   - component: {fileID: 162520211}
   - component: {fileID: 162520210}
   - component: {fileID: 162520209}
-  - component: {fileID: 162520212}
-  - component: {fileID: 162520213}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -217,36 +215,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &162520212
+--- !u!1 &723385263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 723385266}
+  - component: {fileID: 723385265}
+  - component: {fileID: 723385264}
+  m_Layer: 5
+  m_Name: ' OneP_Tec_Select_Fonts2'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &723385264
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162520208}
+  m_GameObject: {fileID: 723385263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 714a52c4c83d8e84cbeed48d6af7bf3d, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionFonts: {fileID: 1075190051}
-  OnePlayer_Tec_Select_F: {fileID: 1558418005}
---- !u!114 &162520213
-MonoBehaviour:
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 50
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &723385265
+CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162520208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc614362a6fc047439faed693342a54b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tec1: {fileID: 800102376}
-  Tec2: {fileID: 1621288177}
-  Tec3: {fileID: 1627695974}
-  Tec4: {fileID: 748686849}
+  m_GameObject: {fileID: 723385263}
+  m_CullTransparentMesh: 1
+--- !u!224 &723385266
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723385263}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1558418004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -74.37}
+  m_SizeDelta: {x: 711.0901, y: 127.2691}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &748686849
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +376,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 748686852}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1278259519}
+        m_TargetAssemblyTypeName: TecButton, Assembly-CSharp
+        m_MethodName: Push_Button
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &748686852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +509,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 800102379}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1278259519}
+        m_TargetAssemblyTypeName: TecButton, Assembly-CSharp
+        m_MethodName: Push_Button
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &800102379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,6 +746,72 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1278259518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1278259520}
+  - component: {fileID: 1278259519}
+  - component: {fileID: 1278259521}
+  m_Layer: 0
+  m_Name: Button Control Objects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1278259519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278259518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc614362a6fc047439faed693342a54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  public_number: 0
+  Tec1Flg: 0
+  Tec2Flg: 0
+  Tec3Flg: 0
+  Tec4Flg: 0
+  TecFontsNum: 0
+--- !u!4 &1278259520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278259518}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1265.1477, y: 520.6343, z: -5.9149547}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1278259521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278259518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714a52c4c83d8e84cbeed48d6af7bf3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectionFonts: {fileID: 1075190051}
+  OnePlayer_Tec_Select_F: {fileID: 1558418005}
+  OnePlayer_Tec_Select_F2: {fileID: 723385264}
 --- !u!1 &1281239933
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,7 +1177,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 723385266}
   m_Father: {fileID: 1218106866}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1172,7 +1310,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1621288180}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1278259519}
+        m_TargetAssemblyTypeName: TecButton, Assembly-CSharp
+        m_MethodName: Push_Button
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1621288180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,7 +1443,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1627695977}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1278259519}
+        m_TargetAssemblyTypeName: TecButton, Assembly-CSharp
+        m_MethodName: Push_Button
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1627695977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,3 +1773,4 @@ SceneRoots:
   - {fileID: 162520211}
   - {fileID: 1218106866}
   - {fileID: 1283157597}
+  - {fileID: 1278259520}

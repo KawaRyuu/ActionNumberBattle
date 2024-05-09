@@ -1,23 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Fonts : MonoBehaviour
 {
-    TechnicalData tec;
+    TecButton tecButton;
 
     //文字を表示
     public Text SelectionFonts;                 //指示文字
     public Text OnePlayer_Tec_Select_F;         //1Playerの技1の選択文字
+    public Text OnePlayer_Tec_Select_F2;         //1Playerの技2の選択文字
 
-
+    bool oneTecFlg = false;
+    bool twoTecFlg = false;
+    int TecSelectionCoverNum = 0;               //技を選んだ際1週目のnumberを保持
 
     // Start is called before the first frame update
     void Start()
     {
-        tec = GetComponent<TechnicalData>();
+        tecButton = GetComponent<TecButton>();
+        oneTecFlg = false;
+        twoTecFlg = false;
+        TecSelectionCoverNum = 0;
     }
 
     // Update is called once per frame
@@ -28,23 +35,109 @@ public class Fonts : MonoBehaviour
         //選んだ技によって文字表記が分岐する
         //if(1Player&&OneTecFlg)
         //{
-        OnePlayer_Tec_Select_F.text = "1Pの技は選んでません。";
-        //switch (tec.technicalNumber)
-        //{
-        //    case 1:
-        //        OnePlayer_Tec_Select_F.text = "1Pの技"+"数"+":ハネトバシ(仮称)";
-        //        break;
 
-        //    case 2:
-        //        OnePlayer_Tec_Select_F.text = "1Pの技" + "数" + ":ツバメ返し(仮称)";
-        //        break;
-        //    case 3:
-        //        OnePlayer_Tec_Select_F.text = "1Pの技" + "数" + ":ストライク&back(仮称)";
-        //        break;
-        //    case 4:
-        //        OnePlayer_Tec_Select_F.text = "1Pの技" + "数" + ":トッシン(仮称)";
-        //        break;
-        //}
-        //}
+        //もし2週していないなら
+        if (!twoTecFlg)
+        {
+            switch (tecButton.public_number)
+            {
+                case 0:
+                    OnePlayer_Tec_Select_F.text = "1Pの技1は選んでません。";
+                    OnePlayer_Tec_Select_F2.text = "1Pの技2は選んでません。";
+                    break;
+                case 1:
+                    //もし1週すらしてないなら
+                    if (!oneTecFlg)
+                    {
+                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":ハネトバシ(仮称)";
+                        TecSelectionCoverNum = tecButton.public_number;//保持
+                        OneTec();
+                    }
+                    //もし１週目且つボタンが押されたら
+                    else if (oneTecFlg && tecButton.PushButtonFlg)
+                    {
+                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ハネトバシ(仮称)";
+                        TwoTec();
+                    }
+                   
+                    break;
+
+                case 2:
+                    //もし1週すらしてないなら
+                    if (!oneTecFlg)
+                    {
+                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":ツバメ返し(仮称)";
+                        TecSelectionCoverNum = tecButton.public_number;//保持
+                        OneTec();
+                    }
+                    //もし１週目且つボタンが押されたら
+                    else if (oneTecFlg && tecButton.PushButtonFlg)
+                    {
+                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ツバメ返し(仮称)";
+                        TwoTec();
+                    }
+                    break;
+
+                case 3:
+                    //もし1週すらしてないなら
+                    if (!oneTecFlg)
+                    {
+                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 +
+                            ":ストライク&back(仮称)";
+                        TecSelectionCoverNum = tecButton.public_number;//保持
+                        OneTec();
+                    }
+                    //もし１週目且つボタンが押されたら
+                    else if (oneTecFlg && tecButton.PushButtonFlg)
+                    {
+                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 +
+                            ":ストライク&back(仮称)";
+                        TwoTec();
+                    }                    
+                    break;
+
+                case 4:
+                    //もし1週すらしてないなら
+                    if (!oneTecFlg)
+                    {
+                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":トッシン(仮称)";
+                        TecSelectionCoverNum = tecButton.public_number;//保持
+                        OneTec();
+                    }
+                    //もし１週目且つボタンが押されたら
+                    else if (oneTecFlg && tecButton.PushButtonFlg)
+                    {
+                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":トッシン(仮称)";
+                        TwoTec();
+                    }
+                    break;
+            }
+        }
+    }
+
+    //技選択1週目のフラグ関数
+    void OneTec()
+    {
+        oneTecFlg = true;                   //1週のフラグON
+        tecButton.PushButtonFlg = false;    //処理戻す
+    }
+    //技選択2週目のフラグ関数
+    void TwoTec()
+    {
+        //もし2週目を選択した際被ったら
+        if (TecSelectionCoverNum == tecButton.public_number)
+        {
+            Cover();       //被った際の処理関数へ
+        }
+        else
+        {
+            twoTecFlg = true;
+            UnityEngine.Debug.Log("技選択終了");
+        }
+    }
+    //技が被った際の関数
+    void Cover()
+    {
+        OnePlayer_Tec_Select_F2.text = "技が被りました。                                   やり直してください。";
     }
 }
