@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Fonts : MonoBehaviour
 {
@@ -17,7 +19,7 @@ public class Fonts : MonoBehaviour
     bool oneTecFlg = false;
     bool twoTecFlg = false;
     int TecSelectionCoverNum = 0;               //技を選んだ際1週目のnumberを保持
-
+    float Pre_start_time = 6.0f;                //試合(mainScene)に飛ばすカウントダウン
     // Start is called before the first frame update
     void Start()
     {
@@ -25,13 +27,12 @@ public class Fonts : MonoBehaviour
         oneTecFlg = false;
         twoTecFlg = false;
         TecSelectionCoverNum = 0;
+        Pre_start_time = 6.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        SelectionFonts.text = "4つの中から2つずつ技を選んで下さい！！";
-
         //選んだ技によって文字表記が分岐する
         //if(1Player&&OneTecFlg)
         //{
@@ -39,6 +40,8 @@ public class Fonts : MonoBehaviour
         //もし2週していないなら
         if (!twoTecFlg)
         {
+            SelectionFonts.text = "4つの中から2つずつ技を選んで下さい！！";
+
             switch (tecButton.public_number)
             {
                 case 0:
@@ -59,7 +62,7 @@ public class Fonts : MonoBehaviour
                         OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ハネトバシ(仮称)";
                         TwoTec();
                     }
-                   
+                    tecButton.Tec1Flg = true;
                     break;
 
                 case 2:
@@ -76,6 +79,7 @@ public class Fonts : MonoBehaviour
                         OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ツバメ返し(仮称)";
                         TwoTec();
                     }
+                    tecButton.Tec2Flg = true;
                     break;
 
                 case 3:
@@ -93,7 +97,8 @@ public class Fonts : MonoBehaviour
                         OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 +
                             ":ストライク&back(仮称)";
                         TwoTec();
-                    }                    
+                    }
+                    tecButton.Tec3Flg = true;
                     break;
 
                 case 4:
@@ -110,8 +115,16 @@ public class Fonts : MonoBehaviour
                         OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":トッシン(仮称)";
                         TwoTec();
                     }
+                    tecButton.Tec4Flg = true;
                     break;
             }
+        }
+        else
+        {
+            //カウントダウン
+            Pre_start_time -= Time.deltaTime;
+            SelectionFonts.text = "まもなく試合を開始します。                          "+ (int)Pre_start_time;
+            Invoke("GotoGameMainScene", 6.0f);
         }
     }
 
@@ -139,5 +152,9 @@ public class Fonts : MonoBehaviour
     void Cover()
     {
         OnePlayer_Tec_Select_F2.text = "技が被りました。                                   やり直してください。";
+    }
+    void GotoGameMainScene()
+    {
+        SceneManager.LoadScene("GameMain");
     }
 }
