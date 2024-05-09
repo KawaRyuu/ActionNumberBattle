@@ -26,13 +26,13 @@ public class TechnicalData : MonoBehaviour
 
     public int technicalNumber1 = 0;            //一個目の選択時に決めたわざを保存
     public int technicalNumber2 = 0;            //二個目の選択時に決めたわざを保存
-    bool technicalFlg = false;           //わざ発動したかのフラグ
-    bool technicalFlg1 = false;          //わざ1を発動したかのフラグ
-    bool technicalFlg2 = false;          //わざ2を発動したかのフラグ
-    bool swallowReturn_F = false;        //ツバメ返しのフラグ
+    bool technicalFlg = false;                  //わざ発動したかのフラグ
+    public bool technicalFlg1 = false;          //わざ1を発動したかのフラグ
+    public bool technicalFlg2 = false;          //わざ2を発動したかのフラグ
+    bool swallowReturn_F = false;               //ツバメ返しのフラグ
 
-    float Waza_time = 0.0f;              //わざを発動中の時間
-    int wingCount = 0;                   //ハネトバシのカウント
+    float Waza_time = 0.0f;                     //わざを発動中の時間
+    int wingCount = 0;                          //ハネトバシのカウント
 
     // Start is called before the first frame update
     void Start()
