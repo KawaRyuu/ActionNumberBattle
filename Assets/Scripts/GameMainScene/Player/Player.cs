@@ -37,13 +37,13 @@ public class Player : MonoBehaviour
             //技発動中は行動不可
             if (!waza.inactionableFlg)
             {
-                //もしPボタンを押したとき且つクールタイムが0の時のみ(技1)
-                if (Input.GetKeyDown(KeyCode.P) && info.Tec01_CoolTime <= 0)
+                //もしOボタンを押したとき且つクールタイムが0の時のみ(技1)
+                if (Input.GetKeyDown(KeyCode.O) && info.Tec01_CoolTime <= 0)
                 {
                     waza.technicalFlg1 = true;
                 }
-                //もしLボタンを押したとき且つクールタイムが0の時のみ(技2)
-                if (Input.GetKeyDown(KeyCode.O) && info.Tec02_CoolTime <= 0)
+                //もしPボタンを押したとき且つクールタイムが0の時のみ(技2)
+                if (Input.GetKeyDown(KeyCode.P) && info.Tec02_CoolTime <= 0)
                 {
                     waza.technicalFlg2 = true;
                 }
