@@ -23,8 +23,8 @@ public class Fonts : MonoBehaviour
     int TecSelectionCoverNum = 0;               //‹Z‚ğ‘I‚ñ‚¾Û1T–Ú‚Ìnumber‚ğ•Û
     float Pre_start_time = 6.0f;                //‡(mainScene)‚É”ò‚Î‚·ƒJƒEƒ“ƒgƒ_ƒEƒ“
 
-    public  int Tec1 = 0;                       //‹Z‘I‘ğ˜g1‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
-    public  int Tec2 = 0;                       //‹Z‘I‘ğ˜g2‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
+    public static int Tec1 = 0;                       //‹Z‘I‘ğ˜g1‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
+    public static int Tec2 = 0;                       //‹Z‘I‘ğ˜g2‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
 
     // Start is called before the first frame update
     void Start()
@@ -82,12 +82,14 @@ public class Fonts : MonoBehaviour
                     {
                         OnePlayer_Tec_Select_F.text = "1P‚Ì‹Z" + 1 + ":ƒcƒoƒ•Ô‚µ(‰¼Ì)";
                         TecSelectionCoverNum = tecButton.public_number;//•Û
+                        Tec1 = tecButton.public_number;                //‹Z1‘I‘ğ•Û
                         OneTec();
                     }
                     //‚à‚µ‚PT–ÚŠ‚Âƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
                         OnePlayer_Tec_Select_F2.text = "1P‚Ì‹Z" + 2 + ":ƒcƒoƒ•Ô‚µ(‰¼Ì)";
+                        Tec2 = tecButton.public_number;                //‹Z2‘I‘ğ•Û
                         TwoTec();
                     }
                     tecButton.Tec2Flg = true;
@@ -100,6 +102,7 @@ public class Fonts : MonoBehaviour
                         OnePlayer_Tec_Select_F.text = "1P‚Ì‹Z" + 1 +
                             ":ƒXƒgƒ‰ƒCƒN&back(‰¼Ì)";
                         TecSelectionCoverNum = tecButton.public_number;//•Û
+                        Tec1 = tecButton.public_number;                //‹Z1‘I‘ğ•Û
                         OneTec();
                     }
                     //‚à‚µ‚PT–ÚŠ‚Âƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç
@@ -107,6 +110,7 @@ public class Fonts : MonoBehaviour
                     {
                         OnePlayer_Tec_Select_F2.text = "1P‚Ì‹Z" + 2 +
                             ":ƒXƒgƒ‰ƒCƒN&back(‰¼Ì)";
+                        Tec2 = tecButton.public_number;                //‹Z2‘I‘ğ•Û
                         TwoTec();
                     }
                     tecButton.Tec3Flg = true;
@@ -118,12 +122,14 @@ public class Fonts : MonoBehaviour
                     {
                         OnePlayer_Tec_Select_F.text = "1P‚Ì‹Z" + 1 + ":ƒgƒbƒVƒ“(‰¼Ì)";
                         TecSelectionCoverNum = tecButton.public_number;//•Û
+                        Tec1 = tecButton.public_number;                //‹Z1‘I‘ğ•Û
                         OneTec();
                     }
                     //‚à‚µ‚PT–ÚŠ‚Âƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ç
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
                         OnePlayer_Tec_Select_F2.text = "1P‚Ì‹Z" + 2 + ":ƒgƒbƒVƒ“(‰¼Ì)";
+                        Tec2 = tecButton.public_number;                //‹Z2‘I‘ğ•Û
                         TwoTec();
                     }
                     tecButton.Tec4Flg = true;

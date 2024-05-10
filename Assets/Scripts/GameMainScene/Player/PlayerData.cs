@@ -19,7 +19,8 @@ public class PlayerData : MonoBehaviour
     public float Speed = 5.0f;       //移動速度
 
     /********クールタイムのカウントたち************/
-    public float Tec0_CoolTime = 0.0f;           //空のクールタイム
+    public float Tec01_CoolTime = 0.0f;           //技1:空のクールタイム
+    public float Tec02_CoolTime = 0.0f;           //技2:空のクールタイム
     public float Tec1_CoolTime = 11.0f;          //技1専用のクールタイム時間
     public float Tec2_CoolTime = 11.0f;          //技2専用のクールタイム時間
     public float Tec3_CoolTime = 11.0f;          //技3専用のクールタイム時間
@@ -52,7 +53,8 @@ public class PlayerData : MonoBehaviour
         hael_count = 0.0f;
         swoon_count = 0.0f;
         stun_count = 0.0f;
-        Tec0_CoolTime = 0.0f;
+        Tec01_CoolTime = 0.0f;
+        Tec02_CoolTime = 0.0f;
         Tec1_CoolTime = 10.0f;
         Tec2_CoolTime = 10.0f;
         Tec3_CoolTime = 10.0f;

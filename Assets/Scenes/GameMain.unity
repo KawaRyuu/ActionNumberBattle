@@ -1230,10 +1230,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attack_obj_tubame: {fileID: 1549689592}
   Attack_obj_wing: {fileID: 2891695476740144829, guid: dd5af8d38c11d6a439995b763ae0d506, type: 3}
+  fonts: {fileID: 0}
   TecCool1: {fileID: 0}
   TecCool2: {fileID: 0}
   technicalNumber: 0
   inactionableFlg: 0
+  technicalNumber1: 0
+  technicalNumber2: 0
+  technicalFlg1: 0
+  technicalFlg2: 0
 --- !u!114 &674639073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2417,10 +2422,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attack_obj_tubame: {fileID: 857146693}
   Attack_obj_wing: {fileID: 2891695476740144829, guid: dd5af8d38c11d6a439995b763ae0d506, type: 3}
+  fonts: {fileID: 1748478135678134620, guid: 95dfba32fdb828e42b5dbab4d8c64c4e, type: 3}
   TecCool1: {fileID: 1395759553}
   TecCool2: {fileID: 1401051199}
   technicalNumber: 0
   inactionableFlg: 0
+  technicalNumber1: 0
+  technicalNumber2: 0
+  technicalFlg1: 0
+  technicalFlg2: 0
 --- !u!114 &1256795827
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     PlayerData info;
     TechnicalData waza;
 
+
     public int stBackCount = 0;     //ストライク&backの2度押しカウント
     public bool stBackFlg  = false; //ストライク&backの2度押しフラグ
 
@@ -36,6 +37,17 @@ public class Player : MonoBehaviour
             //技発動中は行動不可
             if (!waza.inactionableFlg)
             {
+                //もしPボタンを押したとき且つクールタイムが0の時のみ(技1)
+                if (Input.GetKeyDown(KeyCode.P) && info.Tec01_CoolTime <= 0)
+                {
+                    waza.technicalFlg1 = true;
+                }
+                //もしLボタンを押したとき且つクールタイムが0の時のみ(技2)
+                if (Input.GetKeyDown(KeyCode.O) && info.Tec02_CoolTime <= 0)
+                {
+                    waza.technicalFlg2 = true;
+                }
+
                 if (Input.GetKey("left"))
                 {
                     position.x -= info.Speed * Time.deltaTime;          //左方向
@@ -55,10 +67,7 @@ public class Player : MonoBehaviour
                 transform.position = position;
             }
         }
-        //Debug.Log(("今のスピードは") + info.Speed);
         Debug.Log("今の体力は" + info.Hp);
-        //Debug.Log("無敵フラグは:" + info.Invincibility_Flg);
-
 
         //技ストライク&backの技を最大2回分カウントする。
         if (Input.GetKeyDown(KeyCode.L))
@@ -84,12 +93,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             waza.technicalNumber = 2;
-        }
-
-        //もしｐボタンを押したとき且つクールタイムが0の時のみ
-        if (Input.GetKeyDown(KeyCode.P) && info.Tec0_CoolTime <= 0)
-        {
-            waza.technicalNumber = 1;
         }
     }
 }
