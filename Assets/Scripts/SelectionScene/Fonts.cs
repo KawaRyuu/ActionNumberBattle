@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Runtime.CompilerServices;
 
 public class Fonts : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class Fonts : MonoBehaviour
     bool twoTecFlg = false;
     int TecSelectionCoverNum = 0;               //技を選んだ際1週目のnumberを保持
     float Pre_start_time = 6.0f;                //試合(mainScene)に飛ばすカウントダウン
+
+    public  int Tec1 = 0;                       //技選択枠1の技の情報保存のNum
+    public  int Tec2 = 0;                       //技選択枠2の技の情報保存のNum
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,8 @@ public class Fonts : MonoBehaviour
         twoTecFlg = false;
         TecSelectionCoverNum = 0;
         Pre_start_time = 6.0f;
+        Tec1 = 0;
+        Tec2 = 0;
     }
 
     // Update is called once per frame
@@ -56,21 +63,14 @@ public class Fonts : MonoBehaviour
                     {
                         OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":ハネトバシ(仮称)";
                         TecSelectionCoverNum = tecButton.public_number;//保持
-
-                        ////1つ目の技はこれでtrue
-                        //tecButton.Tec1Flg = true;
-                        ////技ハネトバシが技1にセットされる。
-                        //tecD.technicalFlg1 = tecButton.Tec1Flg;
+                        Tec1 = tecButton.public_number;                //技1選択保持
                         OneTec();
                     }
                     //もし１週目且つボタンが押されたら
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
                         OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ハネトバシ(仮称)";
-                        ////2つ目の技はこれでture
-                        //tecButton.Tec2Flg = true;
-                        ////技ハネトバシは技2にセットされる。
-                        //tecD.technicalFlg2 = tecButton.Tec1Flg;
+                        Tec2 = tecButton.public_number;                //技2選択保持
                         TwoTec();
                     }
                     

@@ -13,6 +13,8 @@ public class TechnicalData : MonoBehaviour
     //PlayerDataのスクリプトから参照
     PlayerData playerD;
 
+    Fonts font;
+
     //ツバメ返し時に出る自分周辺の当たり判定Obj
     [SerializeField] GameObject Attack_obj_tubame;
     //ハネトバシ時に出る攻撃オブジェクト
@@ -20,7 +22,7 @@ public class TechnicalData : MonoBehaviour
 
     public Text TecCool1;                //技1のクールタイム表示
     public Text TecCool2;                //技2のクールタイム表示
-    public int technicalNumber = 0;      //選んだ時点での箱の役割
+    public int technicalNumber = 0;      //選んだ時点(Tec.1or2)での箱の役割
     public bool inactionableFlg = false; //一部の技が発動中、
                                          //操作を一定時間無効にするフラグ
 
@@ -40,6 +42,7 @@ public class TechnicalData : MonoBehaviour
         //初期化
         player = GetComponent<Player>();
         playerD = GetComponent<PlayerData>();
+        font = GetComponent<Fonts>();
         Attack_obj_tubame.SetActive(false);
         technicalFlg = false;
         technicalFlg1 = false;
@@ -82,11 +85,16 @@ public class TechnicalData : MonoBehaviour
         {
             //もし技1がtrueなら技の番号を判別後にswitchから発動
             if (technicalFlg1)
-                technicalNumber = technicalNumber1;
+            {
+                //技1に保存した番号をtecNumへ入れる
+                technicalNumber = font.Tec1;
+            }
             else if (technicalFlg2)
-                technicalNumber = technicalNumber2;
+            {
+                technicalNumber = font.Tec2;
+            }
         }
-
+        
 
         //技選択時の区別受け取り
         switch (technicalNumber)
@@ -110,7 +118,7 @@ public class TechnicalData : MonoBehaviour
                 break;
 
             //技4 仮称「トッシン」
-            case 4:
+            case 4:                                                                                                                                                                                         
                 Rush();
                 Reset();                //技使用時に技使用フラグをリセット
                 break;
