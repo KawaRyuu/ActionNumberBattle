@@ -63,7 +63,8 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
-        /**********ŒğŠ·ˆ—****************/
+        //ŒğŠ·ŠÖ”
+        Swaps();
 
         //ƒXƒ^ƒ“ŠÖ”
         Stun();
@@ -81,7 +82,8 @@ public class PlayerData : MonoBehaviour
         BluntFoot();
     }
 
-    public void Tread()
+    /**********ŒğŠ·ˆ—****************/
+    public void Swaps()
     {
 
     }
