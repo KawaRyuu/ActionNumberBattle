@@ -24,7 +24,7 @@ public class TechnicalData : MonoBehaviour
     [SerializeField] GameObject Player;
 
     //Playerの初期位置
-    public static Vector2 PlayerLocation = new Vector2(0.0f, 0.0f);
+    public static Vector3 PlayerLocation = new Vector2(0.0f, 0.0f);
 
     public Text TecCool1;                //技1のクールタイム表示
     public Text TecCool2;                //技2のクールタイム表示
@@ -39,6 +39,7 @@ public class TechnicalData : MonoBehaviour
     bool swallowReturn_F = false;               //ツバメ返しのフラグ
 
     float Waza_time = 0.0f;                     //わざを発動中の時間
+    Vector3 StBackLoc = new Vector3(0.0f,2.0f); //ストライク&backの移動距離
     int wingCount = 0;                          //ハネトバシのカウント
     int StBakc_count = 0;                       //ストライク&backのカウント
 
@@ -314,10 +315,10 @@ public class TechnicalData : MonoBehaviour
             //座標を保存
             PlayerLocation = Player.transform.position;
             Debug.Log("保存座標" + PlayerLocation);
-            
+
             //現在の座標が移動する
-            //Player.transform.position = new Vector2(0.0f,2.5f) ;
-            Debug.Log("現在の座標"+ Player.transform.position);
+            Player.transform.position += StBackLoc;
+                Debug.Log("現在の座標"+ Player.transform.position);
             StBakc_count++;
         }
         //もし技のボタンを2回押したら以前記録した場所へ戻る
