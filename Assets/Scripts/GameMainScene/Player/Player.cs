@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
             //もし技ボタンが3回より小さいならカウントup
             if (stBackCount < 2)
             {
+                stBackFlg = false;
                 stBackCount++;
                 waza.technicalNumber = 3;
                 //もし技ボタンを2回押したなら
@@ -83,6 +84,7 @@ public class Player : MonoBehaviour
                 {
                     Debug.Log("2度通った");
                     stBackFlg = true;   //元の位置へ戻るフラグ
+                    
                     //カウントを初期化し、
                     //技のクールタイムをはさむ
                     stBackCount = 0;

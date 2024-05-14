@@ -13,15 +13,18 @@ public class TechnicalData : MonoBehaviour
     //PlayerDataのスクリプトから参照
     PlayerData playerD;
 
-    Fonts font;
 
     //ツバメ返し時に出る自分周辺の当たり判定Obj
     [SerializeField] GameObject Attack_obj_tubame;
+
     //ハネトバシ時に出る攻撃オブジェクト
     [SerializeField] GameObject Attack_obj_wing;
 
-    //Playerをここへいれる。
+    //Playerの座標を触るための(ストライク&back)
     [SerializeField] GameObject Player;
+
+    //ストライク&backの前進後に自身がいた場所へマークする
+    [SerializeField] GameObject Mark;
 
     //Playerの初期位置
     public static Vector3 PlayerLocation = new Vector2(0.0f, 0.0f);
@@ -49,7 +52,6 @@ public class TechnicalData : MonoBehaviour
         //初期化
         player = GetComponent<Player>();
         playerD = GetComponent<PlayerData>();
-        font = GetComponent<Fonts>();
         Attack_obj_tubame.SetActive(false);
         technicalFlg1 = false;
         technicalFlg2 = false;
@@ -295,8 +297,35 @@ public class TechnicalData : MonoBehaviour
 
     //ストライク&backの動き
     void StrikeBack()
-    {
-        
+    { 
+        //ここで前進する
+        if (StBakc_count < 1)
+        {
+            //座標を保存
+            PlayerLocation = Player.transform.position;
+            Debug.Log("保存座標" + PlayerLocation);
+
+            //現在の座標が移動する
+            Player.transform.position += StBackLoc;
+                Debug.Log("現在の座標"+ Player.transform.position);
+
+            //移動先へ進んだ後、移動前にいた場所にマークを付与する。
+            Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
+                PlayerLocation,         //初期位置は移動前にいた場所
+                Quaternion.identity);   //初期回転情
+
+            StBakc_count++;
+        }
+        //もし技のボタンを2回押したら以前記録した場所へ戻る
+        if (player.stBackFlg)
+        {
+            //座標登録をもとに現在の位置に反映させる
+            Player.transform.position = PlayerLocation;
+            //情報を初期化
+            technicalNumber = 0;
+            StBakc_count = 0;
+        }
+        /*********旧考えた処理（没)***************/
         ////技が発動
         //float x;
         //float y;
@@ -307,32 +336,6 @@ public class TechnicalData : MonoBehaviour
         //x = posi.x;
         //y = posi.y;
         //Debug.Log("保持の内容" + x + y);
-
-        //ここで前進する
-        if (StBakc_count < 1)
-        {
-            Debug.Log("カウント" + StBakc_count);
-            //座標を保存
-            PlayerLocation = Player.transform.position;
-            Debug.Log("保存座標" + PlayerLocation);
-
-            //現在の座標が移動する
-            Player.transform.position += StBackLoc;
-                Debug.Log("現在の座標"+ Player.transform.position);
-            StBakc_count++;
-        }
-        //もし技のボタンを2回押したら以前記録した場所へ戻る
-        if (player.stBackFlg)
-        {
-            Debug.Log("ゲッダン★");
-            //座標登録をもとに現在の位置に反映させる
-            Player.transform.position = PlayerLocation;
-            //情報を初期化
-            player.stBackFlg = false;
-            technicalNumber = 0;
-            StBakc_count = 0;
-        }
-
     }
 
     //トッシンの動き
