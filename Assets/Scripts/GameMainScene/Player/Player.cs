@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     {
         info = GetComponent<PlayerData>();
         waza = GetComponent<TechnicalData>();
-        stBackCount = 1;
+        stBackCount = 0;
     }
 
     // Update is called once per frame
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("ストライク&back");
             //もし技ボタンが3回より小さいならカウントup
-            if (stBackCount < 3)
+            if (stBackCount < 2)
             {
                 stBackCount++;
                 waza.technicalNumber = 3;

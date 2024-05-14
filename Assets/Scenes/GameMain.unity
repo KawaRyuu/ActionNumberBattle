@@ -1230,7 +1230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attack_obj_tubame: {fileID: 1549689592}
   Attack_obj_wing: {fileID: 2891695476740144829, guid: dd5af8d38c11d6a439995b763ae0d506, type: 3}
-  fonts: {fileID: 0}
+  Player: {fileID: 0}
   TecCool1: {fileID: 0}
   TecCool2: {fileID: 0}
   technicalNumber: 0
@@ -1273,7 +1273,8 @@ MonoBehaviour:
   NomberBox: 4
   RandomNomber: 0
   Speed: 5
-  Tec0_CoolTime: 0
+  Tec01_CoolTime: 0
+  Tec02_CoolTime: 0
   Tec1_CoolTime: 0
   Tec2_CoolTime: 0
   Tec3_CoolTime: 0
@@ -2391,7 +2392,8 @@ MonoBehaviour:
   NomberBox: 4
   RandomNomber: 0
   Speed: 5
-  Tec0_CoolTime: 0
+  Tec01_CoolTime: 0
+  Tec02_CoolTime: 0
   Tec1_CoolTime: 0
   Tec2_CoolTime: 0
   Tec3_CoolTime: 0
@@ -2422,7 +2424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attack_obj_tubame: {fileID: 857146693}
   Attack_obj_wing: {fileID: 2891695476740144829, guid: dd5af8d38c11d6a439995b763ae0d506, type: 3}
-  fonts: {fileID: 1748478135678134620, guid: 95dfba32fdb828e42b5dbab4d8c64c4e, type: 3}
+  Player: {fileID: 1256795817}
   TecCool1: {fileID: 1395759553}
   TecCool2: {fileID: 1401051199}
   technicalNumber: 0
@@ -2702,7 +2704,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ??!
+  m_Text: 'S1
+
+'
 --- !u!222 &1395759554
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2781,7 +2785,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ??!
+  m_Text: S2
 --- !u!222 &1401051200
 CanvasRenderer:
   m_ObjectHideFlags: 0

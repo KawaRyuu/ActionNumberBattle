@@ -20,6 +20,12 @@ public class TechnicalData : MonoBehaviour
     //ハネトバシ時に出る攻撃オブジェクト
     [SerializeField] GameObject Attack_obj_wing;
 
+    //Playerをここへいれる。
+    [SerializeField] GameObject Player;
+
+    //Playerの初期位置
+    public static Vector2 PlayerLocation = new Vector2(0.0f, 0.0f);
+
     public Text TecCool1;                //技1のクールタイム表示
     public Text TecCool2;                //技2のクールタイム表示
     public int technicalNumber = 0;      //選んだ時点(Tec.1or2)での箱の役割
@@ -34,6 +40,7 @@ public class TechnicalData : MonoBehaviour
 
     float Waza_time = 0.0f;                     //わざを発動中の時間
     int wingCount = 0;                          //ハネトバシのカウント
+    int StBakc_count = 0;                       //ストライク&backのカウント
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +58,7 @@ public class TechnicalData : MonoBehaviour
         technicalNumber1 = 0;
         technicalNumber2 = 0;
         Waza_time = 0.0f;
+        Player.transform.position = PlayerLocation;
     }
 
     // Update is called once per frame
@@ -287,35 +295,41 @@ public class TechnicalData : MonoBehaviour
     //ストライク&backの動き
     void StrikeBack()
     {
-        int count = 0;
-        //技が発動
-        float x;
-        float y;
-        //現在位置を技が発動後に記録
-        Vector2 posi = this.transform.position;
+        
+        ////技が発動
+        //float x;
+        //float y;
+        ////現在位置を技が発動後に記録
+        //Vector2 posi = this.transform.position;
 
-        //一度前進して帰る場合もあるため位置を保持
-        x = posi.x;
-        y = posi.y;
-        Debug.Log("保持の内容" + x + y);
+        ////一度前進して帰る場合もあるため位置を保持
+        //x = posi.x;
+        //y = posi.y;
+        //Debug.Log("保持の内容" + x + y);
 
         //ここで前進する
-        if (count < 1)
+        if (StBakc_count < 1)
         {
-            Debug.Log("カウント" + count);
-            posi.y = 2.0f + Time.deltaTime;
-            this.transform.position = posi;
-            count++;
+            Debug.Log("カウント" + StBakc_count);
+            //座標を保存
+            PlayerLocation = Player.transform.position;
+            Debug.Log("保存座標" + PlayerLocation);
+            
+            //現在の座標が移動する
+            //Player.transform.position = new Vector2(0.0f,2.5f) ;
+            Debug.Log("現在の座標"+ Player.transform.position);
+            StBakc_count++;
         }
         //もし技のボタンを2回押したら以前記録した場所へ戻る
         if (player.stBackFlg)
         {
-            posi.x = x;
-            posi.y = y;
-            Debug.Log("現在のポジションは" + posi.x + posi.y);
+            Debug.Log("ゲッダン★");
+            //座標登録をもとに現在の位置に反映させる
+            Player.transform.position = PlayerLocation;
             //情報を初期化
             player.stBackFlg = false;
             technicalNumber = 0;
+            StBakc_count = 0;
         }
 
     }
