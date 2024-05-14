@@ -27,11 +27,17 @@ public class NumberData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Sort();
         //自分の数をUnityの画面で表示
         MyNnm1.text = MyNumber[0].ToString() 
             +(" ・ ")+MyNumber[1].ToString();
 
         MyNnm2.text = MyNumber[2].ToString()
             + (" ・ ") + MyNumber[3].ToString();
+    }
+
+    //ソート関数
+    void Sort()
+    {
     }
 }

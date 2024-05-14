@@ -16,7 +16,7 @@ public class PlayerData : MonoBehaviour
     public int Attack = 1;           //攻撃
     public int NomberBox = 4;        //4つの数を保持する
     public int RandomNomber = 0;     //自分の数を出すランダム数をここに
-    public float Speed = 5.0f;       //移動速度
+    public float Speed = 3.0f;       //移動速度
 
     /********クールタイムのカウントたち************/
     public float Tec01_CoolTime = 0.0f;           //技1:空のクールタイム
@@ -63,7 +63,32 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
-        /**********スタンの処理************/
+        /**********交換処理****************/
+
+        //スタン関数
+        Stun();
+
+        //気絶関数
+        Swoon();
+
+        //回復関数
+        Recovery();
+
+        //無敵関数
+        Inv();
+
+        //鈍足関数
+        BluntFoot();
+    }
+
+    public void Tread()
+    {
+
+    }
+
+    /**********スタンの処理************/
+    public void Stun()
+    {
         //もしスタンフラグがtrue且つカウントが1.0秒以下なら
         if (Stun_Flg && stun_count <= 1.0f)
         {
@@ -76,8 +101,11 @@ public class PlayerData : MonoBehaviour
             stun_count = 0.0f;
             Stun_Flg = false;
         }
+    }
 
-        /**********気絶の処理*************/
+    /**********気絶の処理*************/
+    public void Swoon()
+    {
         //もし気絶フラグがtrue且つカウントが1.5秒以下なら
         if (Swoon_Flg && swoon_count <= 1.5f)
         {
@@ -90,9 +118,11 @@ public class PlayerData : MonoBehaviour
             Swoon_Flg = false;              //気絶フラグをfalseに変える
             Hp = 3;                  //HPは強制で全回復
         }
+    }
 
-
-        /**********回復の処理*************/
+    /**********回復の処理*************/
+    public void Recovery()
+    {
         //もし回復フラグがtrue且つカウントが5.0秒以下なら
         //※次の攻撃が来るのが5秒以降になるなら全回復する。
         if (RecoveryTime_Flg && hael_count <= 5.0f)
@@ -109,9 +139,11 @@ public class PlayerData : MonoBehaviour
             hael_count = 0;                         //カウントリセット
             RecoveryTime_Flg = false;               //回復フラグOFF
         }
+    }
 
-
-        /**********無敵の処理*************/
+    /**********無敵の処理*************/
+    public void Inv()
+    {
         //無敵フラグがON且つもし無敵時間が0.5秒以下なら
         if (Invincibility_Flg && invincibility >= inv_count)
         {
@@ -127,13 +159,15 @@ public class PlayerData : MonoBehaviour
             Invincibility_Flg = false;
             inv_count = 0;
         }
+    }
 
-
-        /**********鈍足効果の処理************/
+    /**********鈍足効果の処理************/
+    public void BluntFoot()
+    {
         //もし鈍足効果のフラグがfalseなら通常の速度
         if (!BluntFootEffect_Flg)
         {
-            Speed = 5.0f;
+            Speed = 3.0f;
         }
 
         //鈍足効果がtrue且つ鈍足カウントが2.0秒以下なら
@@ -147,11 +181,6 @@ public class PlayerData : MonoBehaviour
             BluntFootEffect_Flg = false;
             blunt_count = 0;
         }
-    }
-
-    //移動速度UP関数
-    public void SpeedUp()
-    {
     }
 
     //無敵処理の関数(点滅処理)
@@ -170,7 +199,6 @@ public class PlayerData : MonoBehaviour
         // 通常状態に戻す
         player.color = new Color(1f, 1f, 1f, 1f);
     }
-
 
 
 
@@ -209,8 +237,8 @@ public class PlayerData : MonoBehaviour
         //もし鈍足効果のTagに触れたら
         if (other.gameObject.tag == "BluntFootEffect")
         {
-            //速度を5から2.5の速度に変化する。
-            Speed = 2.5f;
+            //速度を3から1.5の速度に変化する。
+            Speed = 1.5f;
             BluntFootEffect_Flg = true;
         }
         //トッシン(技)が発動した際Playerに触れたとき
