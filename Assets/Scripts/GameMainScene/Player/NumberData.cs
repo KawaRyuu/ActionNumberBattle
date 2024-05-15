@@ -27,11 +27,37 @@ public class NumberData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //交換やアイテム使用時に毎度入れ替わる。
+        Sort();
         //自分の数をUnityの画面で表示
         MyNnm1.text = MyNumber[0].ToString() 
             +(" ・ ")+MyNumber[1].ToString();
 
         MyNnm2.text = MyNumber[2].ToString()
             + (" ・ ") + MyNumber[3].ToString();
+    }
+
+    //ソート関数
+    void Sort()
+    {
+        int num = 0;
+        for(int i=0;i<3;i++)
+        {
+            for(int j =i+1;j<4;j++)
+            {
+                //配列のi番目の数が配列番号jの数より大きいなら入れ替える
+                if (MyNumber[i] < MyNumber[j])
+                {
+                    //いったんMyNumberi番目の数をnumに入れる。
+                    num = MyNumber[i];
+
+                    //配列i番目の中に配列番号jを入れる。
+                    MyNumber[i] = MyNumber[j];
+
+                    //配列番号jにnum(i番号の数)を入れてソート完了
+                    MyNumber[j] = num; 
+                }
+            }
+        }
     }
 }
