@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class NumberData : MonoBehaviour
 {
+    PlayerData pD;
+
+
     //自身が持っているNumberを配列で保持
     public int []MyNumber = {0,0,0,0};
     public Text MyNnm1;                  //UIの表示
@@ -15,6 +18,8 @@ public class NumberData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pD = GameObject.Find("1Player").GetComponent<PlayerData>();
+
         //ゲーム開始時と同時に数を1～9のランダムで取得する
         for (int i = 0; i < 4; i++)
         {
@@ -58,6 +63,23 @@ public class NumberData : MonoBehaviour
                     MyNumber[j] = num; 
                 }
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("おんこりじょん");
+        if (collision.gameObject.tag == "Player" &&pD.Swaps_Flg)
+        {
+            Debug.Log("交換");
+            //触れた相手のNumberDataを取得
+            NumberData num_data = collision.gameObject.GetComponent<NumberData>();
+            int num = Random.Range(0, 4);
+            int tmp = 0;
+            tmp = num_data.MyNumber[num];
+            num_data.MyNumber[num] = MyNumber[3];
+            MyNumber[3] = tmp;
+            pD.Swaps_Flg = false;
         }
     }
 }

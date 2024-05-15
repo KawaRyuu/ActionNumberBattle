@@ -312,7 +312,7 @@ public class TechnicalData : MonoBehaviour
             //移動先へ進んだ後、移動前にいた場所にマークを付与する。
             Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
                 PlayerLocation,         //初期位置は移動前にいた場所
-                Quaternion.identity);   //初期回転情
+                Quaternion.identity);   //初期回転情報
 
             StBakc_count++;
         }

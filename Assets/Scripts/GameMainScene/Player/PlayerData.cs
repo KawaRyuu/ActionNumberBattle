@@ -10,12 +10,12 @@ public class PlayerData : MonoBehaviour
 {
     public SpriteRenderer player;
     public TechnicalData tec;
+    public NumberData number;
 
     public string Id = ("");         //おそらく名前
     public int Hp = 3;               //体力（耐久値）
     public int Attack = 1;           //攻撃
-    public int NomberBox = 4;        //4つの数を保持する
-    public int RandomNomber = 0;     //自分の数を出すランダム数をここに
+ 
     public float Speed = 3.0f;       //移動速度
 
     /********クールタイムのカウントたち************/
@@ -33,6 +33,7 @@ public class PlayerData : MonoBehaviour
     public bool Invincibility_Flg = false;      //無敵フラグ
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ
     public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
+    public bool Swaps_Flg = false;              //交換のフラグ
 
     public float inv_count = 0.0f;              //無敵時間中のカウント
     public float stun_count = 0.0f;             //スタン中のカウント
@@ -40,14 +41,20 @@ public class PlayerData : MonoBehaviour
     public float hael_count = 0.0f;             //回復中のカウント
     public float swoon_count = 0.0f;            //気絶中のカウント
 
+    public GameObject SwoonObj;                 //気絶時に出るobj(これで判定させる)
+
     //初期化
     void Start()
     {
         tec = GetComponent<TechnicalData>();
+        number = GetComponent<NumberData>();
+        SwoonObj.SetActive(false);
         Invincibility_Flg = false;
         Swoon_Flg = false;
         Stun_Flg = false;
         BluntFootEffect_Flg = false;
+        Swaps_Flg = false;
+
         inv_count = 0.0f;
         blunt_count = 0.0f;
         hael_count = 0.0f;
@@ -63,9 +70,6 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
-        //交換関数
-        Swaps();
-
         //スタン関数
         Stun();
 
@@ -82,11 +86,6 @@ public class PlayerData : MonoBehaviour
         BluntFoot();
     }
 
-    /**********交換処理****************/
-    public void Swaps()
-    {
-
-    }
 
     /**********スタンの処理************/
     public void Stun()
@@ -112,6 +111,7 @@ public class PlayerData : MonoBehaviour
         if (Swoon_Flg && swoon_count <= 1.5f)
         {
             Debug.Log("気絶now");
+            SwoonObj.SetActive(true);         //気絶時交換されるように当たり判定をON
             swoon_count += Time.deltaTime;    //カウントの加算
         }
         else if (swoon_count >= 1.5)          //もしカウントが1.5秒を超えたら
@@ -119,6 +119,7 @@ public class PlayerData : MonoBehaviour
             swoon_count = 0.0f;               //気絶カウントをリセット
             Swoon_Flg = false;              //気絶フラグをfalseに変える
             Hp = 3;                  //HPは強制で全回復
+            SwoonObj.SetActive(false);
         }
     }
 
@@ -153,7 +154,7 @@ public class PlayerData : MonoBehaviour
             RecoveryTime_Flg = true;                //回復フラグをONにする
             StartCoroutine(BlinkingControl());
             Invincibility();                        //無敵時の点滅処理関数へ
-            Debug.Log("無敵時間" + inv_count);
+            //Debug.Log("無敵時間" + inv_count);
         }
         else
         {
@@ -247,6 +248,12 @@ public class PlayerData : MonoBehaviour
         if (other.gameObject.tag == "Player" && tec.technicalNumber == 4)
         {
             Stun_Flg = true;
+        }
+
+        //もし気絶tagに触れたら
+        if (other.gameObject.tag == "Swoon")
+        {
+            Swaps_Flg = true;               //交換のフラグをtureにする
         }
     }
 }

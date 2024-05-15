@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
                 {
                     position.x += info.Speed * Time.deltaTime;          //‰E•ûŒü
                 }
-                else if (Input.GetKey("up"))
+                if (Input.GetKey("up"))
                 {
                     position.y += info.Speed * Time.deltaTime;          //ã•ûŒü
                 }
