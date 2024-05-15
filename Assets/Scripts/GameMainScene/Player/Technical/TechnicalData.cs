@@ -40,11 +40,13 @@ public class TechnicalData : MonoBehaviour
     public bool technicalFlg1 = false;          //わざ1を発動したかのフラグ
     public bool technicalFlg2 = false;          //わざ2を発動したかのフラグ
     bool swallowReturn_F = false;               //ツバメ返しのフラグ
+    public bool stBackFlg = false;              //ストライク&backの2度押しフラグ
 
     float Waza_time = 0.0f;                     //わざを発動中の時間
     Vector3 StBackLoc = new Vector3(0.0f,2.0f); //ストライク&backの移動距離
     int wingCount = 0;                          //ハネトバシのカウント
     int StBakc_count = 0;                       //ストライク&backのカウント
+    public int stBackCount = 0;                 //ストライク&backの2度押しカウント
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +63,7 @@ public class TechnicalData : MonoBehaviour
         technicalNumber1 = 0;
         technicalNumber2 = 0;
         Waza_time = 0.0f;
+        stBackCount = 0;
         Player.transform.position = PlayerLocation;
     }
 
@@ -297,33 +300,59 @@ public class TechnicalData : MonoBehaviour
 
     //ストライク&backの動き
     void StrikeBack()
-    { 
-        //ここで前進する
-        if (StBakc_count < 1)
+    {
+        //技1なら
+        if (technicalFlg1)
         {
-            //座標を保存
-            PlayerLocation = Player.transform.position;
-            Debug.Log("保存座標" + PlayerLocation);
 
-            //現在の座標が移動する
-            Player.transform.position += StBackLoc;
-                Debug.Log("現在の座標"+ Player.transform.position);
+            //技ストライク&backの技を最大2回分カウントする。
+            //もし技ボタンが3回より小さいならカウントup
+            if (stBackCount < 2)
+            {
+                stBackFlg = false;
+                stBackCount++;
+                //もし技ボタンを2回押したなら
+                if (stBackCount == 2)
+                {
+                    Debug.Log("2度通った");
+                    stBackFlg = true;   //元の位置へ戻るフラグ
 
-            //移動先へ進んだ後、移動前にいた場所にマークを付与する。
-            Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
-                PlayerLocation,         //初期位置は移動前にいた場所
-                Quaternion.identity);   //初期回転情報
+                    //カウントを初期化し、
+                    //技のクールタイムをはさむ
+                    stBackCount = 0;
+                }
 
-            StBakc_count++;
-        }
-        //もし技のボタンを2回押したら以前記録した場所へ戻る
-        if (player.stBackFlg)
-        {
-            //座標登録をもとに現在の位置に反映させる
-            Player.transform.position = PlayerLocation;
-            //情報を初期化
-            technicalNumber = 0;
-            StBakc_count = 0;
+
+                //ここで前進する
+                if (StBakc_count < 1)
+                {
+                    //座標を保存
+                    PlayerLocation = Player.transform.position;
+                    Debug.Log("保存座標" + PlayerLocation);
+
+                    //現在の座標が移動する
+                    Player.transform.position += StBackLoc;
+                    Debug.Log("現在の座標" + Player.transform.position);
+
+                    //移動先へ進んだ後、移動前にいた場所にマークを付与する。
+                    Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
+                        PlayerLocation,         //初期位置は移動前にいた場所
+                        Quaternion.identity);   //初期回転情報
+
+                    StBakc_count++;
+                }
+
+                //もし技のボタンを2回押したら以前記録した場所へ戻る
+                if (stBackFlg)
+                {
+                    //座標登録をもとに現在の位置に反映させる
+                    Player.transform.position = PlayerLocation;
+                    //情報を初期化
+                    technicalNumber = 0;
+                    StBakc_count = 0;
+                }
+            }
+
         }
         /*********旧考えた処理（没)***************/
         ////技が発動
