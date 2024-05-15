@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     PlayerData info;
     TechnicalData waza;
 
-
     public int stBackCount = 0;     //ストライク&backの2度押しカウント
     public bool stBackFlg  = false; //ストライク&backの2度押しフラグ
 
@@ -22,7 +21,7 @@ public class Player : MonoBehaviour
     {
         info = GetComponent<PlayerData>();
         waza = GetComponent<TechnicalData>();
-        stBackCount = 0;
+        stBackCount = 1;
     }
 
     // Update is called once per frame
@@ -37,17 +36,6 @@ public class Player : MonoBehaviour
             //技発動中は行動不可
             if (!waza.inactionableFlg)
             {
-                //もしOボタンを押したとき且つクールタイムが0の時のみ(技1)
-                if (Input.GetKeyDown(KeyCode.O) && info.Tec01_CoolTime <= 0)
-                {
-                    waza.technicalFlg1 = true;
-                }
-                //もしPボタンを押したとき且つクールタイムが0の時のみ(技2)
-                if (Input.GetKeyDown(KeyCode.P) && info.Tec02_CoolTime <= 0)
-                {
-                    waza.technicalFlg2 = true;
-                }
-
                 if (Input.GetKey("left"))
                 {
                     position.x -= info.Speed * Time.deltaTime;          //左方向
@@ -67,16 +55,18 @@ public class Player : MonoBehaviour
                 transform.position = position;
             }
         }
+        //Debug.Log(("今のスピードは") + info.Speed);
         Debug.Log("今の体力は" + info.Hp);
+        //Debug.Log("無敵フラグは:" + info.Invincibility_Flg);
+
 
         //技ストライク&backの技を最大2回分カウントする。
         if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log("ストライク&back");
             //もし技ボタンが3回より小さいならカウントup
-            if (stBackCount < 2)
+            if (stBackCount < 3)
             {
-                stBackFlg = false;
                 stBackCount++;
                 waza.technicalNumber = 3;
                 //もし技ボタンを2回押したなら
@@ -84,7 +74,6 @@ public class Player : MonoBehaviour
                 {
                     Debug.Log("2度通った");
                     stBackFlg = true;   //元の位置へ戻るフラグ
-                    
                     //カウントを初期化し、
                     //技のクールタイムをはさむ
                     stBackCount = 0;
@@ -95,6 +84,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             waza.technicalNumber = 2;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            waza.technicalNumber = 1;
         }
     }
 }
