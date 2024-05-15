@@ -6,7 +6,6 @@ TagManager:
   tags:
   - BluntFootEffect
   - EnemyAttack
-  - Swoon
   layers:
   - Default
   - TransparentFX
