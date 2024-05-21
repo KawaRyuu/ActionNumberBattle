@@ -74,13 +74,18 @@ public class NumberData : MonoBehaviour
             Debug.Log("交換");
             //触れた相手のNumberDataを取得
             NumberData num_data = collision.gameObject.GetComponent<NumberData>();
-            int num = Random.Range(0, 4);               //配列番号をランダムで選ぶ
-            int tmp = 0;                                //交換をする際の箱
-            tmp = num_data.MyNumber[num];               //相手のMyNumberの数をtmpに入れる
-            num_data.MyNumber[num] = MyNumber[3];       /*相手のランダムで選ばれた配列番号に
+            PlayerData player_data = collision.GetComponent<PlayerData>();
+            //相手が気絶したなら
+            if (player_data.Swoon_Flg)
+            {
+                int num = Random.Range(0, 4);               //配列番号をランダムで選ぶ
+                int tmp = 0;                                //交換をする際の箱
+                tmp = num_data.MyNumber[num];               //相手のMyNumberの数をtmpに入れる
+                num_data.MyNumber[num] = MyNumber[3];       /*相手のランダムで選ばれた配列番号に
             自分の最も小さい数を渡す。（交換）*/
-            MyNumber[3] = tmp;                          //相手の数字を自分の所へ入れる。
-            pD.Swaps_Flg = false;                       //交換フラグをOFFにする。
+                MyNumber[3] = tmp;                          //相手の数字を自分の所へ入れる。
+                pD.Swaps_Flg = false;                       //交換フラグをOFFにする。
+            }
         }
     }
 }

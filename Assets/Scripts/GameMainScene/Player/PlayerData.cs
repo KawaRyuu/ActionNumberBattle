@@ -213,7 +213,7 @@ public class PlayerData : MonoBehaviour
         //敵の攻撃（EnemyAttackというtag）に触れたとき
         if (other.gameObject.tag == "EnemyAttack")
         {
-
+            Debug.Log("痛い");
             //もし無敵状態じゃない且つ気絶してないときなら
             if (!Invincibility_Flg && !Swoon_Flg)
             {
@@ -253,6 +253,7 @@ public class PlayerData : MonoBehaviour
         //もし気絶tagに触れたら
         if (other.gameObject.tag == "Swoon")
         {
+            Debug.Log("交換フラグは" + Swaps_Flg);
             Swaps_Flg = true;               //交換のフラグをtureにする
         }
     }
