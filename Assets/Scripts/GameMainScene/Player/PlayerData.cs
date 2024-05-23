@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 /*プレイヤー（ライバルも含む）のデータを管理する。*/
@@ -15,8 +16,10 @@ public class PlayerData : MonoBehaviour
     public string Id = ("");         //おそらく名前
     public int Hp = 3;               //体力（耐久値）
     public int Attack = 1;           //攻撃
- 
     public float Speed = 3.0f;       //移動速度
+
+    //文字表示
+    public Text SwoonFont;           //気絶時の文字&カウントを表示
 
     /********クールタイムのカウントたち************/
     public float Tec01_CoolTime = 0.0f;           //技1:空のクールタイム
@@ -40,6 +43,7 @@ public class PlayerData : MonoBehaviour
     public float blunt_count = 0.0f;            //鈍足中のカウント
     public float hael_count = 0.0f;             //回復中のカウント
     public float swoon_count = 0.0f;            //気絶中のカウント
+    public float swoon_countDown = 2.0f;        //気絶時の文字(カウントダウン)
 
     public GameObject SwoonObj;                 //気絶時に出るobj(これで判定させる)
 
@@ -59,6 +63,7 @@ public class PlayerData : MonoBehaviour
         blunt_count = 0.0f;
         hael_count = 0.0f;
         swoon_count = 0.0f;
+        swoon_countDown = 2.0f;
         stun_count = 0.0f;
         Tec01_CoolTime = 0.0f;
         Tec02_CoolTime = 0.0f;
@@ -108,17 +113,22 @@ public class PlayerData : MonoBehaviour
     public void Swoon()
     {
         //もし気絶フラグがtrue且つカウントが1.5秒以下なら
-        if (Swoon_Flg && swoon_count <= 1.5f)
+        if (Swoon_Flg && swoon_count <= 2f)
         {
             Debug.Log("気絶now");
+            //気絶時プレイヤーが分かりやすいように文字を表示
+            SwoonFont.text = "気絶中..." + (int)swoon_countDown;
             SwoonObj.SetActive(true);         //気絶時交換されるように当たり判定をON
             swoon_count += Time.deltaTime;    //カウントの加算
+            swoon_countDown -= Time.deltaTime;          //カウントダウン
         }
-        else if (swoon_count >= 1.5)          //もしカウントが1.5秒を超えたら
+        else if (swoon_count >= 2)          //もしカウントが1.5秒を超えたら
         {
-            swoon_count = 0.0f;               //気絶カウントをリセット
+            swoon_count = 0.0f;             //気絶カウントをリセット
+            swoon_countDown = 2.0f;         //カウントリセット
             Swoon_Flg = false;              //気絶フラグをfalseに変える
-            Hp = 3;                  //HPは強制で全回復
+            SwoonFont.text = " ";           //文字を消す
+            Hp = 3;                         //HPは強制で全回復
             SwoonObj.SetActive(false);
         }
     }
