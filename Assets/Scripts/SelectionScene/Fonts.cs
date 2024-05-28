@@ -100,7 +100,7 @@ public class Fonts : MonoBehaviour
                     if (!oneTecFlg)
                     {
                         OnePlayer_Tec_Select_F.text = "1Pの技" + 1 +
-                            ":ストライク&back(仮称)";
+                            ":ストライク&バック(仮称)";
                         TecSelectionCoverNum = tecButton.public_number;//保持
                         Tec1 = tecButton.public_number;                //技1選択保持
                         OneTec();
@@ -109,7 +109,7 @@ public class Fonts : MonoBehaviour
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
                         OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 +
-                            ":ストライク&back(仮称)";
+                            ":ストライク&バック(仮称)";
                         Tec2 = tecButton.public_number;                //技2選択保持
                         TwoTec();
                     }
@@ -166,7 +166,7 @@ public class Fonts : MonoBehaviour
             UnityEngine.Debug.Log("技選択終了");
         }
     }
-    //技が被った際の関数
+    //技が被った際の関数処理
     void Cover()
     {
         OnePlayer_Tec_Select_F2.text = "技が被りました。                                   もう一度選択してください。";
