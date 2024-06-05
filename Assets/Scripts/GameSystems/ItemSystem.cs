@@ -1,8 +1,5 @@
-using JetBrains.Annotations;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 //アイテムの種類と処理のクラス
@@ -13,28 +10,22 @@ public class Item
 
     /*アイテムメモ：同じ種類のアイテムは所持不可能*/
 
-    /*どのアイテムを所持しているかの変数*/
-    public bool Change_min_Flg      = false;//自動的にランダム奪取が低い数へ適用される。
-    public bool Num_Random_Flg      = false;//4枚の数のうち、一番低い数が１～９にランダムで変わる。
-    public bool Nummin_one_Flg      = false;//4枚の数の中で1以外の小さい数が1枚1に変わる。
-    public bool Change_random_Flg   = false;//自身の数字をランダムな人と交換（交換している人同士は見える）
-    public bool Speed_up_Flg        = false;//自身移動速度UP（3秒間）
-    public bool Spdown_Flg          = false;//相手に投げ飛ばして移動速度Down（2秒間）
-    public bool Critical_Flg        = false;//一撃気絶のアイテム
-
     /*アイテム処理時に使う変数*/
     public float speed_up_timer = 0.0f;//関数Speed_Upで使用するタイマー
 
     /*アイテムの処理をする関数*/
 
     //自動的にランダム奪取が低い数へ適用される。
-    public int Change_min()
+    public int Change_min(int []num,int size)//引数：個人ごとの数字のデータ入っている配列、配列のサイズ
     {
         int min = 9;
-        //数字が入っている配列の中で一番小さい数字を取らせる
-        //一番小さい数字を算出
+        for(int i = 0; i <= size;i++)
+        {
+            if (num[i] < min)//配列aのi番目がminより小さい数字なら
+                min= i;//minに配列番号iを代入する
+        }
 
-
+        //一番小さい数字が入っていた配列番号を返す
         return min;
         /*
          * メモ：このアイテム使用した後に
@@ -47,15 +38,21 @@ public class Item
     }
 
     //4枚の数のうち、一番低い数が１～９にランダムで変わる。
-    public void NUM_Random()
+    public void NUM_Random(int[] num, int size)
     {
-        
+        //一番低い数字が入っている配列番号を取得(minに代入)
+        int min = Change_min(num,size);
+        num[min] = Random.Range(1, 10);
     }
 
     //4枚の数の中で1以外の小さい数が1枚1に変わる。
-    public void NumMin_One()
+    public void NumMin_One(int[] num, int size)
     {
-        
+        //一番低い数字が入っている配列番号を取得(minに代入)
+        int min = Change_min(num, size);
+        num[min] = 1;
+
+        /*注意点、まだ１も１に変えるScriptになっています*/
     }
 
     //自身の数字をランダムな人と交換（交換している人同士は見える）
@@ -66,7 +63,7 @@ public class Item
 
     //自身移動速度UP（3秒間）
     /*アイテム使ったときに移動速度アップの関数を持ってくる*/
-    public void Speed_Up()
+    public void Item_Speed_Up()
     {
         Pl.Speed = 300.0f;
         speed_up_timer += Time.deltaTime;
@@ -78,7 +75,7 @@ public class Item
 
     //相手に投げ飛ばして移動速度Down（2秒間）
     /*PlayerDataに鈍足処理あり→鈍足タグついたオブジェクト召喚プログラムへ*/
-    public void SpDown()
+    public void Item_SpDown()
     {
         //plefab召喚→プレイヤーが向いている向きに発射(3マス分進んだら消える)
         //plefab召喚
