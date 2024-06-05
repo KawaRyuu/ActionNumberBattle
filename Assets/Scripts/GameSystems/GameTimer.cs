@@ -70,4 +70,9 @@ public class GameTimer : MonoBehaviour
     {
         SceneManager.LoadScene("Result");
     }
+
+    public int GetCountDownTime()
+    {
+        return CountDownTime;
+    }
 }
