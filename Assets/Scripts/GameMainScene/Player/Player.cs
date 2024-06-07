@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    //プレイヤーの操作
-    //private float playerSpeed = 5.0f;
+    //PlayerのInputSystem
+    PlayerInput playerInput;
 
     //プレイヤーのデータクラスから参照
     PlayerData info;
@@ -16,6 +16,12 @@ public class Player : MonoBehaviour
 
     public int stBackCount = 0;     //ストライク&backの2度押しカウント
     public bool stBackFlg  = false; //ストライク&backの2度押しフラグ
+
+    private void Awake()
+    {
+        TryGetComponent(out playerInput);
+    }
+
 
     // 初期化
     void Start()
@@ -28,9 +34,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 position = transform.position;
+        Vector3 position = transform.position;
 
-        //Playerの基本の動き
+        //InputSystemのactionmapからMoveを取得
+        var input_value = playerInput.actions["Move"].ReadValue<Vector2>();
+
+
+         //Playerの基本の動き
         //もし気絶中なら行動不可
         if (!info.Swoon_Flg)
         {
@@ -48,23 +58,35 @@ public class Player : MonoBehaviour
                     waza.technicalFlg2 = true;
                 }
 
-                if (Input.GetKey("left"))
+
+                Debug.Log("操作できる");
+                position.x = input_value.x;
+                position.y = input_value.y;
+
+                //方向左へ向かせる
+                if (position.x < 0)
                 {
-                    position.x -= info.Speed * Time.deltaTime;          //左方向
+
                 }
-                else if (Input.GetKey("right"))
-                {
-                    position.x += info.Speed * Time.deltaTime;          //右方向
-                }
-                if (Input.GetKey("up"))
-                {
-                    position.y += info.Speed * Time.deltaTime;          //上方向
-                }
-                else if (Input.GetKey("down"))
-                {
-                    position.y -= info.Speed * Time.deltaTime;          //下方向
-                }
-                transform.position = position;
+
+                //if (Input.GetKey("left"))
+                //{
+                //    position.x -= info.Speed * Time.deltaTime;          //左方向
+                //}
+                //else if (Input.GetKey("right"))
+                //{
+                //    position.x += info.Speed * Time.deltaTime;          //右方向
+                //}
+                //if (Input.GetKey("up"))
+                //{
+                //    position.y += info.Speed * Time.deltaTime;          //上方向
+                //}
+                //else if (Input.GetKey("down"))
+                //{
+                //    position.y -= info.Speed * Time.deltaTime;          //下方向
+                //}
+
+                transform.position += Time.deltaTime * position;
             }
         }
         Debug.Log("今の体力は" + info.Hp);

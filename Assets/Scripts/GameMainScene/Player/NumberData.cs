@@ -9,12 +9,9 @@ public class NumberData : MonoBehaviour
 {
     PlayerData pD;
 
-
     //自身が持っているNumberを配列で保持
     public int []MyNumber = {0,0,0,0};
-    public Text MyNnm1;                  //UIの表示
-    public Text MyNnm2;                  //UIの表示
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -34,12 +31,6 @@ public class NumberData : MonoBehaviour
     {
         //交換やアイテム使用時に毎度入れ替わる。
         Sort();
-        //自分の数をUnityの画面で表示
-        MyNnm1.text = MyNumber[0].ToString() 
-            +(" ・ ")+MyNumber[1].ToString();
-
-        MyNnm2.text = MyNumber[2].ToString()
-            + (" ・ ") + MyNumber[3].ToString();
     }
 
     //ソート関数
@@ -64,6 +55,12 @@ public class NumberData : MonoBehaviour
                 }
             }
         }
+    }
+
+    //受け渡し関数
+    public int GetData(int num)
+    {
+        return MyNumber[num];
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

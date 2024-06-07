@@ -13,7 +13,7 @@ public class MarkBreak : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("1Player").GetComponent<Player>();
+        player = GameObject.Find("Player").GetComponent<Player>();
         //破壊(このスクリプトがついているobをdeleteTime後に発動)
         Destroy(gameObject, deleteTime);
     }

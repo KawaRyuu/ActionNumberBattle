@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -31,6 +30,7 @@ public class TechnicalData : MonoBehaviour
 
     public Text TecCool1;                //技1のクールタイム表示
     public Text TecCool2;                //技2のクールタイム表示
+
     public int technicalNumber = 0;      //選んだ時点(Tec.1or2)での箱の役割
     public bool inactionableFlg = false; //一部の技が発動中、
                                          //操作を一定時間無効にするフラグ
@@ -67,10 +67,7 @@ public class TechnicalData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /**************技のクールタイム*************************/
-        //文字表示
-        TecCool1.text = (int)playerD.Tec01_CoolTime + "秒";
-        TecCool2.text = (int)playerD.Tec02_CoolTime + "秒";
+       
 
         //（技:1）もしクールタイムがあるなら
         if (playerD.Tec01_CoolTime > 0)
@@ -145,6 +142,18 @@ public class TechnicalData : MonoBehaviour
         }
     }
 
+    //待ち時間1,2をPlayerTextManagerへ受け渡し
+    public int GetCoolTime1()
+    {
+        return (int)playerD.Tec01_CoolTime;
+    }
+
+    public int GetCoolTime2()
+    {
+        return (int)playerD.Tec02_CoolTime;
+    }
+
+
     /*************フラグ打消しの処理***************************/
     private void Rest1_2()
     {
@@ -190,7 +199,7 @@ public class TechnicalData : MonoBehaviour
                     technicalNumber = 0;
                     //PlayerのDataにある、空きのクールタイムに
                     //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.Tec1_CoolTime;
+                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
                     Rest1_2();              //技1or2を使った最後にリセットする
                 }
             }
@@ -224,7 +233,7 @@ public class TechnicalData : MonoBehaviour
                     technicalNumber = 0;
                     //PlayerのDataにある、空きのクールタイムに
                     //技2のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.Tec2_CoolTime;
+                    playerD.Tec02_CoolTime = playerD.SwallowReturn_CoolTime;
                     Rest1_2();              //技1or2を使った最後にリセットする
                 }
             }
@@ -258,7 +267,7 @@ public class TechnicalData : MonoBehaviour
                     technicalNumber = 0;
                     //PlayerのDataにある、空きのクールタイムに
                     //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.Tec1_CoolTime;
+                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
                     Rest1_2();              //技1or2を使った最後にリセットする
                 }
             }
@@ -288,7 +297,7 @@ public class TechnicalData : MonoBehaviour
                     technicalNumber = 0;
                     //PlayerのDataにある、空きのクールタイムに
                     //技1のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.Tec2_CoolTime;
+                    playerD.Tec02_CoolTime = playerD.SwallowReturn_CoolTime;
                     Rest1_2();              //技1or2を使った最後にリセットする
                 }
             }

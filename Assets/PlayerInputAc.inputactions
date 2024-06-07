@@ -777,24 +777,24 @@
             "id": "b80310ff-c4e0-49e2-ab8c-97444f6e0482",
             "actions": [
                 {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "21b46625-8f4b-4589-b4f6-d8cdd9567a9f",
-                    "expectedControlType": "Button",
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "108bb19c-8021-43f6-af62-d1b64db8a274",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "99702e58-c3e6-4c6a-bc4a-572cc8b57b62",
-                    "path": "",
+                    "id": "eda34ee8-f746-45b2-bbf5-8ee0e0a82db8",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": "Gamepad",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

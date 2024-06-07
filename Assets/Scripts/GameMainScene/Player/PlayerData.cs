@@ -24,10 +24,10 @@ public class PlayerData : MonoBehaviour
     /********クールタイムのカウントたち************/
     public float Tec01_CoolTime = 0.0f;           //技1:空のクールタイム
     public float Tec02_CoolTime = 0.0f;           //技2:空のクールタイム
-    public float Tec1_CoolTime = 11.0f;          //技1専用のクールタイム時間
-    public float Tec2_CoolTime = 11.0f;          //技2専用のクールタイム時間
-    public float Tec3_CoolTime = 11.0f;          //技3専用のクールタイム時間
-    public float Tec4_CoolTime = 11.0f;          //技4専用のクールタイム時間
+    public float FlyingFeather_CoolTime = 11.0f;  //技1専用のクールタイム時間
+    public float SwallowReturn_CoolTime = 11.0f;  //技2専用のクールタイム時間
+    public float StrikeBack_CoolTime = 11.0f;     //技3専用のクールタイム時間
+    public float Rush_CoolTime = 11.0f;           //技4専用のクールタイム時間
 
     public float invincibility = 0.5f;          //ダメージ喰らった際の無敵時間
     public bool Swoon_Flg = false;              //気絶フラグ
@@ -67,10 +67,10 @@ public class PlayerData : MonoBehaviour
         stun_count = 0.0f;
         Tec01_CoolTime = 0.0f;
         Tec02_CoolTime = 0.0f;
-        Tec1_CoolTime = 10.0f;
-        Tec2_CoolTime = 10.0f;
-        Tec3_CoolTime = 10.0f;
-        Tec4_CoolTime = 10.0f;
+        FlyingFeather_CoolTime = 10.0f;
+        SwallowReturn_CoolTime = 10.0f;
+        StrikeBack_CoolTime = 10.0f;
+        Rush_CoolTime = 10.0f;
     }
 
     void Update()
