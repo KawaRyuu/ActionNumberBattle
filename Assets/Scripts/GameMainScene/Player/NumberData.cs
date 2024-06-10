@@ -15,12 +15,12 @@ public class NumberData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pD = GameObject.Find("1Player").GetComponent<PlayerData>();
+        pD = GameObject.Find("Player").GetComponent<PlayerData>();
 
         //ゲーム開始時と同時に数を1～9のランダムで取得する
         for (int i = 0; i < 4; i++)
         {
-                MyNumber[0 + i] = Random.Range(1, 10);
+                MyNumber[i] = Random.Range(1, 10);
         }
         Debug.Log("現在の数は" + MyNumber[0] + MyNumber[1] + 
             MyNumber[2] + MyNumber[3]);

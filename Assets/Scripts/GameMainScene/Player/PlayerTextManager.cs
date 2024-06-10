@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerTextManager : MonoBehaviour
@@ -9,6 +12,9 @@ public class PlayerTextManager : MonoBehaviour
     //参照
     NumberData numD;
     TechnicalData tecD;
+    PlayerInput playerInput;
+
+    [SerializeField] Player[] players = new Player[2];
 
     /***Playerが持っている数字の表示***/
     public Text MyNnm1;                  //UIの表示
@@ -18,6 +24,12 @@ public class PlayerTextManager : MonoBehaviour
     public Text TecCool1;                //技1のクールタイム表示
     public Text TecCool2;                //技2のクールタイム表示
 
+
+    ////Player(2p応急処置)
+    //public Text p2MyNum1;
+    //public Text p2MyNum2;
+    //public Text p2TecCool1;
+    //public Text p2TecCool2;
 
     // Start is called before the first frame update
     void Start()
@@ -41,5 +53,16 @@ public class PlayerTextManager : MonoBehaviour
         //文字表示
         TecCool1.text = tecD.GetCoolTime1()+ "秒";
         TecCool2.text = tecD.GetCoolTime2() + "秒";
+
+
+
+
+        //p2MyNum1.text = numD.GetData(0).ToString()
+        //    + (" ・ ") + numD.GetData(1).ToString();
+        //p2MyNum2.text = numD.GetData(2).ToString()
+        //    + (" ・ ") + numD.GetData(3).ToString();
+
+        //p2TecCool1.text = tecD.GetCoolTime1() + "秒";
+        //p2TecCool2.text = tecD.GetCoolTime2() + "秒";
     }
 }

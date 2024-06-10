@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
         var input_value = playerInput.actions["Move"].ReadValue<Vector2>();
 
 
+
          //Playerの基本の動き
         //もし気絶中なら行動不可
         if (!info.Swoon_Flg)
@@ -60,8 +61,8 @@ public class Player : MonoBehaviour
 
 
                 Debug.Log("操作できる");
-                position.x = input_value.x;
-                position.y = input_value.y;
+                position.x = input_value.x * info.Speed;
+                position.y = input_value.y * info.Speed;
 
                 //方向左へ向かせる
                 if (position.x < 0)
@@ -118,5 +119,11 @@ public class Player : MonoBehaviour
         {
             waza.technicalNumber = 2;
         }
+    }
+
+    //Playerの識別
+    public int GetPlayer()
+    {
+        return playerInput.user.index;
     }
 }

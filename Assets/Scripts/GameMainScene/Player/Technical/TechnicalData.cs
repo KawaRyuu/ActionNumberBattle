@@ -25,8 +25,13 @@ public class TechnicalData : MonoBehaviour
     //ストライク&backの前進後に自身がいた場所へマークする
     [SerializeField] GameObject Mark;
 
+    [SerializeField] private float MoveSpeed = 0.005f;
+
     //Playerの初期位置
     public static Vector3 PlayerLocation = new Vector2(0.0f, 0.0f);
+
+    //Playerの移動先を保存するための
+    public static Vector3 PlayerLocationGoal = new Vector2(0.0f, 0.0f);
 
     public Text TecCool1;                //技1のクールタイム表示
     public Text TecCool2;                //技2のクールタイム表示
@@ -67,8 +72,6 @@ public class TechnicalData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-
         //（技:1）もしクールタイムがあるなら
         if (playerD.Tec01_CoolTime > 0)
         {
@@ -306,17 +309,19 @@ public class TechnicalData : MonoBehaviour
 
     //ストライク&backの動き
     void StrikeBack()
-    { 
+    {
+         Vector3 move = Player.transform.position / MoveSpeed;
+
         //ここで前進する
         if (StBakc_count < 1)
         {
-            //座標を保存
+            //移動前の座標と移動先の座標を保存
             PlayerLocation = Player.transform.position;
-            Debug.Log("保存座標" + PlayerLocation);
+            PlayerLocationGoal = Player.transform.position + StBackLoc;
 
-            //現在の座標が移動する
-            Player.transform.position += StBackLoc;
-                Debug.Log("現在の座標"+ Player.transform.position);
+            Debug.Log("y");
+
+            Debug.Log("現在の座標"+ Player.transform.position);
 
             //移動先へ進んだ後、移動前にいた場所にマークを付与する。
             Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
@@ -325,6 +330,14 @@ public class TechnicalData : MonoBehaviour
 
             StBakc_count++;
         }
+
+        //現在の座標が移動する
+        //もし現在の座標が移動先未満なら
+        if (PlayerLocationGoal.y > Player.transform.position.y)
+        {
+            transform.Translate(0, move.y, 0);
+        }
+
         //もし技のボタンを2回押したら以前記録した場所へ戻る
         if (player.stBackFlg)
         {
