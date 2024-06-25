@@ -32,6 +32,7 @@ public class PlayerData : MonoBehaviour
     public float invincibility = 0.5f;          //ダメージ喰らった際の無敵時間
     public bool Swoon_Flg = false;              //気絶フラグ
     public bool Stun_Flg = false;               //スタンフラグ
+    public bool ActionFlg = true;               //アクションできるかどうかのフラグ
     public bool RecoveryTime_Flg = false;       //回復タイムに入るフラグ
     public bool Invincibility_Flg = false;      //無敵フラグ
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ

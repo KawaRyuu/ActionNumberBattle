@@ -938,6 +938,7 @@ MonoBehaviour:
   invincibility: 0.5
   Swoon_Flg: 0
   Stun_Flg: 0
+  ActionFlg: 1
   RecoveryTime_Flg: 0
   Invincibility_Flg: 0
   ExchangeTakeover_Flg: 0
@@ -974,6 +975,7 @@ MonoBehaviour:
   technicalNumber2: 0
   technicalFlg1: 0
   technicalFlg2: 0
+  MoveSpeed: 0.005
 --- !u!50 &537205057
 Rigidbody2D:
   serializedVersion: 4
@@ -2835,10 +2837,6 @@ MonoBehaviour:
   MyNnm2: {fileID: 814550416}
   TecCool1: {fileID: 1395759553}
   TecCool2: {fileID: 1401051199}
-  p2MyNum1: {fileID: 845606646}
-  p2MyNum2: {fileID: 987157312}
-  p2TecCool1: {fileID: 753715989}
-  p2TecCool2: {fileID: 94217357}
 --- !u!4 &2146735203
 Transform:
   m_ObjectHideFlags: 0
@@ -2926,6 +2924,10 @@ PrefabInstance:
       propertyPath: TecCool2
       value: 
       objectReference: {fileID: 1401051199}
+    - target: {fileID: 5521165217958568654, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: MoveSpeed
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -95,22 +95,20 @@ public class Player : MonoBehaviour
         //技ストライク&backの技を最大2回分カウントする。
         if (Input.GetKeyDown(KeyCode.L))
         {
+           
             Debug.Log("ストライク&back");
             //もし技ボタンが3回より小さいならカウントup
             if (stBackCount < 2)
             {
-                stBackFlg = false;
-                stBackCount++;
+                
+                stBackCount += 1;
                 waza.technicalNumber = 3;
-                //もし技ボタンを2回押したなら
+
                 if (stBackCount == 2)
                 {
+                    //もし技ボタンを2回押したなら
                     Debug.Log("2度通った");
                     stBackFlg = true;   //元の位置へ戻るフラグ
-                    
-                    //カウントを初期化し、
-                    //技のクールタイムをはさむ
-                    stBackCount = 0;
                 }
             }
         }
