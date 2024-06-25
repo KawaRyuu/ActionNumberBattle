@@ -15,7 +15,6 @@ public class TechnicalData : MonoBehaviour
     //PlayerDataのスクリプトから参照
     PlayerData playerD;
 
-
     //ツバメ返し時に出る自分周辺の当たり判定Obj
     [SerializeField] GameObject Attack_obj_tubame;
 
@@ -49,14 +48,13 @@ public class TechnicalData : MonoBehaviour
     bool swallowReturn_F = false;               //ツバメ返しのフラグ
 
     float Waza_time = 0.0f;                     //わざを発動中の時間
-    Vector3 StBackLoc = new Vector3(0.0f,2.0f); //ストライク&backの移動距離
     int wingCount = 0;                          //ハネトバシのカウント
 
     /****ストライク＆バック*****/
-    [SerializeField] private float MoveSpeed = 1000.0f;    //移動速度
+    [SerializeField] private float MoveSpeed = 0f;      //移動速度
     private int TargetDistance = 2;                     //目的距離
     private float NowDistance = 0;                      //現在地
-    private float Return = 0;                           //バック
+    
 
     // Start is called before the first frame update
     void Start()
@@ -322,12 +320,10 @@ public class TechnicalData : MonoBehaviour
         //3にすると連続して呼び出されるから別の数字を与える
         technicalNumber = 5;
 
-        //Vector3 move = Player.transform.position / MoveSpeed;
-
         //ここで前進する
         if (player.stBackCount <= 1)
         {
-            //座標を保存
+            //前進前の座標を保存
             PlayerLocation = Player.transform.position;
 
             Debug.Log("一回目");
@@ -335,6 +331,7 @@ public class TechnicalData : MonoBehaviour
             //ストライクぬるりと移動する処理（呼び出し）
             StartCoroutine(Move(Vector3.up));
 
+            //マーク付与
             Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
             PlayerLocation,         //初期位置は移動前にいた場所
             Quaternion.identity);   //初期回転情報
@@ -342,15 +339,14 @@ public class TechnicalData : MonoBehaviour
         //もし技のボタンを2回押したら以前記録した場所へ戻る
         if (player.stBackFlg)
         {
-            //座標登録をもとに現在の位置に反映させる
-            this.transform.DOMove(PlayerLocation, 2.0f);
-           // Player.transform.position = PlayerLocation;
-            //StartCoroutine(Back());
+            
+            //座標登録のところへ戻るよう、現在の位置に反映させる
+            this.transform.DOMove(PlayerLocation, 1.0f);
+
             //情報を初期化
             technicalNumber = 0;
             player.stBackCount = 0;
             player.stBackFlg = false;
-            this.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
         }
 
 
@@ -366,30 +362,50 @@ public class TechnicalData : MonoBehaviour
         //y = posi.y;
         //Debug.Log("保持の内容" + x + y);
         /********旧考えた処理Part2*****************/
-        if (false)
-        {
-            //移動前の座標と移動先の座標を保存
-            PlayerLocation = Player.transform.position;
-            PlayerLocationGoal = Player.transform.position + StBackLoc;
+        //移動前の座標と移動先の座標を保存
+        //PlayerLocation = Player.transform.position;
+        //PlayerLocationGoal = Player.transform.position + StBackLoc;
 
-            Debug.Log(PlayerLocationGoal.y - this.transform.position.y);
+        //Debug.Log(PlayerLocationGoal.y - this.transform.position.y);
 
-            Debug.Log("y");
+        //Debug.Log("y");
 
-            Debug.Log("現在の座標" + Player.transform.position);
+        //Debug.Log("現在の座標" + Player.transform.position);
 
-            //移動先へ進んだ後、移動前にいた場所にマークを付与する。
-            Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
-                PlayerLocation,         //初期位置は移動前にいた場所
-                Quaternion.identity);   //初期回転情報
-        }
+        ////移動先へ進んだ後、移動前にいた場所にマークを付与する。
+        //Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
+        //    PlayerLocation,         //初期位置は移動前にいた場所
+        //    Quaternion.identity);   //初期回転情報
+        //移動（バック）処理
+        //IEnumerator Back()
+        //{
+        //    Vector3 distance = PlayerLocation - player.transform.position;
+        //    // Vector3 BackAngleVector = new Vector3(Cos(), distance.y / MoveSpeed, 0);
+        //    //終了条件を満たしているか確認
+        //    //現在の座標が移動する
+        //    //もし現在の座標が移動先未満なら
+        //    if (PlayerLocation.y >= Player.transform.position.y)//終了条件
+        //    {
+        //        playerD.ActionFlg = true;   //技発動中は他の操作を受け付けない（未完成）
+        //        NowDistance = 0;            //移動前の座標リセット
+        //        Return = 0;                 //座標リセット
+        //        yield break;
+        //    }
+
+        //    //入力方向に移動
+        //    //  transform.position += BackAngleVector * Time.deltaTime;
+        //    //移動した距離を更新
+        //    Return -= MoveSpeed * Time.deltaTime;
+        //    yield return null;
+
+        //}
+
     }
+
 
     //移動(ストライク処理)
     IEnumerator Move(Vector3 TmpVector)
     {
-        this.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
-        Debug.Log("目標＝"+NowDistance);
         while (true) 
             {
             //終了条件を満たしているか確認
@@ -413,29 +429,7 @@ public class TechnicalData : MonoBehaviour
             }
     }
 
-    //移動（バック）処理
-    IEnumerator Back()
-    {
-        Vector3 distance = PlayerLocation - player.transform.position;
-       // Vector3 BackAngleVector = new Vector3(Cos(), distance.y / MoveSpeed, 0);
-            //終了条件を満たしているか確認
-            //現在の座標が移動する
-            //もし現在の座標が移動先未満なら
-            if (PlayerLocation.y >= Player.transform.position.y)//終了条件
-            {
-                playerD.ActionFlg = true;   //技発動中は他の操作を受け付けない（未完成）
-                NowDistance = 0;            //移動前の座標リセット
-                Return = 0;                 //座標リセット
-                yield break;
-            }
 
-            //入力方向に移動
-          //  transform.position += BackAngleVector * Time.deltaTime;
-            //移動した距離を更新
-            Return -= MoveSpeed * Time.deltaTime;
-            yield return null;
-        
-    }
     //トッシンの動き
     void Rush()
     {

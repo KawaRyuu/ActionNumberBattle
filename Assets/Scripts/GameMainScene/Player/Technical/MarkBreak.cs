@@ -9,11 +9,15 @@ public class MarkBreak : MonoBehaviour
 
     //10秒後に削除をする設定
     public float deleteTime = 10.0f;
+    //破壊フラグ
+    bool destroyFlg = false;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        destroyFlg = false;
+       
         //破壊(このスクリプトがついているobをdeleteTime後に発動)
         Destroy(gameObject, deleteTime);
     }
@@ -21,12 +25,25 @@ public class MarkBreak : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //もしストライク&backが終わったらマーク破壊
+        //バックフラグがtrueなら
         if (player.stBackFlg)
         {
-            Debug.Log("破壊");
-            Destroy(gameObject);
+            destroyFlg = true;
         }
     }
-   
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //もしマークとPlayerが触れたなら
+        if(collision.gameObject.tag=="Player")
+        {
+            //破壊フラグを取得済みなら
+            if (destroyFlg)
+            {
+                Debug.Log("破壊");
+                //マーク破壊
+                Destroy(gameObject);
+            }
+        }
+    }
 }
