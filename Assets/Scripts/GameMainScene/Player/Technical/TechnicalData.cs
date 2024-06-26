@@ -304,6 +304,7 @@ public class TechnicalData : MonoBehaviour
         //3にすると連続して呼び出されるから別の数字を与える
         technicalNumber = 5;
 
+        
         //ここで前進する
         if (player.stBackCount <= 1)
         {
