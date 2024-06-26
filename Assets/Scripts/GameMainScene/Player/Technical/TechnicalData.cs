@@ -276,9 +276,22 @@ public class TechnicalData : MonoBehaviour
                     swallowReturn_F = false;
                     Waza_time = 0.0f;
                     technicalNumber = 0;
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
+
+                    //もし技1の所にこの技をセットしたなら
+                    if (technicalFlg1)
+                    {
+                        //PlayerのDataにある、空きのクールタイムに
+                        //技1のクールタイムを入れる。
+                        playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
+                    }
+                    //もし技2の所にこの技をセットしたなら
+                    else if (technicalFlg2)
+                    {
+                        //PlayerのDataにある、空きのクールタイムに
+                        //技2のクールタイムを入れる。
+                        playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
+                    }
+
                     Rest1_2();              //技1or2を使った最後にリセットする
                 }
             }

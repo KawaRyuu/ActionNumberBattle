@@ -59,7 +59,6 @@ public class Player : MonoBehaviour
                     waza.technicalFlg2 = true;
                 }
 
-
                 Debug.Log("ëÄçÏÇ≈Ç´ÇÈ");
                 position.x = input_value.x * info.Speed;
                 position.y = input_value.y * info.Speed;
