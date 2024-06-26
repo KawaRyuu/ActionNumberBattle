@@ -23,8 +23,8 @@ public class Fonts : MonoBehaviour
     int TecSelectionCoverNum = 0;               //‹Z‚ğ‘I‚ñ‚¾Û1T–Ú‚Ìnumber‚ğ•Û
     float Pre_start_time = 6.0f;                //‡(mainScene)‚É”ò‚Î‚·ƒJƒEƒ“ƒgƒ_ƒEƒ“
 
-    public static int Tec1 = 0;                       //‹Z‘I‘ğ˜g1‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
-    public static int Tec2 = 0;                       //‹Z‘I‘ğ˜g2‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
+    public static int Tec1 = 0;                 //‹Z‘I‘ğ˜g1‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
+    public static int Tec2 = 0;                 //‹Z‘I‘ğ˜g2‚Ì‹Z‚Ìî•ñ•Û‘¶‚ÌNum
 
     // Start is called before the first frame update
     void Start()

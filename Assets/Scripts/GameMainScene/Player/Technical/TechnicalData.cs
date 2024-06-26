@@ -183,6 +183,18 @@ public class TechnicalData : MonoBehaviour
         //技1なら
         if (technicalFlg1)
         {
+            FeatherFlyingWaza();
+        }
+
+        //技2なら
+        if (technicalFlg2)
+        {
+            FeatherFlyingWaza();
+        }
+
+        //ハネトバシの動き
+        void FeatherFlyingWaza()
+        {
             //もしクールタイムが0秒以下なら
             if (playerD.Tec01_CoolTime <= 0)
             {
@@ -208,40 +220,6 @@ public class TechnicalData : MonoBehaviour
                     //PlayerのDataにある、空きのクールタイムに
                     //技1のクールタイムを入れる。
                     playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
-                    Rest1_2();              //技1or2を使った最後にリセットする
-                }
-            }
-        }
-
-
-        //技2なら
-        if (technicalFlg2)
-        {
-            //もしクールタイムが0秒以下なら
-            if (playerD.Tec02_CoolTime <= 0)
-            {
-                if (wingCount < 3)
-                {
-                    //弾の生成
-                    //200フレームに1度だけ弾を発射する
-                    if (Time.frameCount % 200 == 0)
-                    {
-                        //ハネトバシ生成
-                        Instantiate(Attack_obj_wing,//生成するオブジェクトのプレハブ
-                            this.transform.position,//初期位置
-                            Quaternion.identity);//初期回転情
-                        wingCount++;
-                    }
-                    //Debug.Log("wingCountは" + wingCount);
-                }
-                else
-                {
-                    //羽の状態を初期化
-                    wingCount = 0;
-                    technicalNumber = 0;
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技2のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.SwallowReturn_CoolTime;
                     Rest1_2();              //技1or2を使った最後にリセットする
                 }
             }
