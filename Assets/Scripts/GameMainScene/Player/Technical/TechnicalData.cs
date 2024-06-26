@@ -183,13 +183,13 @@ public class TechnicalData : MonoBehaviour
         //技1なら
         if (technicalFlg1)
         {
-            FeatherFlyingWaza();
+            FeatherFlyingWaza();        //処理の呼び出し
         }
 
         //技2なら
         if (technicalFlg2)
         {
-            FeatherFlyingWaza();
+            FeatherFlyingWaza();        //処理の呼び出し
         }
 
         //ハネトバシの動き
@@ -217,9 +217,22 @@ public class TechnicalData : MonoBehaviour
                     //羽の状態を初期化
                     wingCount = 0;
                     technicalNumber = 0;
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
+
+                    //もし技1の所にこの技をセットしたなら
+                    if (technicalFlg1)
+                    {
+                        //PlayerのDataにある、空きのクールタイムに
+                        //技1のクールタイムを入れる。
+                        playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
+                    }
+                    //もし技2の所にこの技をセットしたなら
+                    else if(technicalFlg2)
+                    {
+                        //PlayerのDataにある、空きのクールタイムに
+                        //技2のクールタイムを入れる。
+                        playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
+                    }
+
                     Rest1_2();              //技1or2を使った最後にリセットする
                 }
             }
@@ -231,6 +244,18 @@ public class TechnicalData : MonoBehaviour
     {
         //技1なら
         if (technicalFlg1)
+        {
+          SwallowReturnWaza();        //処理の呼び出し
+        }
+
+        //技2なら
+        if (technicalFlg2)
+        {
+            SwallowReturnWaza();        //処理の呼び出し
+        }
+
+        //ツバメ返しの技処理
+        void SwallowReturnWaza()
         {
             //もしクールタイムが0秒以下なら
             if (playerD.Tec01_CoolTime <= 0)
@@ -258,39 +283,7 @@ public class TechnicalData : MonoBehaviour
                 }
             }
         }
-
-        //技2なら
-        if (technicalFlg2)
-        {
-            //もしクールタイムが0秒以下なら
-            if (playerD.Tec02_CoolTime <= 0)
-            {
-                //もし時間が1.5秒以下なら
-                if (Waza_time < 1.5f)
-                {
-                    //行動不可のフラグを一時的にONにし、
-                    //playerの操作scriptで操作を不可にさせる
-                    inactionableFlg = true;
-                    Attack_obj_tubame.SetActive(true);         //技の範囲の当たり判定を表示
-                    swallowReturn_F = true;
-                }
-                else if (Waza_time > 1.5f)
-                {
-                    inactionableFlg = false;
-                    Attack_obj_tubame.SetActive(false);
-                    swallowReturn_F = false;
-                    Waza_time = 0.0f;
-                    technicalNumber = 0;
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技1のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.SwallowReturn_CoolTime;
-                    Rest1_2();              //技1or2を使った最後にリセットする
-                }
-            }
-        }
     }
-
-    
 
     //ストライク&backの動き
     void StrikeBack()
