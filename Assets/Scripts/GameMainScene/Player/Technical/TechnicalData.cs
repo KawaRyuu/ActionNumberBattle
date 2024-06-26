@@ -183,58 +183,63 @@ public class TechnicalData : MonoBehaviour
         //技1なら
         if (technicalFlg1)
         {
-            FeatherFlyingWaza();        //処理の呼び出し
+            //もし技1のクールタイムが0秒以下なら
+            if (playerD.Tec01_CoolTime <= 0)
+            {
+                FeatherFlyingWaza();        //処理の呼び出し
+            }
         }
 
         //技2なら
         if (technicalFlg2)
         {
-            FeatherFlyingWaza();        //処理の呼び出し
+            //もし技2のクールタイムが0秒以下なら
+            if (playerD.Tec02_CoolTime <= 0)
+            {
+                FeatherFlyingWaza();        //処理の呼び出し
+            }
         }
 
-        //ハネトバシの動き
-        void FeatherFlyingWaza()
+            //ハネトバシの動き
+      void FeatherFlyingWaza()
         {
-            //もしクールタイムが0秒以下なら
-            if (playerD.Tec01_CoolTime <= 0)
+            //もし羽が3回打っていないなら
+            if (wingCount < 3)
             {
-                if (wingCount < 3)
+                //弾の生成
+                //200フレームに1度だけ弾を発射する
+                if (Time.frameCount % 200 == 0)
                 {
-                    //弾の生成
-                    //200フレームに1度だけ弾を発射する
-                    if (Time.frameCount % 200 == 0)
-                    {
-                        //ハネトバシ生成
-                        Instantiate(Attack_obj_wing,//生成するオブジェクトのプレハブ
-                            this.transform.position,//初期位置
-                            Quaternion.identity);//初期回転情
-                        wingCount++;
-                    }
-                    //Debug.Log("wingCountは" + wingCount);
+                    //ハネトバシ生成
+                    Instantiate(Attack_obj_wing,//生成するオブジェクトのプレハブ
+                        this.transform.position,//初期位置
+                        Quaternion.identity);//初期回転情
+                    wingCount++;
                 }
-                else
+                //Debug.Log("wingCountは" + wingCount);
+            }
+            else
+            {
+                //羽の状態を初期化
+                wingCount = 0;
+                technicalNumber = 0;
+
+                //もし技1の所にこの技をセットしたなら
+                if (technicalFlg1)
                 {
-                    //羽の状態を初期化
-                    wingCount = 0;
-                    technicalNumber = 0;
-
-                    //もし技1の所にこの技をセットしたなら
-                    if (technicalFlg1)
-                    {
-                        //PlayerのDataにある、空きのクールタイムに
-                        //技1のクールタイムを入れる。
-                        playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
-                    }
-                    //もし技2の所にこの技をセットしたなら
-                    else if(technicalFlg2)
-                    {
-                        //PlayerのDataにある、空きのクールタイムに
-                        //技2のクールタイムを入れる。
-                        playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
-                    }
-
-                    Rest1_2();              //技1or2を使った最後にリセットする
+                    //PlayerのDataにある、空きのクールタイムに
+                    //技1のクールタイムを入れる。
+                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
                 }
+                //もし技2の所にこの技をセットしたなら
+                else if (technicalFlg2)
+                {
+                    //PlayerのDataにある、空きのクールタイムに
+                    //技2のクールタイムを入れる。
+                    playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
+                }
+
+                Rest1_2();              //技1or2を使った最後にリセットする
             }
         }
     }
@@ -245,55 +250,59 @@ public class TechnicalData : MonoBehaviour
         //技1なら
         if (technicalFlg1)
         {
-          SwallowReturnWaza();        //処理の呼び出し
+            //もし技1のクールタイムが0秒以下なら
+            if (playerD.Tec01_CoolTime <= 0)
+            {
+                SwallowReturnWaza();        //処理の呼び出し
+            }
         }
 
         //技2なら
         if (technicalFlg2)
         {
-            SwallowReturnWaza();        //処理の呼び出し
+            //もし技2のクールタイムが0秒以下なら
+            if (playerD.Tec02_CoolTime <= 0)
+            {
+                SwallowReturnWaza();        //処理の呼び出し
+            }
         }
 
         //ツバメ返しの技処理
         void SwallowReturnWaza()
         {
-            //もしクールタイムが0秒以下なら
-            if (playerD.Tec01_CoolTime <= 0)
+            //もし時間が1.5秒以下なら
+            if (Waza_time < 1.5f)
             {
-                //もし時間が1.5秒以下なら
-                if (Waza_time < 1.5f)
-                {
-                    //行動不可のフラグを一時的にONにし、
-                    //playerの操作scriptで操作を不可にさせる
-                    inactionableFlg = true;
-                    Attack_obj_tubame.SetActive(true);         //技の範囲の当たり判定を表示
-                    swallowReturn_F = true;
-                }
-                else if (Waza_time > 1.5f)
-                {
-                    inactionableFlg = false;
-                    Attack_obj_tubame.SetActive(false);
-                    swallowReturn_F = false;
-                    Waza_time = 0.0f;
-                    technicalNumber = 0;
+                //行動不可のフラグを一時的にONにし、
+                //playerの操作scriptで操作を不可にさせる
+                inactionableFlg = true;
+                Attack_obj_tubame.SetActive(true);         //技の範囲の当たり判定を表示
+                swallowReturn_F = true;
+            }
+            else if (Waza_time > 1.5f)
+            {
+                inactionableFlg = false;
+                Attack_obj_tubame.SetActive(false);
+                swallowReturn_F = false;
+                Waza_time = 0.0f;
+                technicalNumber = 0;
 
-                    //もし技1の所にこの技をセットしたなら
-                    if (technicalFlg1)
-                    {
-                        //PlayerのDataにある、空きのクールタイムに
-                        //技1のクールタイムを入れる。
-                        playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
-                    }
-                    //もし技2の所にこの技をセットしたなら
-                    else if (technicalFlg2)
-                    {
-                        //PlayerのDataにある、空きのクールタイムに
-                        //技2のクールタイムを入れる。
-                        playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
-                    }
-
-                    Rest1_2();              //技1or2を使った最後にリセットする
+                //もし技1の所にこの技をセットしたなら
+                if (technicalFlg1)
+                {
+                    //PlayerのDataにある、空きのクールタイムに
+                    //技1のクールタイムを入れる。
+                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
                 }
+                //もし技2の所にこの技をセットしたなら
+                else if (technicalFlg2)
+                {
+                    //PlayerのDataにある、空きのクールタイムに
+                    //技2のクールタイムを入れる。
+                    playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
+                }
+
+                Rest1_2();              //技1or2を使った最後にリセットする
             }
         }
     }
@@ -304,35 +313,52 @@ public class TechnicalData : MonoBehaviour
         //3にすると連続して呼び出されるから別の数字を与える
         technicalNumber = 5;
 
+        //技１なら
+        if(technicalFlg1)
+        {
+            StrikeBackWaza();
+        }
+
+        //技２なら
+        if(technicalFlg2)
+        {
+            StrikeBackWaza();
+        }
+
+        //ストライク＆バック処理
+        void StrikeBackWaza()
+        {
+            //ここで前進する
+            if (player.stBackCount <= 1)
+            {
+                //前進前の座標を保存
+                PlayerLocation = Player.transform.position;
+
+                Debug.Log("一回目");
+
+                //ストライクぬるりと移動する処理（呼び出し）
+                StartCoroutine(Move(Vector3.up));
+
+                //マーク付与
+                Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
+                PlayerLocation,         //初期位置は移動前にいた場所
+                Quaternion.identity);   //初期回転情報
+            }
+
+            //もし技のボタンを2回押したら以前記録した場所へ戻る
+            if (player.stBackFlg)
+            {
+
+                //座標登録のところへ戻るよう、現在の位置に反映させる
+                this.transform.DOMove(PlayerLocation, 1.0f);
+
+                //情報を初期化
+                technicalNumber = 0;
+                player.stBackCount = 0;
+                player.stBackFlg = false;
+            }
+        }
         
-        //ここで前進する
-        if (player.stBackCount <= 1)
-        {
-            //前進前の座標を保存
-            PlayerLocation = Player.transform.position;
-
-            Debug.Log("一回目");
-            
-            //ストライクぬるりと移動する処理（呼び出し）
-            StartCoroutine(Move(Vector3.up));
-
-            //マーク付与
-            Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
-            PlayerLocation,         //初期位置は移動前にいた場所
-            Quaternion.identity);   //初期回転情報
-        }
-        //もし技のボタンを2回押したら以前記録した場所へ戻る
-        if (player.stBackFlg)
-        {
-            
-            //座標登録のところへ戻るよう、現在の位置に反映させる
-            this.transform.DOMove(PlayerLocation, 1.0f);
-
-            //情報を初期化
-            technicalNumber = 0;
-            player.stBackCount = 0;
-            player.stBackFlg = false;
-        }
 
 
         /*********旧考えた処理（没)***************/
