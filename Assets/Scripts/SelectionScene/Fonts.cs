@@ -51,6 +51,7 @@ public class Fonts : MonoBehaviour
         {
             SelectionFonts.text = "4つの中から2つずつ技を選んで下さい！！";
 
+            //押されたボタンによって技(case)が変わる
             switch (tecButton.public_number)
             {
                 case 0:

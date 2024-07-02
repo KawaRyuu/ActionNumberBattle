@@ -28,11 +28,18 @@ public class TechnicalData : MonoBehaviour
     [SerializeField] GameObject Mark;
 
 
-    //Playerの初期位置
+    /******ストライク&バックに使うLocation********/
+
+    //Playerがストライクで進む際に使うLocation
     public static Vector3 PlayerLocation = new Vector2(0.0f, 0.0f);
 
+    //Playerが元の位置へ戻る際仕様するLocation
+    public static Vector3 PlayerReturnLocation = new Vector2(0.0f, 0.0f);
+
+
+
     //Playerの移動先を保存するための
-    public static Vector3 PlayerLocationGoal = new Vector2(0.0f, 0.0f);
+    public static Vector3 PlayerLocationDistance = new Vector2(0.0f, 2.0f);
 
     public Text TecCool1;                //技1のクールタイム表示
     public Text TecCool2;                //技2のクールタイム表示
@@ -52,9 +59,8 @@ public class TechnicalData : MonoBehaviour
 
     /****ストライク＆バック*****/
     [SerializeField] private float MoveSpeed = 0f;      //移動速度
-    private int TargetDistance = 2;                     //目的距離
+    private int TargetDistance = 3;                     //目的距離
     private float NowDistance = 0;                      //現在地
-    
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +77,7 @@ public class TechnicalData : MonoBehaviour
         technicalNumber1 = 0;
         technicalNumber2 = 0;
         Waza_time = 0.0f;
-        Player.transform.position = PlayerLocation;
+        Player.transform.position = PlayerReturnLocation;
     }
 
     // Update is called once per frame
@@ -292,14 +298,14 @@ public class TechnicalData : MonoBehaviour
                 {
                     //PlayerのDataにある、空きのクールタイムに
                     //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
+                    playerD.Tec01_CoolTime = playerD.SwallowReturn_CoolTime;
                 }
                 //もし技2の所にこの技をセットしたなら
                 else if (technicalFlg2)
                 {
                     //PlayerのDataにある、空きのクールタイムに
                     //技2のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
+                    playerD.Tec02_CoolTime = playerD.SwallowReturn_CoolTime;
                 }
 
                 Rest1_2();              //技1or2を使った最後にリセットする
@@ -311,18 +317,26 @@ public class TechnicalData : MonoBehaviour
     void StrikeBack()
     {
         //3にすると連続して呼び出されるから別の数字を与える
-        technicalNumber = 5;
+        //technicalNumber = 5;
 
         //技１なら
         if(technicalFlg1)
         {
-            StrikeBackWaza();
+            //もし技1のクールタイムが0秒以下なら
+            if (playerD.Tec01_CoolTime <= 0)
+            {
+                StrikeBackWaza();
+            }
         }
 
         //技２なら
         if(technicalFlg2)
         {
-            StrikeBackWaza();
+            //もし技2のクールタイムが0秒以下なら
+            if (playerD.Tec01_CoolTime <= 0)
+            {
+                StrikeBackWaza();
+            }
         }
 
         //ストライク＆バック処理
@@ -332,35 +346,73 @@ public class TechnicalData : MonoBehaviour
             if (player.stBackCount <= 1)
             {
                 //前進前の座標を保存
-                PlayerLocation = Player.transform.position;
+                PlayerReturnLocation = Player.transform.position;
+                //前進後の座標を計算しておく
+                PlayerLocation = Player.transform.position + PlayerLocationDistance;
 
                 Debug.Log("一回目");
 
+                //前進時、ぬるりと移動を始める。
+                this.transform.DOMove(PlayerLocation, 1.0f);
+
                 //ストライクぬるりと移動する処理（呼び出し）
-                StartCoroutine(Move(Vector3.up));
+                //StartCoroutine(Move(Vector3.up));
 
                 //マーク付与
                 Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
-                PlayerLocation,         //初期位置は移動前にいた場所
+                PlayerReturnLocation,   //初期位置は移動前にいた場所
                 Quaternion.identity);   //初期回転情報
+
+                player.stBackCount++;   //ストライク&バックの押した回数をカウント
             }
 
             //もし技のボタンを2回押したら以前記録した場所へ戻る
             if (player.stBackFlg)
             {
+                if (!player.StBc_TimeOverFlg)
+                {
+                    //座標登録のところへ戻るよう、現在の位置に反映させる
+                    this.transform.DOMove(PlayerReturnLocation, 1.0f);
+                }
 
-                //座標登録のところへ戻るよう、現在の位置に反映させる
-                this.transform.DOMove(PlayerLocation, 1.0f);
+                //PlayerのDataにある、空きのクールタイムに
+                CoolTime();
 
                 //情報を初期化
                 technicalNumber = 0;
                 player.stBackCount = 0;
                 player.stBackFlg = false;
+                player.StBc_TimeOverFlg = false;
+               
+                Rest1_2();              //技1or2を使った最後にリセットする
+            }
+
+            //StBackのクールタイム処理
+            void CoolTime()
+            {
+                //もし技1の所にこの技をセットしたなら
+                if (technicalFlg1)
+                {
+                    //もし二度受付以内にバックしたら通常待ち時間
+                    if (!player.StBc_TimeOverFlg)
+                    {
+                        //技1のクールタイムを入れる。
+                        playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime;
+                    }
+                    //そうでなければ待ち時間を+5秒追加する。
+                    else playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime + 5;
+                }
+                //もし技2の所にこの技をセットしたなら
+                else if (technicalFlg2)
+                {
+                    //PlayerのDataにある、空きのクールタイムに
+                    //技2のクールタイムを入れる。
+                    playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime;
+                }
             }
         }
+    
         
-
-
         /*********旧考えた処理（没)***************/
         ////技が発動
         //float x;
@@ -374,7 +426,7 @@ public class TechnicalData : MonoBehaviour
         //Debug.Log("保持の内容" + x + y);
         /********旧考えた処理Part2*****************/
         //移動前の座標と移動先の座標を保存
-        //PlayerLocation = Player.transform.position;
+        //PlayerReturnLocation = Player.transform.position;
         //PlayerLocationGoal = Player.transform.position + StBackLoc;
 
         //Debug.Log(PlayerLocationGoal.y - this.transform.position.y);
@@ -385,17 +437,17 @@ public class TechnicalData : MonoBehaviour
 
         ////移動先へ進んだ後、移動前にいた場所にマークを付与する。
         //Instantiate(Mark,           //生成するオブジェクトのプレハブ(Mark)
-        //    PlayerLocation,         //初期位置は移動前にいた場所
+        //    PlayerReturnLocation,         //初期位置は移動前にいた場所
         //    Quaternion.identity);   //初期回転情報
         //移動（バック）処理
         //IEnumerator Back()
         //{
-        //    Vector3 distance = PlayerLocation - player.transform.position;
+        //    Vector3 distance = PlayerReturnLocation - player.transform.position;
         //    // Vector3 BackAngleVector = new Vector3(Cos(), distance.y / MoveSpeed, 0);
         //    //終了条件を満たしているか確認
         //    //現在の座標が移動する
         //    //もし現在の座標が移動先未満なら
-        //    if (PlayerLocation.y >= Player.transform.position.y)//終了条件
+        //    if (PlayerReturnLocation.y >= Player.transform.position.y)//終了条件
         //    {
         //        playerD.ActionFlg = true;   //技発動中は他の操作を受け付けない（未完成）
         //        NowDistance = 0;            //移動前の座標リセット
@@ -412,7 +464,6 @@ public class TechnicalData : MonoBehaviour
         //}
 
     }
-
 
     //移動(ストライク処理)
     IEnumerator Move(Vector3 TmpVector)
@@ -434,8 +485,8 @@ public class TechnicalData : MonoBehaviour
             
             //移動した距離を更新
             NowDistance += MoveSpeed * Time.deltaTime;
-            Debug.Log("前回からの移動距離" + MoveSpeed * Time.deltaTime);
-            Debug.Log("累計移動距離"+NowDistance);
+            //Debug.Log("前回からの移動距離" + MoveSpeed * Time.deltaTime);
+            //Debug.Log("累計移動距離"+NowDistance);
             yield return null;
             }
     }

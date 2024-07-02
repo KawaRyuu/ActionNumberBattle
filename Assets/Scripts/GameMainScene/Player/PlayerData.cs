@@ -12,7 +12,7 @@ public class PlayerData : MonoBehaviour
     public SpriteRenderer player;
     public TechnicalData tec;
     public NumberData number;
-
+    
     public string Id = ("");         //おそらく名前
     public int Hp = 3;               //体力（耐久値）
     public int Attack = 1;           //攻撃
