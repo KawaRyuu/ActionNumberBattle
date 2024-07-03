@@ -7,8 +7,8 @@ public class MarkBreak : MonoBehaviour
     //Playerスクリプトを参照する
     Player player;
 
-    //10秒後に削除をする設定
-    public float deleteTime = 10.0f;
+    //5秒後に削除をする設定
+    float deleteTime = 5.0f;
     //破壊フラグ
     bool destroyFlg = false;
 
