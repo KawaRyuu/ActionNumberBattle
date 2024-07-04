@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
                 //もしOボタンを押したとき且つクールタイムが0の時のみ(技1)
                 if (Input.GetKeyDown(KeyCode.O) && info.Tec01_CoolTime <= 0)
                 {
+                    //先行入力をさせないよう
                     if (waza.technicalFlg2)
                         return;
 
@@ -74,6 +75,7 @@ public class Player : MonoBehaviour
                 //もしPボタンを押したとき且つクールタイムが0の時のみ(技2)
                 if (Input.GetKeyDown(KeyCode.P) && info.Tec02_CoolTime <= 0)
                 {
+                    //先行入力をさせないよう
                     if (waza.technicalFlg1)
                         return;
 

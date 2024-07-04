@@ -358,18 +358,18 @@ public class TechnicalData : MonoBehaviour
                 //前進時、ぬるりと移動を始める。
                 this.transform.DOMove(PlayerLocation, 1.0f);
 
-                //ストライクぬるりと移動する処理（呼び出し）
-                //StartCoroutine(Move(Vector3.up));
-
                 //マーク付与
                 Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
                 PlayerReturnLocation,   //初期位置は移動前にいた場所
                 Quaternion.identity);   //初期回転情報
                                         //技発動中行動不可
                 player.stBackCount++;   //ストライク&バックの押した回数をカウント
+
+                //ストライクぬるりと移動する処理（呼び出し）
+                //StartCoroutine(Move(Vector3.up));
             }
 
-            
+
             //もし技のボタンを2回押したら以前記録した場所へ戻る
             if (player.stBackFlg)
             {
@@ -474,7 +474,7 @@ public class TechnicalData : MonoBehaviour
 
     }
 
-    //移動(ストライク処理)
+    //移動(ストライク処理)※現在は使用していません。
     IEnumerator Move(Vector3 TmpVector)
     {
         while (true) 
