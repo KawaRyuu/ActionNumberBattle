@@ -16,7 +16,10 @@ public class Player : MonoBehaviour
 
     public int stBackCount = 0;             //ストライク&backの2度押しカウント
     public bool stBackFlg = false;         //ストライク&backの2度押しフラグ
-    public bool StBc_TimeOverFlg = false;   //StBackの技2回押さなかった時のフラグ
+    public bool StBc_TimeOverFlg = false;  //StBackの技2回押さなかった時のフラグ
+
+    public bool waza1_2 = false;           //技1のはずなのにストライクバックで
+                                           //技2を押すと反応するためこのフラグをおいておきます。
 
     const float time = 5.0f;      //バックの入力受付時間(定数化)
     public float num = 0;        //数を入れる
@@ -34,6 +37,7 @@ public class Player : MonoBehaviour
         waza = GetComponent<TechnicalData>();
         stBackCount = 0;
         num = time;
+        waza1_2 = false;
     }
 
     // Update is called once per frame
@@ -54,23 +58,32 @@ public class Player : MonoBehaviour
                 //もしOボタンを押したとき且つクールタイムが0の時のみ(技1)
                 if (Input.GetKeyDown(KeyCode.O) && info.Tec01_CoolTime <= 0)
                 {
+                    if (waza.technicalFlg2)
+                        return;
+
                     //技枠１をtureにする
                     waza.technicalFlg1 = true;
-
+                    waza1_2 = true;
                     //もし技3だった場合
-                    if (waza.technicalNumber == 3)
+                    if (waza.technicalNumber == 3 && waza1_2)
+                    {
                         StrikeBack();//2回押し処理の呼び出し
+                    }
                 }
 
                 //もしPボタンを押したとき且つクールタイムが0の時のみ(技2)
                 if (Input.GetKeyDown(KeyCode.P) && info.Tec02_CoolTime <= 0)
                 {
+                    if (waza.technicalFlg1)
+                        return;
+
                     //技枠2をtureにする
                     waza.technicalFlg2 = true;
-
                     //もし技3だった場合
-                    if (waza.technicalNumber == 3)
+                    if (waza.technicalNumber == 3 && !waza1_2)
+                    {
                         StrikeBack();//2回押し処理の呼び出し
+                    }
                 }
 
                 Debug.Log("操作できる");

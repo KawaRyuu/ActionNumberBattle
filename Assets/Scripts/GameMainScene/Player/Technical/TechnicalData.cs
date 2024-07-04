@@ -383,6 +383,7 @@ public class TechnicalData : MonoBehaviour
                 player.stBackCount = 0;
                 player.stBackFlg = false;
                 player.StBc_TimeOverFlg = false;
+                player.waza1_2 = false;
                
                 Rest1_2();              //技1or2を使った最後にリセットする
             }
@@ -405,9 +406,15 @@ public class TechnicalData : MonoBehaviour
                 //もし技2の所にこの技をセットしたなら
                 else if (technicalFlg2)
                 {
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技2のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime;
+                    //もし二度受付以内にバックしたら通常待ち時間
+                    if (!player.StBc_TimeOverFlg)
+                    {
+                        //PlayerのDataにある、空きのクールタイムに
+                        //技2のクールタイムを入れる。
+                        playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime;
+                    }
+                    //そうでなければ待ち時間を+5秒追加する。
+                    else playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime + 5;
                 }
             }
         }
