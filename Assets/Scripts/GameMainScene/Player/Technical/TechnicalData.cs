@@ -316,9 +316,6 @@ public class TechnicalData : MonoBehaviour
     //ストライク&backの動き
     void StrikeBack()
     {
-        //3にすると連続して呼び出されるから別の数字を与える
-        //technicalNumber = 5;
-
         //技１なら
         if(technicalFlg1)
         {
@@ -345,6 +342,12 @@ public class TechnicalData : MonoBehaviour
             //ここで前進する
             if (player.stBackCount <= 1)
             {
+                //技発動中行動不可
+                inactionableFlg = true;
+
+                //移動後に行動不能を解除する(1.5秒後)
+                Invoke("inactionablebreak", 1.5f);
+
                 //前進前の座標を保存
                 PlayerReturnLocation = Player.transform.position;
                 //前進後の座標を計算しておく
@@ -362,10 +365,11 @@ public class TechnicalData : MonoBehaviour
                 Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
                 PlayerReturnLocation,   //初期位置は移動前にいた場所
                 Quaternion.identity);   //初期回転情報
-
+                                        //技発動中行動不可
                 player.stBackCount++;   //ストライク&バックの押した回数をカウント
             }
 
+            
             //もし技のボタンを2回押したら以前記録した場所へ戻る
             if (player.stBackFlg)
             {
@@ -418,8 +422,6 @@ public class TechnicalData : MonoBehaviour
                 }
             }
         }
-    
-        
         /*********旧考えた処理（没)***************/
         ////技が発動
         //float x;
@@ -505,5 +507,11 @@ public class TechnicalData : MonoBehaviour
         /*この関数へ切り替わるとPlayerDataでここの関数番号から技発動を検知し
          * playerDataでスタン処理を行います*/
         /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
+    }
+
+    //ストライク後の行動不能を解除する関数
+    void inactionablebreak()
+    {
+        inactionableFlg = false;
     }
 }
