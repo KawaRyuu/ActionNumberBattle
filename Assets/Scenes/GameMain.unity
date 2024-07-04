@@ -967,6 +967,9 @@ MonoBehaviour:
   Attack_obj_wing: {fileID: 2891695476740144829, guid: dd5af8d38c11d6a439995b763ae0d506, type: 3}
   Player: {fileID: 537205050}
   Mark: {fileID: 7686252583144142357, guid: 4067a7108b2d9c74984c8cb2d83fec83, type: 3}
+  Wing1: {fileID: 0}
+  Wing2: {fileID: 0}
+  Wing3: {fileID: 0}
   TecCool1: {fileID: 753715989}
   TecCool2: {fileID: 94217357}
   technicalNumber: 0
@@ -1017,6 +1020,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stBackCount: 0
   stBackFlg: 0
+  StBc_TimeOverFlg: 0
+  waza1_2: 0
+  num: 0
 --- !u!1 &641934902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2917,6 +2923,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 814550416}
     - target: {fileID: 5521165217958568654, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: Wing1
+      value: 
+      objectReference: {fileID: 5064875921097433648}
+    - target: {fileID: 5521165217958568654, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: Wing2
+      value: 
+      objectReference: {fileID: 5064875921097433650}
+    - target: {fileID: 5521165217958568654, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: Wing3
+      value: 
+      objectReference: {fileID: 5064875921097433649}
+    - target: {fileID: 5521165217958568654, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
       propertyPath: TecCool1
       value: 
       objectReference: {fileID: 1395759553}
@@ -2941,6 +2959,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+--- !u!1 &5064875921097433648 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8416224143857927791, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+  m_PrefabInstance: {fileID: 5064875921097433647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5064875921097433649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4471501634044528864, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+  m_PrefabInstance: {fileID: 5064875921097433647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5064875921097433650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1578859219232662769, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+  m_PrefabInstance: {fileID: 5064875921097433647}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -27,6 +27,10 @@ public class TechnicalData : MonoBehaviour
     //ストライク&backの前進後に自身がいた場所へマークする
     [SerializeField] GameObject Mark;
 
+    //ハネトバシ
+    [SerializeField] GameObject Wing1;
+    [SerializeField] GameObject Wing2;
+    [SerializeField] GameObject Wing3;
 
     /******ストライク&バックに使うLocation********/
 
@@ -216,10 +220,19 @@ public class TechnicalData : MonoBehaviour
                 //200フレームに1度だけ弾を発射する
                 if (Time.frameCount % 200 == 0)
                 {
-                    //ハネトバシ生成
-                    Instantiate(Attack_obj_wing,//生成するオブジェクトのプレハブ
-                        this.transform.position,//初期位置
-                        Quaternion.identity);//初期回転情
+                    /*******ハネトバシ生成**********/
+
+                    Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
+                        Wing1.transform.position,       //初期位置
+                        Quaternion.identity);           //初期回転情
+
+                    Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
+                        Wing2.transform.position,       //初期位置
+                        Quaternion.identity);           //初期回転情
+
+                    Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
+                        Wing3.transform.position,       //初期位置
+                        Quaternion.identity);           //初期回転情
                     wingCount++;
                 }
                 //Debug.Log("wingCountは" + wingCount);
