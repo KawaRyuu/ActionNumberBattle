@@ -256,9 +256,14 @@ public class PlayerData : MonoBehaviour
             BluntFootEffect_Flg = true;
         }
         //トッシン(技)が発動した際Playerに触れたとき
-        if (other.gameObject.tag == "Player" && tec.technicalNumber == 4)
+        //if (other.gameObject.tag == "Player" && tec.technicalNumber == 4)
+        //{
+        //    Stun_Flg = true;
+        //}
+
+        if(other.gameObject.tag == "RushRange")
         {
-            Stun_Flg = true;
+            
         }
 
         //もし気絶tagに触れたら
@@ -266,6 +271,13 @@ public class PlayerData : MonoBehaviour
         {
             Debug.Log("交換フラグは" + Swaps_Flg);
             Swaps_Flg = true;               //交換のフラグをtureにする
+        }
+
+
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("敵発見");
+            tec.target = other.gameObject;
         }
     }
 }

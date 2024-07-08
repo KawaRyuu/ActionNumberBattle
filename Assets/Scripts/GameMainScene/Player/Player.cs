@@ -93,8 +93,6 @@ public class Player : MonoBehaviour
                     }
                 }
 
-                Debug.Log("操作できる");
-
                 //Playerのポジションに速度を加える
                 position.x = input_value.x * info.Speed;
                 position.y = input_value.y * info.Speed;
@@ -130,7 +128,7 @@ public class Player : MonoBehaviour
         //トッシン（仮）
         if (Input.GetKeyDown(KeyCode.T))
         {
-            waza.technicalNumber = 2;
+            waza.technicalNumber = 4;
         }
 
         //もし技3がある且つ、技枠1のフラグがTrueなら
@@ -149,8 +147,6 @@ public class Player : MonoBehaviour
         if (stBackCount < 3)
         {
             stBackCount++;
-            Debug.Log("ストライク&backカウント" + stBackCount);
-
             //ボタンを最大条件に達したら
             if (stBackCount == 3)
             {
@@ -165,7 +161,6 @@ public class Player : MonoBehaviour
     //ストライク&バックのタイマー(二度受付の)
     void Timer()
     {
-        Debug.Log("技二度受付可能残り" + num);
         if (!StBc_TimeOverFlg)
         {
             //もし制限時間が0秒以上なら

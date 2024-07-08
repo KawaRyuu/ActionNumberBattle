@@ -843,7 +843,7 @@ Transform:
   m_GameObject: {fileID: 537205050}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.88, y: -0.34, z: 0}
+  m_LocalPosition: {x: 2.97, y: -0.88, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -979,6 +979,8 @@ MonoBehaviour:
   technicalFlg1: 0
   technicalFlg2: 0
   MoveSpeed: 0.005
+  rush_stun_flg: 0
+  target: {fileID: 0}
 --- !u!50 &537205057
 Rigidbody2D:
   serializedVersion: 4
@@ -1287,6 +1289,23 @@ MonoBehaviour:
   m_Text: 'S1
 
 '
+--- !u!1 &791913461 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7850853569587610425, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+  m_PrefabInstance: {fileID: 5064875921097433647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &791913462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791913461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f8550e0535a264bbf7259aed1f90d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &814550415
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,14 +2933,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5481649529048166537, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
-      propertyPath: MyNnm1
-      value: 
-      objectReference: {fileID: 468135095}
-    - target: {fileID: 5481649529048166537, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
-      propertyPath: MyNnm2
-      value: 
-      objectReference: {fileID: 814550416}
     - target: {fileID: 5521165217958568654, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
       propertyPath: Wing1
       value: 
@@ -2954,10 +2965,17 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7850853569587610425, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_TagString
+      value: RushRange
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7850853569587610425, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 791913462}
   m_SourcePrefab: {fileID: 100100000, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
 --- !u!1 &5064875921097433648 stripped
 GameObject:

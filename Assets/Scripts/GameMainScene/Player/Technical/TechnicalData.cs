@@ -61,10 +61,16 @@ public class TechnicalData : MonoBehaviour
     float Waza_time = 0.0f;                     //わざを発動中の時間
     int wingCount = 0;                          //ハネトバシのカウント
 
-    /****ストライク＆バック*****/
+    /****ストライク＆バック****/
     [SerializeField] private float MoveSpeed = 0f;      //移動速度
     private int TargetDistance = 3;                     //目的距離
     private float NowDistance = 0;                      //現在地
+
+    /****トッシン****/
+    public bool rush_stun_flg = false;   //トッシンを発動後スタン処理を与えるフラグ
+    private float RushSpeed = 1.0f;      //追いかける速度
+    public GameObject target;            //ターゲット
+
 
     // Start is called before the first frame update
     void Start()
@@ -90,7 +96,6 @@ public class TechnicalData : MonoBehaviour
         //（技:1）もしクールタイムがあるなら
         if (playerD.Tec01_CoolTime > 0)
         {
-            Debug.Log("技1が使えるまで" + playerD.Tec01_CoolTime);
             playerD.Tec01_CoolTime -= Time.deltaTime;        //カウントダウン
         }
         else
@@ -103,7 +108,6 @@ public class TechnicalData : MonoBehaviour
         //(技:2)もしクールタイムがあるなら
         if (playerD.Tec02_CoolTime > 0)
         {
-            Debug.Log("技2が使えるまで" + playerD.Tec02_CoolTime);
             playerD.Tec02_CoolTime -= Time.deltaTime;        //カウントダウン
         }
         else
@@ -352,7 +356,6 @@ public class TechnicalData : MonoBehaviour
         //ストライク＆バック処理
         void StrikeBackWaza()
         {
-            Debug.Log("バックカウント" + player.stBackCount);
             //ここで前進する
             if (player.stBackCount <= 1)
             {
@@ -383,12 +386,9 @@ public class TechnicalData : MonoBehaviour
                 //StartCoroutine(Move(Vector3.up));
             }
 
-            Debug.Log("stBackFlg="+player.stBackFlg);
-
             //もし技のボタンを2回押したら以前記録した場所へ戻る
             if (player.stBackFlg)
             {
-                Debug.Log("通ったよ"+player.StBc_TimeOverFlg);
                 if (!player.StBc_TimeOverFlg)
                 {
                     //座標登録のところへ戻るよう、現在の位置に反映させる
@@ -490,15 +490,36 @@ public class TechnicalData : MonoBehaviour
 
     }
 
+    //トッシンの動き
+    void Rush()
+    {
+        /*この関数へ切り替わるとPlayerDataでここの関数番号から技発動を検知し
+         * playerDataでスタン処理を行います*/
+        /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
+        Debug.Log("トッシン");
+
+          //範囲に居るPlayerを取得しTargetに入れ、追いかける
+            this.transform.DOMove(target.transform.position, 1.0f);
+    }
+
+    //ストライク後の行動不能を解除する関数
+    void inactionablebreak()
+    {
+        inactionableFlg = false;
+    }
+
+
+
+
     //移動(ストライク処理)※現在は使用していません。
     IEnumerator Move(Vector3 TmpVector)
     {
-        while (true) 
-            {
+        while (true)
+        {
             //終了条件を満たしているか確認
             //現在の座標が移動する
             //もし現在の座標が移動先未満なら
-            if (TargetDistance <= NowDistance +(MoveSpeed*Time.deltaTime))//終了条件
+            if (TargetDistance <= NowDistance + (MoveSpeed * Time.deltaTime))//終了条件
             {
                 transform.position += TmpVector * (TargetDistance - NowDistance);
                 playerD.ActionFlg = true;   //技発動中は他の操作を受け付けない（未完成）
@@ -507,27 +528,13 @@ public class TechnicalData : MonoBehaviour
             }
             //入力方向に移動
             transform.position += TmpVector * Time.deltaTime * MoveSpeed;
-            
+
             //移動した距離を更新
             NowDistance += MoveSpeed * Time.deltaTime;
             //Debug.Log("前回からの移動距離" + MoveSpeed * Time.deltaTime);
             //Debug.Log("累計移動距離"+NowDistance);
             yield return null;
-            }
+        }
     }
 
-
-    //トッシンの動き
-    void Rush()
-    {
-        /*この関数へ切り替わるとPlayerDataでここの関数番号から技発動を検知し
-         * playerDataでスタン処理を行います*/
-        /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
-    }
-
-    //ストライク後の行動不能を解除する関数
-    void inactionablebreak()
-    {
-        inactionableFlg = false;
-    }
 }
