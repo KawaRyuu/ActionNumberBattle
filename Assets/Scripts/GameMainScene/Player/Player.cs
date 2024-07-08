@@ -64,7 +64,12 @@ public class Player : MonoBehaviour
 
                     //技枠１をtureにする
                     waza.technicalFlg1 = true;
-                    waza1_2 = true;
+
+                    //もしストライクバックなら
+                    if(waza.technicalNumber ==3)
+                        //技１のあと技２で同じ処理を通すためこれを置く
+                        waza1_2 = true;
+
                     //もし技3だった場合
                     if (waza.technicalNumber == 3 && waza1_2)
                     {

@@ -101,7 +101,7 @@ public class TechnicalData : MonoBehaviour
         }
 
         //(技:2)もしクールタイムがあるなら
-        if (playerD.Tec02_CoolTime >= 0)
+        if (playerD.Tec02_CoolTime > 0)
         {
             Debug.Log("技2が使えるまで" + playerD.Tec02_CoolTime);
             playerD.Tec02_CoolTime -= Time.deltaTime;        //カウントダウン
@@ -343,7 +343,7 @@ public class TechnicalData : MonoBehaviour
         if(technicalFlg2)
         {
             //もし技2のクールタイムが0秒以下なら
-            if (playerD.Tec01_CoolTime <= 0)
+            if (playerD.Tec02_CoolTime <= 0)
             {
                 StrikeBackWaza();
             }
@@ -352,6 +352,7 @@ public class TechnicalData : MonoBehaviour
         //ストライク＆バック処理
         void StrikeBackWaza()
         {
+            Debug.Log("バックカウント" + player.stBackCount);
             //ここで前進する
             if (player.stBackCount <= 1)
             {
@@ -382,10 +383,12 @@ public class TechnicalData : MonoBehaviour
                 //StartCoroutine(Move(Vector3.up));
             }
 
+            Debug.Log("stBackFlg="+player.stBackFlg);
 
             //もし技のボタンを2回押したら以前記録した場所へ戻る
             if (player.stBackFlg)
             {
+                Debug.Log("通ったよ"+player.StBc_TimeOverFlg);
                 if (!player.StBc_TimeOverFlg)
                 {
                     //座標登録のところへ戻るよう、現在の位置に反映させる
