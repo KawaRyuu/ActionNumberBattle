@@ -520,6 +520,17 @@ public class TechnicalData : MonoBehaviour
             * playerDataでスタン処理を行います*/
             /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
 
+            //もし不発なら
+            if (player.RushFlg)
+            {
+                CoolTime();             //クールタイムの処理
+                //全てを初期化
+                technicalNumber = 0;
+                player.AttackRush.SetActive(false);
+                player.RushFlg = false;
+                Rest1_2();
+            }
+
             //もしtargetが入ってないのなら
             if (target == null)
                 return;
@@ -528,6 +539,9 @@ public class TechnicalData : MonoBehaviour
             if (!rush_target_flg)
             {
                 Debug.Log("トッシン");
+                //不発じゃなかった際カウントはそのままなので初期化
+                player.num2 = player.time2;
+
                 //もし自分の位置が見つけた相手の所と同じ位置ではないなら
                 if (this.transform.position != target.transform.position)
                 {
@@ -535,35 +549,52 @@ public class TechnicalData : MonoBehaviour
                     //(↑この処理はRushRangeJudge)追いかける
                     this.transform.DOMove(target.transform.position, 1.0f);
                     //範囲に当たった瞬間、オブジェクトの範囲が早めに消えるので時間差を作る。
-                    Invoke("RushTargetFlgON_OFF", 1.0f);
+                    Invoke("RushTargetFlgON", 1.0f);
                 }
             }
             else
             {
+                CoolTime();             //クールタイムの処理
+
                 //全てを初期化
                 technicalNumber = 0;
                 //時間差でtrueにしているためこっちも時間差でfalseにする
-                Invoke("RushTargetFlgON_OFF", 1.0f);
+                Invoke("RushTargetFlgOFF", 1.0f);
                 player.AttackRush.SetActive(false);
-                //targetにしていたPlayerをnullにする
-                target = null;
+                player.RushFlg = false;
+                target = null;          //targetにしていたPlayerをnullにする
+                Rest1_2();              //技1or2を使った最後にリセットする
+            }
 
+             //Rushのクールタイム処理
+            void CoolTime()
+            {
                 //もし技1の所にこの技をセットしたなら
                 if (technicalFlg1)
                 {
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.Rush_CoolTime;
+                    //もし技が不発ではないなら通常待ち時間
+                    if (!player.RushFlg)
+                    {
+                        //技1のクールタイムを入れる。
+                        playerD.Tec01_CoolTime = playerD.Rush_CoolTime;
+                    }
+                    //不発なら待ち時間を-5秒に変更する。
+                    else playerD.Tec01_CoolTime = playerD.Rush_CoolTime - 5;
                 }
+
                 //もし技2の所にこの技をセットしたなら
                 else if (technicalFlg2)
                 {
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技2のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.Rush_CoolTime;
+                    //もし技が不発ではないなら通常待ち時間
+                    if (!player.RushFlg)
+                    {
+                        //PlayerのDataにある、空きのクールタイムに
+                        //技2のクールタイムを入れる。
+                        playerD.Tec02_CoolTime = playerD.Rush_CoolTime;
+                    }
+                    //不発なら待ち時間を-5秒に変更する。
+                    else playerD.Tec02_CoolTime = playerD.Rush_CoolTime - 5;
                 }
-
-                Rest1_2();              //技1or2を使った最後にリセットする
             }
         }
     }
@@ -575,15 +606,16 @@ public class TechnicalData : MonoBehaviour
     }
 
     //トッシンを発動したフラグをONにする関数
-    void RushTargetFlgON_OFF()
+    void RushTargetFlgON()
     {
-        //もしトッシンフラグがfalseなら
-        if (!rush_target_flg)
-            rush_target_flg = true;     //技を一度出したのでtrueにする。
-        else rush_target_flg = false;   //初期化するのでfalseへ
+        rush_target_flg = true;     //技を一度出したのでtrueにする。
     }
 
-
+    //トッシンを発動したフラグをOFFにする関数
+    void RushTargetFlgOFF()
+    {
+         rush_target_flg = false;   //初期化するのでfalseへ
+    }
 
     //移動(ストライク処理)※現在は使用していません。
     IEnumerator Move(Vector3 TmpVector)

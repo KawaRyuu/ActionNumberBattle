@@ -24,8 +24,10 @@ public class Player : MonoBehaviour
                                            //技2を押すと反応するためこのフラグをおいておきます。
 
     const float time = 5.0f;      //バックの入力受付時間(定数化)
-    public float num = 0;         //数を入れる
-
+    public float time2 = 3.0f;     //トッシンの入力受付時間(定数化)
+    public float num = 0;         //数を入れる(ストライクバック)
+    public float num2 = 0;        //数を入れる(トッシン)
+    public bool RushFlg = false;     //トッシン不発したかのフラグ
     private void Awake()
     {
         TryGetComponent(out playerInput);
@@ -39,7 +41,9 @@ public class Player : MonoBehaviour
         waza = GetComponent<TechnicalData>();
         stBackCount = 0;
         num = time;
+        num2 = time2;
         waza1_2 = false;
+        RushFlg = false;
     }
 
     // Update is called once per frame
@@ -73,9 +77,6 @@ public class Player : MonoBehaviour
                         //技１のあと技２で同じ処理を通すためこれを置く
                         waza1_2 = true;
                     }
-                    //もしトッシンなら
-                    else if (waza.technicalNumber == 4)
-                        AttackRush.SetActive(true);
 
                     //もし技3だった場合
                     if (waza.technicalNumber == 3 && waza1_2)
@@ -94,10 +95,6 @@ public class Player : MonoBehaviour
                     //技枠2をtureにする
                     waza.technicalFlg2 = true;
 
-                    //もしトッシンなら
-                    if (waza.technicalNumber == 4)
-                        AttackRush.SetActive(true);
-
                     //もし技3だった場合
                     if (waza.technicalNumber == 3 && !waza1_2)
                     {
@@ -115,23 +112,6 @@ public class Player : MonoBehaviour
 
                 }
 
-                //if (Input.GetKey("left"))
-                //{
-                //    position.x -= info.Speed * Time.deltaTime;          //左方向
-                //}
-                //else if (Input.GetKey("right"))
-                //{
-                //    position.x += info.Speed * Time.deltaTime;          //右方向
-                //}
-                //if (Input.GetKey("up"))
-                //{
-                //    position.y += info.Speed * Time.deltaTime;          //上方向
-                //}
-                //else if (Input.GetKey("down"))
-                //{
-                //    position.y -= info.Speed * Time.deltaTime;          //下方向
-                //}
-
                 transform.position += Time.deltaTime * position;
             }
         }
@@ -140,11 +120,25 @@ public class Player : MonoBehaviour
        
         //もし技3がある且つ、技枠1のフラグがTrueなら
         if (waza.technicalNumber == 3 && waza.technicalFlg1)
-            Timer();
+            StrikeTimer();
 
         //もし技3がある且つ、技枠2のフラグがTrueなら
         else if (waza.technicalNumber == 3 && waza.technicalFlg2)
-            Timer();
+            StrikeTimer();
+
+        //もし技4がある且つ、技枠1のフラグがTrueなら
+        if (waza.technicalNumber == 4 && waza.technicalFlg1)
+        {
+            AttackRush.SetActive(true);
+            RushTimer();
+        }
+
+        //もし技4がある且つ、技枠2のフラグがTrueなら
+        else if (waza.technicalNumber == 4 && waza.technicalFlg2)
+        {
+            AttackRush.SetActive(true);
+            RushTimer();
+        }
     }
 
     //技ストライク&backの技を最大2回分カウントする。
@@ -166,7 +160,7 @@ public class Player : MonoBehaviour
     }
 
     //ストライク&バックのタイマー(二度受付の)
-    void Timer()
+    void StrikeTimer()
     {
         if (!StBc_TimeOverFlg)
         {
@@ -186,9 +180,50 @@ public class Player : MonoBehaviour
         }
     }
 
+    //トッシンのタイマー(攻撃範囲の表示時間計測)
+    void RushTimer()
+    {
+        //もしフラグがONじゃないなら
+        if (!RushFlg)
+        {
+            //もし制限時間が0秒以上なら
+            if (num2 >= 0)
+            {
+                //カウントダウンし続ける
+                num2 -= Time.deltaTime;
+            }
+            //制限時間を超えたら
+            else
+            {
+                num2 = time2;
+                //不発のフラグON
+                RushFlg = true;
+                //AttackRush.SetActive(false);
+            }
+        }
+    }
+
     //Playerの識別
     public int GetPlayer()
     {
         return playerInput.user.index;
     }
+
+    /********旧操作プログラム**********/
+    //if (Input.GetKey("left"))
+    //{
+    //    position.x -= info.Speed * Time.deltaTime;          //左方向
+    //}
+    //else if (Input.GetKey("right"))
+    //{
+    //    position.x += info.Speed * Time.deltaTime;          //右方向
+    //}
+    //if (Input.GetKey("up"))
+    //{
+    //    position.y += info.Speed * Time.deltaTime;          //上方向
+    //}
+    //else if (Input.GetKey("down"))
+    //{
+    //    position.y -= info.Speed * Time.deltaTime;          //下方向
+    //}
 }
