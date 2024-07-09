@@ -511,14 +511,16 @@ public class TechnicalData : MonoBehaviour
                 //範囲に居るPlayerを取得しTargetに入れ、
                 //(↑この処理はRushRangeJudge)追いかける
                 this.transform.DOMove(target.transform.position, 1.0f);
-                rush_target_flg = true;     //技を一度出したのでtrueにする。
+                //範囲に当たった瞬間、オブジェクトの範囲が早めに消えるので時間差を作る。
+                Invoke("RushTargetFlgON_OFF", 1.0f);
             }
         }
         else
         {
             //全てを初期化
             technicalNumber = 0;
-            rush_target_flg = false;
+            //時間差でtrueにしているためこっちも時間差でfalseにする
+            Invoke("RushTargetFlgON_OFF", 1.0f);
             player.AttackRush.SetActive(false);
             //targetにしていたPlayerをnullにする
             target = null;
@@ -531,6 +533,13 @@ public class TechnicalData : MonoBehaviour
         inactionableFlg = false;
     }
 
+    //トッシンを発動したフラグをONにする関数
+    void RushTargetFlgON_OFF()
+    {
+        if (!rush_target_flg)
+            rush_target_flg = true;     //技を一度出したのでtrueにする。
+        else rush_target_flg = false;
+    }
 
 
 
