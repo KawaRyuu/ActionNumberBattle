@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     PlayerData info;
     TechnicalData waza;
 
-    [SerializeField] GameObject AttackRush;
+    [SerializeField] public GameObject AttackRush;
 
     public int stBackCount = 0;             //ストライク&backの2度押しカウント
     public bool stBackFlg = false;         //ストライク&backの2度押しフラグ

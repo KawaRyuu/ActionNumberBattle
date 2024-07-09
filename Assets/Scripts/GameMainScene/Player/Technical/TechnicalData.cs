@@ -67,7 +67,7 @@ public class TechnicalData : MonoBehaviour
     private float NowDistance = 0;                      //現在地
 
     /****トッシン****/
-    public bool rush_stun_flg = false;   //トッシンを発動後スタン処理を与えるフラグ
+    public bool rush_target_flg = false; 
     private float RushSpeed = 1.0f;      //追いかける速度
     public GameObject target;            //ターゲット
 
@@ -496,12 +496,33 @@ public class TechnicalData : MonoBehaviour
         /*この関数へ切り替わるとPlayerDataでここの関数番号から技発動を検知し
          * playerDataでスタン処理を行います*/
         /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
-        Debug.Log("トッシン");
 
+        //もしtargetが入ってないのなら
         if (target == null)
             return;
-          //範囲に居るPlayerを取得しTargetに入れ、追いかける
-            this.transform.DOMove(target.transform.position, 1.0f);
+
+        //もしトッシンを一度も発動していないなら
+        if (!rush_target_flg)
+        {
+            Debug.Log("トッシン");
+            //もし自分の位置が見つけた相手の所と同じ位置ではないなら
+            if (this.transform.position != target.transform.position)
+            {
+                //範囲に居るPlayerを取得しTargetに入れ、
+                //(↑この処理はRushRangeJudge)追いかける
+                this.transform.DOMove(target.transform.position, 1.0f);
+                rush_target_flg = true;     //技を一度出したのでtrueにする。
+            }
+        }
+        else
+        {
+            //全てを初期化
+            technicalNumber = 0;
+            rush_target_flg = false;
+            player.AttackRush.SetActive(false);
+            //targetにしていたPlayerをnullにする
+            target = null;
+        }
     }
 
     //ストライク後の行動不能を解除する関数

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class RushRangeJudge : MonoBehaviour
 {
+    //参照
     TechnicalData tec;
 
+    //親オブジェクトのTechnicalDataを取得したいので
     [SerializeField] GameObject Player;
 
     // Start is called before the first frame update
