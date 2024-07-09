@@ -68,9 +68,14 @@ public class Player : MonoBehaviour
                     waza.technicalFlg1 = true;
 
                     //もしストライクバックなら
-                    if(waza.technicalNumber ==3)
+                    if (waza.technicalNumber == 3)
+                    {
                         //技１のあと技２で同じ処理を通すためこれを置く
                         waza1_2 = true;
+                    }
+                    //もしトッシンなら
+                    else if (waza.technicalNumber == 4)
+                        AttackRush.SetActive(true);
 
                     //もし技3だった場合
                     if (waza.technicalNumber == 3 && waza1_2)
@@ -88,6 +93,11 @@ public class Player : MonoBehaviour
 
                     //技枠2をtureにする
                     waza.technicalFlg2 = true;
+
+                    //もしトッシンなら
+                    if (waza.technicalNumber == 4)
+                        AttackRush.SetActive(true);
+
                     //もし技3だった場合
                     if (waza.technicalNumber == 3 && !waza1_2)
                     {
@@ -127,13 +137,7 @@ public class Player : MonoBehaviour
         }
         Debug.Log("今の体力は" + info.Hp);
 
-        //トッシン（仮）
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            AttackRush.SetActive(true);
-            waza.technicalNumber = 4;
-        }
-
+       
         //もし技3がある且つ、技枠1のフラグがTrueなら
         if (waza.technicalNumber == 3 && waza.technicalFlg1)
             Timer();
