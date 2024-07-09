@@ -23,9 +23,11 @@ public class RushRangeJudge : MonoBehaviour
     /************当たった時の処理(何かの当たった時)*****************/
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //もしトッシン範囲のなかにPlayerのtagがあったなら
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("敵発見");
+            //target(空のobj)に入れる。
             tec.target = other.gameObject;
         }
     }
