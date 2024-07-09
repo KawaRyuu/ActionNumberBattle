@@ -274,10 +274,6 @@ public class PlayerData : MonoBehaviour
         }
 
 
-        if (other.gameObject.tag == "Player")
-        {
-            Debug.Log("“G”­Œ©");
-            tec.target = other.gameObject;
-        }
+       
     }
 }

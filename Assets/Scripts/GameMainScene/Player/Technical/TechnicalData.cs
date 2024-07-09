@@ -498,6 +498,8 @@ public class TechnicalData : MonoBehaviour
         /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
         Debug.Log("トッシン");
 
+        if (target == null)
+            return;
           //範囲に居るPlayerを取得しTargetに入れ、追いかける
             this.transform.DOMove(target.transform.position, 1.0f);
     }

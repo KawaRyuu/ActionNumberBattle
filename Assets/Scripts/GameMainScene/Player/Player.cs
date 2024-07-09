@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
     PlayerData info;
     TechnicalData waza;
 
+    [SerializeField] GameObject AttackRush;
 
     public int stBackCount = 0;             //ストライク&backの2度押しカウント
     public bool stBackFlg = false;         //ストライク&backの2度押しフラグ
@@ -22,7 +24,7 @@ public class Player : MonoBehaviour
                                            //技2を押すと反応するためこのフラグをおいておきます。
 
     const float time = 5.0f;      //バックの入力受付時間(定数化)
-    public float num = 0;        //数を入れる
+    public float num = 0;         //数を入れる
 
     private void Awake()
     {
@@ -128,6 +130,7 @@ public class Player : MonoBehaviour
         //トッシン（仮）
         if (Input.GetKeyDown(KeyCode.T))
         {
+            AttackRush.SetActive(true);
             waza.technicalNumber = 4;
         }
 
