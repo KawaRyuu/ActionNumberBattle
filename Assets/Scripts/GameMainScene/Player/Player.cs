@@ -7,6 +7,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
+    //リジットボディから参照
+    Rigidbody2D rb2d;
+
     //PlayerのInputSystem
     PlayerInput playerInput;
 
@@ -37,6 +40,7 @@ public class Player : MonoBehaviour
     // 初期化
     void Start()
     {
+        rb2d = GetComponent<Rigidbody2D>();
         info = GetComponent<PlayerData>();
         waza = GetComponent<TechnicalData>();
         stBackCount = 0;
@@ -102,15 +106,26 @@ public class Player : MonoBehaviour
                     }
                 }
 
+                /**********向きを変える処理***********/
+                float input = Input.GetAxisRaw("Horizontal");
+                rb2d.velocity = new Vector2(input * info.Speed, rb2d.velocity.y);
+
+                //進行方向へ向きを変える
+                if (input < 0)
+                {
+                    transform.eulerAngles = new Vector3(0, 0, 0);
+                }
+                else if (input > 0)
+                {
+                    transform.eulerAngles = new Vector3(0, 180, 0);
+                }
+
+
+
+
                 //Playerのポジションに速度を加える
                 position.x = input_value.x * info.Speed;
                 position.y = input_value.y * info.Speed;
-
-                //方向左へ向かせる
-                if (position.x < 0)
-                {
-
-                }
 
                 transform.position += Time.deltaTime * position;
             }

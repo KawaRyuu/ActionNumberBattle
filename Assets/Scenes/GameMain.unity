@@ -1025,7 +1025,10 @@ MonoBehaviour:
   stBackFlg: 0
   StBc_TimeOverFlg: 0
   waza1_2: 0
+  time2: 3
   num: 0
+  num2: 0
+  RushFlg: 0
 --- !u!1 &641934902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,6 +2895,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 182635185718280467, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 182635185718280467, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.73
+      objectReference: {fileID: 0}
     - target: {fileID: 306993925908819435, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
       propertyPath: AttackRush
       value: 
@@ -2956,6 +2967,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4147912338950830343, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147912338950830343, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 5054855459337330106, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5054855459337330106, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5054855459337330106, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15.41
+      objectReference: {fileID: 0}
     - target: {fileID: 5521165217958568654, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
       propertyPath: Wing1
       value: 
@@ -2980,9 +3011,25 @@ PrefabInstance:
       propertyPath: MoveSpeed
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 5885435150559187785, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.010997
+      objectReference: {fileID: 0}
+    - target: {fileID: 5885435150559187785, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.013
+      objectReference: {fileID: 0}
     - target: {fileID: 7516402841714428727, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763987435319407328, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ac428f2dd2c9e149a64cf822255135c, type: 3}
+    - target: {fileID: 7763987435319407328, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7783006276707003818, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
       propertyPath: m_IsTrigger
