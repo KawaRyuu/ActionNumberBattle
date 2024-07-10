@@ -27,10 +27,15 @@ public class Player : MonoBehaviour
                                            //技2を押すと反応するためこのフラグをおいておきます。
 
     const float time = 5.0f;      //バックの入力受付時間(定数化)
-    public float time2 = 3.0f;     //トッシンの入力受付時間(定数化)
+    public float time2 = 3.0f;    //トッシンの入力受付時間(定数化)
     public float num = 0;         //数を入れる(ストライクバック)
     public float num2 = 0;        //数を入れる(トッシン)
-    public bool RushFlg = false;     //トッシン不発したかのフラグ
+    public bool RushFlg = false;  //トッシン不発したかのフラグ
+    public bool Right = false;    //右方向に向いた際フラグがONになる
+    public bool Left = false;     //左方向に向いた際フラグがONになる。
+    public bool Up = false;       //上方向に向いた際フラグがONになる。
+    public bool Down = false;     //下方向に向いた際フラグがONになる。
+
     private void Awake()
     {
         TryGetComponent(out playerInput);
@@ -48,6 +53,10 @@ public class Player : MonoBehaviour
         num2 = time2;
         waza1_2 = false;
         RushFlg = false;
+        Right = false;
+        Left = false;
+        Up = false;
+        Down = false;
     }
 
     // Update is called once per frame
@@ -107,20 +116,46 @@ public class Player : MonoBehaviour
                 }
 
                 /**********向きを変える処理***********/
+
+                //Playerが操作した方向に向くために使う
                 float input = Input.GetAxisRaw("Horizontal");
+                float input2 = Input.GetAxisRaw("Horizontal2");
+
                 rb2d.velocity = new Vector2(input * info.Speed, rb2d.velocity.y);
 
                 //進行方向へ向きを変える
                 if (input < 0)
                 {
+                    //左方向
                     transform.eulerAngles = new Vector3(0, 0, 0);
+                    Left = true;
+                    Right = false;
+                    Up = false;
+                    Down = false;
                 }
                 else if (input > 0)
                 {
+                    //右方向
                     transform.eulerAngles = new Vector3(0, 180, 0);
+                    Left = false;
+                    Right = true;
+                    Up = false;
+                    Down = false;
                 }
 
-
+                //もしinput2が0より小さいなら下方向
+                if (input2 < 0)
+                {
+                    Debug.Log("下");
+                    Down = true;
+                    Up = false;
+                }////もしinput2が0より大きいなら上方向
+                else if (input2 > 0)
+                {
+                    Debug.Log("上");
+                    Up = true;
+                    Down = false;
+                }
 
 
                 //Playerのポジションに速度を加える

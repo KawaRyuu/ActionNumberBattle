@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using DG.Tweening;
+using UnityEngine.Windows;
 
 public class TechnicalData : MonoBehaviour
 {
@@ -39,18 +40,16 @@ public class TechnicalData : MonoBehaviour
 
     //Playerが元の位置へ戻る際仕様するLocation
     public static Vector3 PlayerReturnLocation = new Vector2(0.0f, 0.0f);
-
-
-
-    //Playerの移動先を保存するための
+    //Playerの移動先の距離
     public static Vector3 PlayerLocationDistance = new Vector2(0.0f, 2.0f);
 
-    public Text TecCool1;                //技1のクールタイム表示
-    public Text TecCool2;                //技2のクールタイム表示
 
-    public int technicalNumber = 0;      //選んだ時点(Tec.1or2)での箱の役割
-    public bool inactionableFlg = false; //一部の技が発動中、
-                                         //操作を一定時間無効にするフラグ
+    public Text TecCool1;                       //技1のクールタイム表示
+    public Text TecCool2;                       //技2のクールタイム表示
+
+    public int technicalNumber = 0;             //選んだ時点(Tec.1or2)での箱の役割
+    public bool inactionableFlg = false;        //一部の技が発動中、
+                                                //操作を一定時間無効にするフラグ
 
     public int technicalNumber1 = 0;            //一個目の選択時に決めたわざを保存
     public int technicalNumber2 = 0;            //二個目の選択時に決めたわざを保存
@@ -67,8 +66,7 @@ public class TechnicalData : MonoBehaviour
     private float NowDistance = 0;                      //現在地
 
     /****トッシン****/
-    public bool rush_target_flg = false; 
-    private float RushSpeed = 1.0f;      //追いかける速度
+    public bool rush_target_flg = false;
     public GameObject target;            //ターゲット
 
 
@@ -367,8 +365,48 @@ public class TechnicalData : MonoBehaviour
 
                 //前進前の座標を保存
                 PlayerReturnLocation = Player.transform.position;
-                //前進後の座標を計算しておく
-                PlayerLocation = Player.transform.position + PlayerLocationDistance;
+
+                //もしPlayerが右のフラグをtrueにしたなら右へ進む
+                if (player.Right)
+                {
+                    PlayerLocationDistance = new Vector2(2, 0);
+                    Location();
+                    Debug.Log("右方向");
+                }
+                //もし右斜め上なら
+                else if (player.Right && player.Up)
+                {
+                    PlayerLocationDistance = new Vector2(2, 2);
+                    Location();
+                }
+                //もし左斜め下なら
+                else if (player.Right && player.Down)
+                {
+                    PlayerLocationDistance = new Vector2(2, -2);
+                    Location();
+                }
+
+                //もしPlayerが左のフラグをtrueにしたなら左へ進む
+                if (player.Left)
+                {
+                    PlayerLocationDistance = new Vector2(-2, 0);
+                    Location();
+                    Debug.Log("左方向");
+                }
+
+                //もしPlayerが上のフラグをtrueにしたなら上へ進む
+                if (player.Up)
+                {
+                    PlayerLocationDistance = new Vector2(0, 2);
+                    Location();
+                }
+                //もしPlayerが下のフラグをtrueにしたなら下へ進む
+                else if (player.Down)
+                {
+                    PlayerLocationDistance = new Vector2(0, -2);
+                    Location();
+                }
+
 
                 Debug.Log("一回目");
 
@@ -406,6 +444,13 @@ public class TechnicalData : MonoBehaviour
                 player.waza1_2 = false;
                
                 Rest1_2();              //技1or2を使った最後にリセットする
+            }
+
+            //移動する前の計算関数
+            void Location()
+            {
+                //前進後の座標を計算しておく
+                PlayerLocation = Player.transform.position + PlayerLocationDistance;
             }
 
             //StBackのクールタイム処理
