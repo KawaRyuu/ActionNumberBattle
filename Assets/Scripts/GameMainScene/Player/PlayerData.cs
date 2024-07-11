@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 
@@ -38,6 +39,7 @@ public class PlayerData : MonoBehaviour
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ
     public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
     public bool Swaps_Flg = false;              //交換のフラグ
+    bool RushAttack_Flg = false;
 
     public float inv_count = 0.0f;              //無敵時間中のカウント
     public float stun_count = 0.0f;             //スタン中のカウント
@@ -47,6 +49,7 @@ public class PlayerData : MonoBehaviour
     public float swoon_countDown = 2.0f;        //気絶時の文字(カウントダウン)
 
     public GameObject SwoonObj;                 //気絶時に出るobj(これで判定させる)
+    public GameObject Stun_PiyoPiyo;            //行動不能時に表示する
 
     //初期化
     void Start()
@@ -54,11 +57,13 @@ public class PlayerData : MonoBehaviour
         tec = GetComponent<TechnicalData>();
         number = GetComponent<NumberData>();
         SwoonObj.SetActive(false);
+        Stun_PiyoPiyo.SetActive(false);
         Invincibility_Flg = false;
         Swoon_Flg = false;
         Stun_Flg = false;
         BluntFootEffect_Flg = false;
         Swaps_Flg = false;
+        RushAttack_Flg = false;
 
         inv_count = 0.0f;
         blunt_count = 0.0f;
@@ -100,6 +105,7 @@ public class PlayerData : MonoBehaviour
         if (Stun_Flg && stun_count <= 1.0f)
         {
             Debug.Log("スタン中");
+            Stun_PiyoPiyo.SetActive(true);
             stun_count += Time.deltaTime;   //カウント加算
         }
         else if (stun_count >= 1)           //もしカウントが1秒を超えたら
@@ -107,6 +113,7 @@ public class PlayerData : MonoBehaviour
             //スタン状態を解除
             stun_count = 0.0f;
             Stun_Flg = false;
+            Stun_PiyoPiyo.SetActive(false);
         }
     }
 
@@ -246,6 +253,15 @@ public class PlayerData : MonoBehaviour
                 //気絶フラグON
                 Swoon_Flg = true;
             }
+
+            //もし攻撃が当たっていてトッシンの範囲に触れているなら
+            if(RushAttack_Flg)
+            {
+                //一時行動不能にする。
+                Stun_Flg = true;
+                //フラグは初期化する。
+                RushAttack_Flg = false;
+            }
         }
 
         //もし鈍足効果のTagに触れたら
@@ -255,15 +271,12 @@ public class PlayerData : MonoBehaviour
             Speed = 1.5f;
             BluntFootEffect_Flg = true;
         }
-        //トッシン(技)が発動した際Playerに触れたとき
-        //if (other.gameObject.tag == "Player" && tec.technicalNumber == 4)
-        //{
-        //    Stun_Flg = true;
-        //}
 
-        if(other.gameObject.tag == "RushRange")
+        //トッシン(技)が発動した際トッシン範囲に触れたなら
+        if (other.gameObject.tag == "RushRange")
         {
-            
+            //当たったフラグをONにする
+            RushAttack_Flg = true;
         }
 
         //もし気絶tagに触れたら
@@ -273,7 +286,5 @@ public class PlayerData : MonoBehaviour
             Swaps_Flg = true;               //交換のフラグをtureにする
         }
 
-
-       
     }
 }

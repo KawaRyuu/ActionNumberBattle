@@ -60,6 +60,8 @@ public class TechnicalData : MonoBehaviour
     float Waza_time = 0.0f;                     //わざを発動中の時間
     int wingCount = 0;                          //ハネトバシのカウント
 
+    //public GameObject TecAttack;                //技の当たり判定
+
     /****ストライク＆バック****/
     [SerializeField] private float MoveSpeed = 0f;      //移動速度
     private int TargetDistance = 3;                     //目的距離
@@ -77,6 +79,7 @@ public class TechnicalData : MonoBehaviour
         player = GetComponent<Player>();
         playerD = GetComponent<PlayerData>();
         Attack_obj_tubame.SetActive(false);
+        //TecAttack.SetActive(false);
         technicalFlg1 = false;
         technicalFlg2 = false;
         inactionableFlg = false;
@@ -407,8 +410,8 @@ public class TechnicalData : MonoBehaviour
                     Location();
                 }
 
-
                 Debug.Log("一回目");
+
 
                 //前進時、ぬるりと移動を始める。
                 this.transform.DOMove(PlayerLocation, 1.0f);
@@ -584,6 +587,10 @@ public class TechnicalData : MonoBehaviour
             if (!rush_target_flg)
             {
                 Debug.Log("トッシン");
+                //技発動中時攻撃判定をつける。
+                //TecAttack.SetActive(true);
+                Attack_obj_tubame.SetActive(true);
+
                 //不発じゃなかった際カウントはそのままなので初期化
                 player.num2 = player.time2;
 
@@ -606,6 +613,8 @@ public class TechnicalData : MonoBehaviour
                 //時間差でtrueにしているためこっちも時間差でfalseにする
                 Invoke("RushTargetFlgOFF", 1.0f);
                 player.AttackRush.SetActive(false);
+                //TecAttack.SetActive(false);
+                Attack_obj_tubame.SetActive(false);
                 player.RushFlg = false;
                 target = null;          //targetにしていたPlayerをnullにする
                 Rest1_2();              //技1or2を使った最後にリセットする
