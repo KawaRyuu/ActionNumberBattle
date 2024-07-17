@@ -3327,6 +3327,34 @@ PrefabInstance:
       propertyPath: AttackRush
       value: 
       objectReference: {fileID: 791913461}
+    - target: {fileID: 1604716670157158043, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Gamepad
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604716670157158043, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604716670157158043, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_NeverAutoSwitchControlSchemes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604716670157158043, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionId
+      value: a143110a-51d4-4e7a-ad35-22f9f65a76fb
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604716670157158043, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionId
+      value: b4f93a63-2a15-4324-ae25-db97a9a7a6c6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604716670157158043, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionName
+      value: Player/Waza[/Keyboard/o]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604716670157158043, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionName
+      value: Player/Waza2[/Keyboard/p]
+      objectReference: {fileID: 0}
     - target: {fileID: 2716192150330024370, guid: 1072536c81dd62f4db41535befcf5d19, type: 3}
       propertyPath: m_LocalScale.x
       value: 8.238048

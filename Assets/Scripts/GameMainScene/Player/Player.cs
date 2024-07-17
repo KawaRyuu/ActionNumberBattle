@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
@@ -66,6 +68,8 @@ public class Player : MonoBehaviour
 
         //InputSystemのactionmapからMoveを取得
         var input_value = playerInput.actions["Move"].ReadValue<Vector2>();
+        bool input_waza1 = playerInput.actions["Waza"].WasPressedThisFrame();
+        bool input_waza2 = playerInput.actions["Waza2"].WasPressedThisFrame();
 
         //Playerの基本の動き
         //もし気絶中なら行動不可
@@ -75,7 +79,7 @@ public class Player : MonoBehaviour
             if (!waza.inactionableFlg)
             {
                 //もしOボタンを押したとき且つクールタイムが0の時のみ(技1)
-                if (Input.GetKeyDown(KeyCode.O) && info.Tec01_CoolTime <= 0)
+                if (input_waza1 && info.Tec01_CoolTime <= 0)
                 {
                     //先行入力をさせないよう
                     if (waza.technicalFlg2)
@@ -99,7 +103,7 @@ public class Player : MonoBehaviour
                 }
 
                 //もしPボタンを押したとき且つクールタイムが0の時のみ(技2)
-                if (Input.GetKeyDown(KeyCode.P) && info.Tec02_CoolTime <= 0)
+                if (input_waza2 && info.Tec02_CoolTime <= 0)
                 {
                     //先行入力をさせないよう
                     if (waza.technicalFlg1)
@@ -117,14 +121,8 @@ public class Player : MonoBehaviour
 
                 /**********向きを変える処理***********/
 
-                //Playerが操作した方向に向くために使う
-                float input = Input.GetAxisRaw("Horizontal");
-                float input2 = Input.GetAxisRaw("Horizontal2");
-
-                rb2d.velocity = new Vector2(input * info.Speed, rb2d.velocity.y);
-
                 //進行方向へ向きを変える
-                if (input < 0)
+                if (input_value.x < 0)
                 {
                     //左方向
                     transform.eulerAngles = new Vector3(0, 0, 0);
@@ -133,7 +131,7 @@ public class Player : MonoBehaviour
                     Up = false;
                     Down = false;
                 }
-                else if (input > 0)
+                else if (input_value.x > 0)
                 {
                     //右方向
                     transform.eulerAngles = new Vector3(0, 180, 0);
@@ -144,13 +142,13 @@ public class Player : MonoBehaviour
                 }
 
                 //もしinput2が0より小さいなら下方向
-                if (input2 < 0)
+                if (input_value.y < 0)
                 {
                     Debug.Log("下");
                     Down = true;
                     Up = false;
                 }////もしinput2が0より大きいなら上方向
-                else if (input2 > 0)
+                else if (input_value.y > 0)
                 {
                     Debug.Log("上");
                     Up = true;
