@@ -11,12 +11,12 @@ public class NumberData : MonoBehaviour
 
     //自身が持っているNumberを配列で保持
     public int []MyNumber = {0,0,0,0};
-    
+
     // Start is called before the first frame update
     void Start()
     {
         pD = GameObject.Find("Player").GetComponent<PlayerData>();
-
+       
         //ゲーム開始時と同時に数を1～9のランダムで取得する
         for (int i = 0; i < 4; i++)
         {
@@ -72,14 +72,39 @@ public class NumberData : MonoBehaviour
             //触れた相手のNumberDataを取得
             NumberData num_data = collision.gameObject.GetComponent<NumberData>();
             PlayerData player_data = collision.GetComponent<PlayerData>();
+
             //相手が気絶したなら
             if (player_data.Swoon_Flg)
             {
-                int num = Random.Range(0, 4);           //配列番号をランダムで選ぶ
+                //1～10を100%換算する
+                int RandomNumber = Random.Range(1, 11);
                 int tmp = 0;                            //交換をする際の箱
-                tmp = num_data.MyNumber[num];           //相手のMyNumberの数をtmpに入れる
-                num_data.MyNumber[num] = MyNumber[3];   /*相手のランダムで選ばれた配列番号に
-            自分の最も小さい数を渡す。（交換）*/
+
+                //60%の確立なら
+                if (RandomNumber < 7)
+                {
+                    tmp = num_data.MyNumber[0];           //相手のMyNumberの大きい数をtmpに入れる
+                    num_data.MyNumber[0] = MyNumber[3];   //相手の大きい数に自分の最も小さい数を渡す。（交換）
+                }
+
+                else //30%の確立なら
+                if (RandomNumber < 9)
+                {
+                    //数字は4つあるけど2つは引かれるから残りの数字をランダムで選ぶ
+                    int num = Random.Range(1, 3);
+
+                    tmp = num_data.MyNumber[num];           //相手のMyNumberの1,2いずれかの数をtmpに入れる
+                    num_data.MyNumber[num] = MyNumber[3];   /*相手のランダムで選ばれた配列番号に
+                                                            自分の最も小さい数を渡す。（交換）*/
+                }
+
+                //低確率で
+                if (RandomNumber == 10)
+                {
+                    tmp = num_data.MyNumber[3];           //相手のMyNumberの小さい数をtmpに入れる
+                    num_data.MyNumber[0] = MyNumber[3];   //相手の小さい数に自分の最も小さい数を渡す。（交換）
+                }
+                
                 MyNumber[3] = tmp;                      //相手の数字を自分の所へ入れる。
                 pD.Swaps_Flg = false;                   //交換フラグをOFFにする。
             }
