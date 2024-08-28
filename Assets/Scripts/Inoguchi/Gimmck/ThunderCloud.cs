@@ -1,17 +1,15 @@
+using GimmickInfomation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GimmickInfomation;
 
-public class Birds : BaseGimmick
+public class ThunderCloud : BaseGimmick
 {
-    //’¹‚ÌŒQ‚ê‚Ì‘¬“x
-    const float bird_speed = 7.0f;
+    const float thunder_cloud_speed = 3.0f;
 
     private void Start()
     {
-        //‰Šú‰»
-        GimmickInitialize(bird_speed, GIMMICK_ID.BIRD);
+        GimmickInitialize(thunder_cloud_speed, GIMMICK_ID.THUNDERCLOUD);
 
         //i‚Ş•ûŒü‚ğŒˆ‚ß‚é
         DecideGimmckDirection();
@@ -21,7 +19,4 @@ public class Birds : BaseGimmick
     {
         GimmickUpdate();
     }
-
-   
-  
 }

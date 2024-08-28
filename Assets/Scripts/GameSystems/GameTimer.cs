@@ -75,4 +75,9 @@ public class GameTimer : MonoBehaviour
     {
         return CountDownTime;
     }
+
+    public float GetCountDownSecond()
+    {
+        return CountDownSecond;
+    }
 }

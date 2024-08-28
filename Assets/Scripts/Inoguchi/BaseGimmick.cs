@@ -6,29 +6,29 @@ using GimmickInfomation;
 //ギミックの親オブジェクト
 public class BaseGimmick : MonoBehaviour 
 {
-    protected GIMMICK_ID     gimmick_id;                        //識別子
-    protected SpriteRenderer gimmick_sprite;                    //描画コンポーネント
-    protected Vector3        gimmick_position = Vector3.zero;   //位置座標
-    protected Vector3        gimmick_velocity = Vector3.zero;   //加速度
-    protected Vector3        gimmick_direction= Vector3.zero;   //方向
-    protected float          gimmick_speed    = 1.0f;           //移動速度
-    protected bool           destroy_flag     = false;          //破壊判定フラグ
-    
+    //各種変数
+    protected SpriteRenderer gimmick_sprite;                         //描画コンポーネント
+    protected GIMMICK_ID     gimmick_id　       = GIMMICK_ID.EMPTY;  //識別子
+    protected Vector3        gimmick_position   = Vector3.zero;      //位置座標
+    protected Vector3        gimmick_vector     = Vector3.zero;      //進む力
+    protected Vector3        gimmick_direction  = Vector3.zero;      //方向
+    protected float          gimmick_speed      = 1.0f;              //移動速度
+    protected bool           destroy_flag       = false;             //破壊判定フラグ
 
+
+   
     //初期化
     public virtual void GimmickInitialize(float speed,GIMMICK_ID id)
     {
         //各種初期化
         gimmick_position    = this.transform.position;
         gimmick_sprite      = this.GetComponent<SpriteRenderer>();
-        gimmick_velocity    = Vector3.zero;
+        gimmick_vector      = Vector3.zero;
         gimmick_direction   = Vector3.zero;
         gimmick_speed       = speed;
         gimmick_id          = id;
         destroy_flag        = false;
-
-        //進む方向を決める
-        DecideGimmckDirection();
+        
     }
 
     //更新
@@ -38,15 +38,23 @@ public class BaseGimmick : MonoBehaviour
         CheckOffScreen();
     }
 
-    
-
     //画面外判定
     public  void CheckOffScreen()
     {
-        
+        //画面に描画された時
+        if (gimmick_sprite.isVisible)
+        {
+            //破壊判定をtrue
+            destroy_flag = true;
 
+            //描画中は破壊しないので返す
+            return;
+        }
+           
+        //破壊フラグが有効なら自身を破壊
+        if (destroy_flag)
+            Destroy(this.gameObject);
 
-      
     }
 
     //ギミックの進む向き(方向)を決める
@@ -56,7 +64,7 @@ public class BaseGimmick : MonoBehaviour
         Vector2 screen_size = new Vector3(Screen.width, Screen.height);
 
         //画面サイズとギミック(自身)の座標をビューポート座標に変換
-        Vector3 screen_view_position = Camera.main.ScreenToViewportPoint(screen_size);
+        Vector3 screen_view_position  = Camera.main.ScreenToViewportPoint(screen_size);
         Vector3 gimmick_view_position = Camera.main.WorldToViewportPoint(gimmick_position);
 
         //画面枠上の一箇所の座標
@@ -109,16 +117,16 @@ public class BaseGimmick : MonoBehaviour
 
     }
 
-
+    //ギミックの動き
     public virtual void GimmickMove()
     {
-        gimmick_velocity = transform.right * gimmick_speed;
+        //ギミックの進む力を決める
+        gimmick_vector = transform.right * gimmick_speed;
 
-        this.transform.position = gimmick_velocity * Time.deltaTime;
+        //移動させる
+        this.transform.position += gimmick_vector * Time.deltaTime;
     }
    
-
-
     //ギミックのIDを取得
     public GIMMICK_ID GetGIMMICK_ID()
     {

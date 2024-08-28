@@ -1,17 +1,15 @@
+using GimmickInfomation;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GimmickInfomation;
 
-public class Birds : BaseGimmick
+public class RainCloud : BaseGimmick
 {
-    //’¹‚ÌŒQ‚ê‚Ì‘¬“x
-    const float bird_speed = 7.0f;
+    const float rain_cloud_speed = 3.0f;
 
     private void Start()
     {
-        //‰Šú‰»
-        GimmickInitialize(bird_speed, GIMMICK_ID.BIRD);
+        GimmickInitialize(rain_cloud_speed, GIMMICK_ID.RAINCLOUD);
 
         //i‚Ş•ûŒü‚ğŒˆ‚ß‚é
         DecideGimmckDirection();
@@ -21,7 +19,4 @@ public class Birds : BaseGimmick
     {
         GimmickUpdate();
     }
-
-   
-  
 }

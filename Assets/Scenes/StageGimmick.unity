@@ -154,13 +154,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gimmicks:
   - {fileID: 4271712488026739493, guid: 760cb5f51632b514dbaa694f7eb33899, type: 3}
-  - {fileID: 8499970486474079722, guid: 8cd2e407e38933642b953057b6e871db, type: 3}
+  - {fileID: 595556924584442864, guid: 8cd2e407e38933642b953057b6e871db, type: 3}
   - {fileID: 4269115966806976315, guid: 7e4856feaee064940b33ee0916d5941e, type: 3}
   - {fileID: 992517188612126441, guid: 3d63077ec0a44f64fb848e74a9a9a028, type: 3}
   - {fileID: 2418960610836294506, guid: c8d37ea30c528b64fa499b16928a571b, type: 3}
   - {fileID: 370895348690271002, guid: 69776532f23bb194b88d3a7d9aee6640, type: 3}
   - {fileID: 4579508916090882969, guid: a3550c4717a8e1f439e2bebeadda6b31, type: 3}
   game_timer: {fileID: 704889952}
+  gimmick_weights: 00000000000000000000000000000000
 --- !u!4 &334236060
 Transform:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 334236058}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.04700957}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

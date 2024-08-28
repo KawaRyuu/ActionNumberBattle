@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//ギミックの情報をまとめる名前空間
 namespace GimmickInfomation
 {
     //ギミックの種類
