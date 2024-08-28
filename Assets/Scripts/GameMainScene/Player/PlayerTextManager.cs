@@ -51,8 +51,8 @@ public class PlayerTextManager : MonoBehaviour
 
         /**************技のクールタイム*************************/
         //文字表示
-        TecCool1.text = tecD.GetCoolTime1()+ "秒";
-        TecCool2.text = tecD.GetCoolTime2() + "秒";
+        TecCool1.text = tecD.GetCoolTime1()+ " ";
+        TecCool2.text = tecD.GetCoolTime2() + " ";
 
 
 
