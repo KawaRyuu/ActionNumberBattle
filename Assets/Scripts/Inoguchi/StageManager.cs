@@ -69,14 +69,19 @@ public class StageManager : MonoBehaviour
     {
         /*
           生成するギミックの種類が決まっていない時、
-          ステージ上に前回出したギミックが残っている時、
-          時間帯が切り替わる15秒前の時は返す
+          ステージ上に前回出したギミックが残っている時
         */
-        if (!gimmick_decide_flag || this.gameObject.transform.childCount > 0|| game_timer.GetCountDownSecond() <= 15.0f)
+        if (!gimmick_decide_flag || this.gameObject.transform.childCount > 0)
+            return;
+
+        //時間帯が切り替わる15秒前の時は返す
+        if(game_timer.GetCountDownSecond() <= 15.0f)
         {
+            gimmick_decide_flag  = false;
             create_gimmick_timer = 0;
             return;
         }
+
 
         //タイマー増加
         create_gimmick_timer += Time.deltaTime;
@@ -164,6 +169,9 @@ public class StageManager : MonoBehaviour
         //生成するギミックの種類に応じて生成の仕方を変える
         switch (create_gimmick_id)
         {
+            case GIMMICK_ID.EMPTY: 
+                break;
+
             case GIMMICK_ID.KITE:
             case GIMMICK_ID.AIRPLANE:
             case GIMMICK_ID.UFO:
@@ -220,6 +228,7 @@ public class StageManager : MonoBehaviour
             }
         }
 
+        //ギミックが決まったのでtrue
         gimmick_decide_flag = true;
     }
 
@@ -266,6 +275,10 @@ public class StageManager : MonoBehaviour
             Debug.Log("朝");
         }
 
+        //時間帯が切り替わる15秒前の時は返す
+        if (game_timer.GetCountDownSecond() <= 15.0f)
+            return;
+
         //生成するギミックを決める
         DecideCreateGimmickId();
     }
@@ -290,6 +303,10 @@ public class StageManager : MonoBehaviour
 
         }
 
+        //時間帯が切り替わる15秒前の時は返す
+        if (game_timer.GetCountDownSecond() <= 15.0f)
+            return;
+
         //生成するギミックを決める
         DecideCreateGimmickId();
 
@@ -308,7 +325,9 @@ public class StageManager : MonoBehaviour
             Debug.Log("夜");
         }
 
-     
+        //時間帯が切り替わる15秒前の時は返す
+        if (game_timer.GetCountDownSecond() <= 15.0f)
+            return;
 
         //生成するギミックを決める
         DecideCreateGimmickId();
