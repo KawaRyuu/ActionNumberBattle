@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using DG.Tweening;
 using UnityEngine.Windows;
+using UnityEngine.EventSystems;
 
 public class TechnicalData : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class TechnicalData : MonoBehaviour
     public static Vector3 PlayerLocation = new Vector2(0.0f, 0.0f);
 
     //Playerが元の位置へ戻る際仕様するLocation
-    public static Vector3 PlayerReturnLocation = new Vector2(0.0f, 0.0f);
+    public Vector3 PlayerReturnLocation = new Vector2(0.0f, 0.0f);
     //Playerの移動先の距離
     public static Vector3 PlayerLocationDistance = new Vector2(0.0f, 2.0f);
 
@@ -227,7 +228,7 @@ public class TechnicalData : MonoBehaviour
                 {
                     /*******ハネトバシ生成**********/
 
-                    Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
+                    GameObject obj = Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
                         Wing1.transform.position,       //初期位置
                         Quaternion.identity);           //初期回転情
 
@@ -582,7 +583,7 @@ public class TechnicalData : MonoBehaviour
             //もしtargetが入ってないのなら
             if (target == null)
                 return;
-
+            
             //もしトッシンを一度も発動していないなら
             if (!rush_target_flg)
             {

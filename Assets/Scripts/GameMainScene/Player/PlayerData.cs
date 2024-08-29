@@ -39,7 +39,7 @@ public class PlayerData : MonoBehaviour
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ
     public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
     public bool Swaps_Flg = false;              //交換のフラグ
-    bool RushAttack_Flg = false;
+    [SerializeField]bool RushAttack_Flg = false;
 
     public float inv_count = 0.0f;              //無敵時間中のカウント
     public float stun_count = 0.0f;             //スタン中のカウント
