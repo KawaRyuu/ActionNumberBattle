@@ -21,6 +21,16 @@ public class Player : MonoBehaviour
 
     [SerializeField] public GameObject AttackRush;
 
+    public enum PLAYER_ID
+    {
+        P1,
+        P2,
+        P3,
+        P4
+    }
+
+    private PLAYER_ID playerID;
+
     public int stBackCount = 0;             //ストライク&backの2度押しカウント
     public bool stBackFlg = false;         //ストライク&backの2度押しフラグ
     public bool StBc_TimeOverFlg = false;  //StBackの技2回押さなかった時のフラグ
@@ -255,6 +265,12 @@ public class Player : MonoBehaviour
     public int GetPlayer()
     {
         return playerInput.user.index;
+    }
+
+    //受け渡し
+    public PLAYER_ID PlayerId()
+    {
+        return playerID;
     }
 
     /********旧操作プログラム**********/

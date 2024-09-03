@@ -1024,6 +1024,7 @@ MonoBehaviour:
   ExchangeTakeover_Flg: 0
   BluntFootEffect_Flg: 0
   Swaps_Flg: 0
+  RushAttack_Flg: 0
   inv_count: 0
   stun_count: 0
   blunt_count: 0
@@ -1051,6 +1052,7 @@ MonoBehaviour:
   Wing1: {fileID: 0}
   Wing2: {fileID: 0}
   Wing3: {fileID: 0}
+  PlayerReturnLocation: {x: 0, y: 0, z: 0}
   TecCool1: {fileID: 753715989}
   TecCool2: {fileID: 94217357}
   technicalNumber: 0

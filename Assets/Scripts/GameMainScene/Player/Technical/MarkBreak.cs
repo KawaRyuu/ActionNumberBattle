@@ -7,6 +7,8 @@ public class MarkBreak : MonoBehaviour
     //Playerスクリプトを参照する
     Player player;
 
+    TechnicalData tec;
+
     //5秒後に削除をする設定
     float deleteTime = 5.0f;
     //破壊フラグ
@@ -16,7 +18,8 @@ public class MarkBreak : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        destroyFlg = false;
+        tec = GameObject.Find("Player").GetComponent<TechnicalData>()
+ ;       destroyFlg = false;
        
         //破壊(このスクリプトがついているobをdeleteTime後に発動)
         Destroy(gameObject, deleteTime);
@@ -41,6 +44,7 @@ public class MarkBreak : MonoBehaviour
             if (destroyFlg)
             {
                 Debug.Log("破壊");
+                tec.inactionablebreak();
                 //マーク破壊
                 Destroy(gameObject);
             }

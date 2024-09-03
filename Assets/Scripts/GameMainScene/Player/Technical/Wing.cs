@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Wing : MonoBehaviour
 {
+    Player.PLAYER_ID playerID;
+
     // Start is called before the first frame update
     void Start()
     {

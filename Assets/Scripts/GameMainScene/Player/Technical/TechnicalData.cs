@@ -435,6 +435,8 @@ public class TechnicalData : MonoBehaviour
                 {
                     //座標登録のところへ戻るよう、現在の位置に反映させる
                     this.transform.DOMove(PlayerReturnLocation, 1.0f);
+                    //技発動中行動不可
+                    inactionableFlg = true;
                 }
 
                 //PlayerのDataにある、空きのクールタイムに
@@ -655,7 +657,7 @@ public class TechnicalData : MonoBehaviour
     }
 
     //ストライク後の行動不能を解除する関数
-    void inactionablebreak()
+    public void inactionablebreak()
     {
         inactionableFlg = false;
     }
