@@ -11,8 +11,12 @@ public class MarkBreak : MonoBehaviour
 
     //5秒後に削除をする設定
     float deleteTime = 5.0f;
+    float time = 0.0f;
+
     //破壊フラグ
     bool destroyFlg = false;
+    //時間停止フラグ
+    bool TimeStopFlg = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +24,7 @@ public class MarkBreak : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Player>();
         tec = GameObject.Find("Player").GetComponent<TechnicalData>()
  ;       destroyFlg = false;
-       
-        //破壊(このスクリプトがついているobをdeleteTime後に発動)
-        Destroy(gameObject, deleteTime);
+        TimeStopFlg = false;
     }
 
     // Update is called once per frame
@@ -32,8 +34,35 @@ public class MarkBreak : MonoBehaviour
         if (player.stBackFlg)
         {
             destroyFlg = true;
+            Invoke("tec.inactionablebreak()", 1.0f);
+            //TimerStop();
+        }
+        else Timer();
+    }
+
+    //時間をカウントダウンする
+    void Timer()
+    {
+        if (!TimeStopFlg)
+        {
+            time += Time.deltaTime;
+            Debug.Log("いのいの" + time);
+        }
+            
+
+        //5秒経過後破壊する
+        if (deleteTime <= time)
+        {
+            Destroy(gameObject);
         }
     }
+
+    //時間を止める関数
+    void TimerStop()
+    {
+        TimeStopFlg = true;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -44,7 +73,6 @@ public class MarkBreak : MonoBehaviour
             if (destroyFlg)
             {
                 Debug.Log("破壊");
-                tec.inactionablebreak();
                 //マーク破壊
                 Destroy(gameObject);
             }

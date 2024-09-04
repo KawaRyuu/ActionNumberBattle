@@ -216,57 +216,7 @@ public class TechnicalData : MonoBehaviour
             }
         }
 
-            //ハネトバシの動き
-      void FeatherFlyingWaza()
-        {
-            //もし羽が3回打っていないなら
-            if (wingCount < 3)
-            {
-                //弾の生成
-                //200フレームに1度だけ弾を発射する
-                if (Time.frameCount % 200 == 0)
-                {
-                    /*******ハネトバシ生成**********/
-
-                    GameObject obj = Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
-                        Wing1.transform.position,       //初期位置
-                        Quaternion.identity);           //初期回転情
-
-                    Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
-                        Wing2.transform.position,       //初期位置
-                        Quaternion.identity);           //初期回転情
-
-                    Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
-                        Wing3.transform.position,       //初期位置
-                        Quaternion.identity);           //初期回転情
-                    wingCount++;
-                }
-                //Debug.Log("wingCountは" + wingCount);
-            }
-            else
-            {
-                //羽の状態を初期化
-                wingCount = 0;
-                technicalNumber = 0;
-
-                //もし技1の所にこの技をセットしたなら
-                if (technicalFlg1)
-                {
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
-                }
-                //もし技2の所にこの技をセットしたなら
-                else if (technicalFlg2)
-                {
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技2のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
-                }
-
-                Rest1_2();              //技1or2を使った最後にリセットする
-            }
-        }
+      
     }
 
     //ツバメ返しの動き
@@ -289,45 +239,6 @@ public class TechnicalData : MonoBehaviour
             if (playerD.Tec02_CoolTime <= 0)
             {
                 SwallowReturnWaza();        //処理の呼び出し
-            }
-        }
-
-        //ツバメ返しの技処理
-        void SwallowReturnWaza()
-        {
-            //もし時間が1.5秒以下なら
-            if (Waza_time < 1.5f)
-            {
-                //行動不可のフラグを一時的にONにし、
-                //playerの操作scriptで操作を不可にさせる
-                inactionableFlg = true;
-                Attack_obj_tubame.SetActive(true);         //技の範囲の当たり判定を表示
-                swallowReturn_F = true;
-            }
-            else if (Waza_time > 1.5f)
-            {
-                inactionableFlg = false;
-                Attack_obj_tubame.SetActive(false);
-                swallowReturn_F = false;
-                Waza_time = 0.0f;
-                technicalNumber = 0;
-
-                //もし技1の所にこの技をセットしたなら
-                if (technicalFlg1)
-                {
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技1のクールタイムを入れる。
-                    playerD.Tec01_CoolTime = playerD.SwallowReturn_CoolTime;
-                }
-                //もし技2の所にこの技をセットしたなら
-                else if (technicalFlg2)
-                {
-                    //PlayerのDataにある、空きのクールタイムに
-                    //技2のクールタイムを入れる。
-                    playerD.Tec02_CoolTime = playerD.SwallowReturn_CoolTime;
-                }
-
-                Rest1_2();              //技1or2を使った最後にリセットする
             }
         }
     }
@@ -355,140 +266,7 @@ public class TechnicalData : MonoBehaviour
             }
         }
 
-        //ストライク＆バック処理
-        void StrikeBackWaza()
-        {
-            //ここで前進する
-            if (player.stBackCount <= 1)
-            {
-                //技発動中行動不可
-                inactionableFlg = true;
-
-                //移動後に行動不能を解除する(1.5秒後)
-                Invoke("inactionablebreak", 1.5f);
-
-                //前進前の座標を保存
-                PlayerReturnLocation = Player.transform.position;
-
-                //もしPlayerが右のフラグをtrueにしたなら右へ進む
-                if (player.Right)
-                {
-                    PlayerLocationDistance = new Vector2(2, 0);
-                    Location();
-                    Debug.Log("右方向");
-                }
-                //もし右斜め上なら
-                else if (player.Right && player.Up)
-                {
-                    PlayerLocationDistance = new Vector2(2, 2);
-                    Location();
-                }
-                //もし左斜め下なら
-                else if (player.Right && player.Down)
-                {
-                    PlayerLocationDistance = new Vector2(2, -2);
-                    Location();
-                }
-
-                //もしPlayerが左のフラグをtrueにしたなら左へ進む
-                if (player.Left)
-                {
-                    PlayerLocationDistance = new Vector2(-2, 0);
-                    Location();
-                    Debug.Log("左方向");
-                }
-
-                //もしPlayerが上のフラグをtrueにしたなら上へ進む
-                if (player.Up)
-                {
-                    PlayerLocationDistance = new Vector2(0, 2);
-                    Location();
-                }
-                //もしPlayerが下のフラグをtrueにしたなら下へ進む
-                else if (player.Down)
-                {
-                    PlayerLocationDistance = new Vector2(0, -2);
-                    Location();
-                }
-
-                Debug.Log("一回目");
-
-
-                //前進時、ぬるりと移動を始める。
-                this.transform.DOMove(PlayerLocation, 1.0f);
-
-                //マーク付与
-                Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
-                PlayerReturnLocation,   //初期位置は移動前にいた場所
-                Quaternion.identity);   //初期回転情報
-                                        //技発動中行動不可
-                player.stBackCount++;   //ストライク&バックの押した回数をカウント
-
-                //ストライクぬるりと移動する処理（呼び出し）
-                //StartCoroutine(Move(Vector3.up));
-            }
-
-            //もし技のボタンを2回押したら以前記録した場所へ戻る
-            if (player.stBackFlg)
-            {
-                if (!player.StBc_TimeOverFlg)
-                {
-                    //座標登録のところへ戻るよう、現在の位置に反映させる
-                    this.transform.DOMove(PlayerReturnLocation, 1.0f);
-                    //技発動中行動不可
-                    inactionableFlg = true;
-                }
-
-                //PlayerのDataにある、空きのクールタイムに
-                CoolTime();
-
-                //情報を初期化
-                technicalNumber = 0;
-                player.stBackCount = 0;
-                player.stBackFlg = false;
-                player.StBc_TimeOverFlg = false;
-                player.waza1_2 = false;
-               
-                Rest1_2();              //技1or2を使った最後にリセットする
-            }
-
-            //移動する前の計算関数
-            void Location()
-            {
-                //前進後の座標を計算しておく
-                PlayerLocation = Player.transform.position + PlayerLocationDistance;
-            }
-
-            //StBackのクールタイム処理
-            void CoolTime()
-            {
-                //もし技1の所にこの技をセットしたなら
-                if (technicalFlg1)
-                {
-                    //もし二度受付以内にバックしたら通常待ち時間
-                    if (!player.StBc_TimeOverFlg)
-                    {
-                        //技1のクールタイムを入れる。
-                        playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime;
-                    }
-                    //そうでなければ待ち時間を+5秒追加する。
-                    else playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime + 5;
-                }
-                //もし技2の所にこの技をセットしたなら
-                else if (technicalFlg2)
-                {
-                    //もし二度受付以内にバックしたら通常待ち時間
-                    if (!player.StBc_TimeOverFlg)
-                    {
-                        //PlayerのDataにある、空きのクールタイムに
-                        //技2のクールタイムを入れる。
-                        playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime;
-                    }
-                    //そうでなければ待ち時間を+5秒追加する。
-                    else playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime + 5;
-                }
-            }
-        }
+        
         /*********旧考えた処理（没)***************/
         ////技が発動
         //float x;
@@ -563,95 +341,339 @@ public class TechnicalData : MonoBehaviour
                 RushWaza();
             }
         }
+    }
 
+    /******************各技の処理***********************/
 
-        void RushWaza()
+    /***************ハネトバシの処理********************/
+    void FeatherFlyingWaza()
+    {
+        //もし羽が3回打っていないなら
+        if (wingCount < 3)
         {
-            /*この関数へ切り替わるとPlayerDataでここの関数番号から技発動を検知し
-            * playerDataでスタン処理を行います*/
-            /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
-
-            //もし不発なら
-            if (player.RushFlg)
+            //弾の生成
+            //200フレームに1度だけ弾を発射する
+            if (Time.frameCount % 200 == 0)
             {
-                CoolTime();             //クールタイムの処理
-                //全てを初期化
-                technicalNumber = 0;
-                player.AttackRush.SetActive(false);
-                player.RushFlg = false;
-                Rest1_2();
+                /*******ハネトバシ生成**********/
+
+                GameObject obj = Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
+                    Wing1.transform.position,       //初期位置
+                    Quaternion.identity);           //初期回転情
+
+                //プレイヤーのID,攻撃情報を持っている羽のスクリプトに渡す。
+                obj.GetComponentInChildren<Attack_ID_Sc>().InitializeAttackInfo(Attack_ID_Sc.ATTACK.WING, player.PlayerId());
+
+
+
+                obj = Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
+                    Wing2.transform.position,       //初期位置
+                    Quaternion.identity);           //初期回転情
+
+                //プレイヤーのID,攻撃情報を持っている羽のスクリプトに渡す。
+                obj.GetComponentInChildren<Attack_ID_Sc>().InitializeAttackInfo(Attack_ID_Sc.ATTACK.WING, player.PlayerId());
+
+
+                obj = Instantiate(Attack_obj_wing,        //生成するオブジェクトのプレハブ
+                    Wing3.transform.position,       //初期位置
+                    Quaternion.identity);           //初期回転情
+
+                //プレイヤーのID,攻撃情報を持っている羽のスクリプトに渡す。
+                obj.GetComponentInChildren<Attack_ID_Sc>().InitializeAttackInfo(Attack_ID_Sc.ATTACK.WING, player.PlayerId());
+
+                wingCount++;
+            }
+            Debug.Log("wingCountは" + wingCount);
+        }
+        else
+        {
+            //羽の状態を初期化
+            wingCount = 0;
+            technicalNumber = 0;
+
+            //もし技1の所にこの技をセットしたなら
+            if (technicalFlg1)
+            {
+                //PlayerのDataにある、空きのクールタイムに
+                //技1のクールタイムを入れる。
+                playerD.Tec01_CoolTime = playerD.FlyingFeather_CoolTime;
+            }
+            //もし技2の所にこの技をセットしたなら
+            else if (technicalFlg2)
+            {
+                //PlayerのDataにある、空きのクールタイムに
+                //技2のクールタイムを入れる。
+                playerD.Tec02_CoolTime = playerD.FlyingFeather_CoolTime;
             }
 
-            //もしtargetが入ってないのなら
-            if (target == null)
-                return;
-            
-            //もしトッシンを一度も発動していないなら
-            if (!rush_target_flg)
+            Rest1_2();              //技1or2を使った最後にリセットする
+        }
+    }
+
+
+    /***************ツバメ返しの技処理*****************/
+    void SwallowReturnWaza()
+    {
+        //もし時間が1.5秒以下なら
+        if (Waza_time < 1.5f)
+        {
+            //行動不可のフラグを一時的にONにし、
+            //playerの操作scriptで操作を不可にさせる
+            inactionableFlg = true;
+            Attack_obj_tubame.SetActive(true);         //技の範囲の当たり判定を表示
+            swallowReturn_F = true;
+        }
+        else if (Waza_time > 1.5f)
+        {
+            inactionableFlg = false;
+            Attack_obj_tubame.SetActive(false);
+            swallowReturn_F = false;
+            Waza_time = 0.0f;
+            technicalNumber = 0;
+
+            //もし技1の所にこの技をセットしたなら
+            if (technicalFlg1)
             {
-                Debug.Log("トッシン");
-                //技発動中時攻撃判定をつける。
-                //TecAttack.SetActive(true);
-                Attack_obj_tubame.SetActive(true);
-
-                //不発じゃなかった際カウントはそのままなので初期化
-                player.num2 = player.time2;
-
-                //もし自分の位置が見つけた相手の所と同じ位置ではないなら
-                if (this.transform.position != target.transform.position)
-                {
-                    //範囲に居るPlayerを取得しTargetに入れ、
-                    //(↑この処理はRushRangeJudge)追いかける
-                    this.transform.DOMove(target.transform.position, 1.0f);
-                    //範囲に当たった瞬間、オブジェクトの範囲が早めに消えるので時間差を作る。
-                    Invoke("RushTargetFlgON", 1.0f);
-                }
+                //PlayerのDataにある、空きのクールタイムに
+                //技1のクールタイムを入れる。
+                playerD.Tec01_CoolTime = playerD.SwallowReturn_CoolTime;
             }
-            else
+            //もし技2の所にこの技をセットしたなら
+            else if (technicalFlg2)
             {
-                CoolTime();             //クールタイムの処理
-
-                //全てを初期化
-                technicalNumber = 0;
-                //時間差でtrueにしているためこっちも時間差でfalseにする
-                Invoke("RushTargetFlgOFF", 1.0f);
-                player.AttackRush.SetActive(false);
-                //TecAttack.SetActive(false);
-                Attack_obj_tubame.SetActive(false);
-                player.RushFlg = false;
-                target = null;          //targetにしていたPlayerをnullにする
-                Rest1_2();              //技1or2を使った最後にリセットする
+                //PlayerのDataにある、空きのクールタイムに
+                //技2のクールタイムを入れる。
+                playerD.Tec02_CoolTime = playerD.SwallowReturn_CoolTime;
             }
 
-             //Rushのクールタイム処理
-            void CoolTime()
-            {
-                //もし技1の所にこの技をセットしたなら
-                if (technicalFlg1)
-                {
-                    //もし技が不発ではないなら通常待ち時間
-                    if (!player.RushFlg)
-                    {
-                        //技1のクールタイムを入れる。
-                        playerD.Tec01_CoolTime = playerD.Rush_CoolTime;
-                    }
-                    //不発なら待ち時間を-5秒に変更する。
-                    else playerD.Tec01_CoolTime = playerD.Rush_CoolTime - 5;
-                }
+            Rest1_2();              //技1or2を使った最後にリセットする
+        }
+    }
 
-                //もし技2の所にこの技をセットしたなら
-                else if (technicalFlg2)
+
+    /***************ストライク＆バック処理*******************/
+    void StrikeBackWaza()
+    {
+        //ここで前進する
+        if (player.stBackCount <= 1)
+        {
+            //技発動中行動不可
+            inactionableFlg = true;
+
+            //移動後に行動不能を解除する(0.5秒後)
+            Invoke("inactionablebreak", 0.5f);
+
+            //前進前の座標を保存
+            PlayerReturnLocation = Player.transform.position;
+
+            //もしPlayerが右のフラグをtrueにしたなら右へ進む
+            if (player.Right)
+            {
+                PlayerLocationDistance = new Vector2(2, 0);
+                Location();
+                Debug.Log("右方向");
+            }
+            //もし右斜め上なら
+            else if (player.Right && player.Up)
+            {
+                PlayerLocationDistance = new Vector2(2, 2);
+                Location();
+            }
+            //もし左斜め下なら
+            else if (player.Right && player.Down)
+            {
+                PlayerLocationDistance = new Vector2(2, -2);
+                Location();
+            }
+
+            //もしPlayerが左のフラグをtrueにしたなら左へ進む
+            if (player.Left)
+            {
+                PlayerLocationDistance = new Vector2(-2, 0);
+                Location();
+                Debug.Log("左方向");
+            }
+
+            //もしPlayerが上のフラグをtrueにしたなら上へ進む
+            if (player.Up)
+            {
+                PlayerLocationDistance = new Vector2(0, 2);
+                Location();
+            }
+            //もしPlayerが下のフラグをtrueにしたなら下へ進む
+            else if (player.Down)
+            {
+                PlayerLocationDistance = new Vector2(0, -2);
+                Location();
+            }
+
+            Debug.Log("一回目");
+
+
+            //前進時、ぬるりと移動を始める。
+            this.transform.DOMove(PlayerLocation, 1.0f);
+
+            //マーク付与
+            Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
+            PlayerReturnLocation,   //初期位置は移動前にいた場所
+            Quaternion.identity);   //初期回転情報
+                                    //技発動中行動不可
+            player.stBackCount++;   //ストライク&バックの押した回数をカウント
+
+            //ストライクぬるりと移動する処理（呼び出し）
+            //StartCoroutine(Move(Vector3.up));
+        }
+
+        //もし技のボタンを2回押したら以前記録した場所へ戻る
+        if (player.stBackFlg)
+        {
+            if (!player.StBc_TimeOverFlg)
+            {
+                //座標登録のところへ戻るよう、現在の位置に反映させる
+                this.transform.DOMove(PlayerReturnLocation, 1.0f);
+                Invoke("inactionablebreak", 1.0f);
+                //技発動中行動不可
+                inactionableFlg = true;
+            }
+
+            //PlayerのDataにある、空きのクールタイムに
+            CoolTime();
+
+            //情報を初期化
+            technicalNumber = 0;
+            player.stBackCount = 0;
+            player.stBackFlg = false;
+            player.StBc_TimeOverFlg = false;
+            player.waza1_2 = false;
+
+            Rest1_2();              //技1or2を使った最後にリセットする
+        }
+
+        //移動する前の計算関数
+        void Location()
+        {
+            //前進後の座標を計算しておく
+            PlayerLocation = Player.transform.position + PlayerLocationDistance;
+        }
+
+        //StBackのクールタイム処理
+        void CoolTime()
+        {
+            //もし技1の所にこの技をセットしたなら
+            if (technicalFlg1)
+            {
+                //もし二度受付以内にバックしたら通常待ち時間
+                if (!player.StBc_TimeOverFlg)
                 {
-                    //もし技が不発ではないなら通常待ち時間
-                    if (!player.RushFlg)
-                    {
-                        //PlayerのDataにある、空きのクールタイムに
-                        //技2のクールタイムを入れる。
-                        playerD.Tec02_CoolTime = playerD.Rush_CoolTime;
-                    }
-                    //不発なら待ち時間を-5秒に変更する。
-                    else playerD.Tec02_CoolTime = playerD.Rush_CoolTime - 5;
+                    //技1のクールタイムを入れる。
+                    playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime;
                 }
+                //そうでなければ待ち時間を+5秒追加する。
+                else playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime + 5;
+            }
+            //もし技2の所にこの技をセットしたなら
+            else if (technicalFlg2)
+            {
+                //もし二度受付以内にバックしたら通常待ち時間
+                if (!player.StBc_TimeOverFlg)
+                {
+                    //PlayerのDataにある、空きのクールタイムに
+                    //技2のクールタイムを入れる。
+                    playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime;
+                }
+                //そうでなければ待ち時間を+5秒追加する。
+                else playerD.Tec02_CoolTime = playerD.StrikeBack_CoolTime + 5;
+            }
+        }
+    }
+
+    /*****************トッシンの処理*********************/
+    void RushWaza()
+    {
+        /*この関数へ切り替わるとPlayerDataでここの関数番号から技発動を検知し
+        * playerDataでスタン処理を行います*/
+        /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
+
+        //もし不発なら
+        if (player.RushFlg)
+        {
+            CoolTime();             //クールタイムの処理
+                                    //全てを初期化
+            technicalNumber = 0;
+            player.AttackRush.SetActive(false);
+            player.RushFlg = false;
+            Rest1_2();
+        }
+
+        //もしtargetが入ってないのなら
+        if (target == null)
+            return;
+
+        //もしトッシンを一度も発動していないなら
+        if (!rush_target_flg)
+        {
+            Debug.Log("トッシン");
+            //技発動中時攻撃判定をつける。
+            //TecAttack.SetActive(true);
+            Attack_obj_tubame.SetActive(true);
+
+            //不発じゃなかった際カウントはそのままなので初期化
+            player.num2 = player.time2;
+
+            //もし自分の位置が見つけた相手の所と同じ位置ではないなら
+            if (this.transform.position != target.transform.position)
+            {
+                //範囲に居るPlayerを取得しTargetに入れ、
+                //(↑この処理はRushRangeJudge)追いかける
+                this.transform.DOMove(target.transform.position, 1.0f);
+                //範囲に当たった瞬間、オブジェクトの範囲が早めに消えるので時間差を作る。
+                Invoke("RushTargetFlgON", 1.0f);
+            }
+        }
+        else
+        {
+            CoolTime();             //クールタイムの処理
+
+            //全てを初期化
+            technicalNumber = 0;
+            //時間差でtrueにしているためこっちも時間差でfalseにする
+            Invoke("RushTargetFlgOFF", 1.0f);
+            player.AttackRush.SetActive(false);
+            //TecAttack.SetActive(false);
+            Attack_obj_tubame.SetActive(false);
+            player.RushFlg = false;
+            target = null;          //targetにしていたPlayerをnullにする
+            Rest1_2();              //技1or2を使った最後にリセットする
+        }
+
+        //Rushのクールタイム処理
+        void CoolTime()
+        {
+            //もし技1の所にこの技をセットしたなら
+            if (technicalFlg1)
+            {
+                //もし技が不発ではないなら通常待ち時間
+                if (!player.RushFlg)
+                {
+                    //技1のクールタイムを入れる。
+                    playerD.Tec01_CoolTime = playerD.Rush_CoolTime;
+                }
+                //不発なら待ち時間を-5秒に変更する。
+                else playerD.Tec01_CoolTime = playerD.Rush_CoolTime - 5;
+            }
+
+            //もし技2の所にこの技をセットしたなら
+            else if (technicalFlg2)
+            {
+                //もし技が不発ではないなら通常待ち時間
+                if (!player.RushFlg)
+                {
+                    //PlayerのDataにある、空きのクールタイムに
+                    //技2のクールタイムを入れる。
+                    playerD.Tec02_CoolTime = playerD.Rush_CoolTime;
+                }
+                //不発なら待ち時間を-5秒に変更する。
+                else playerD.Tec02_CoolTime = playerD.Rush_CoolTime - 5;
             }
         }
     }

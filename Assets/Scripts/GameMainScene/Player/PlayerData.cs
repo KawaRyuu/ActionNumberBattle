@@ -10,7 +10,7 @@ using UnityEngine.UI;
 //プレイヤーの基礎的なデータ
 public class PlayerData : MonoBehaviour
 {
-    public SpriteRenderer player;
+    Player player_sc;
     public TechnicalData tec;
     public NumberData number;
     
@@ -48,12 +48,14 @@ public class PlayerData : MonoBehaviour
     public float swoon_count = 0.0f;            //気絶中のカウント
     public float swoon_countDown = 2.0f;        //気絶時の文字(カウントダウン)
 
+    public SpriteRenderer player;
     public GameObject SwoonObj;                 //気絶時に出るobj(これで判定させる)
     public GameObject Stun_PiyoPiyo;            //行動不能時に表示する
 
     //初期化
     void Start()
     {
+        player_sc = GetComponent<Player>();
         tec = GetComponent<TechnicalData>();
         number = GetComponent<NumberData>();
         SwoonObj.SetActive(false);
@@ -231,31 +233,43 @@ public class PlayerData : MonoBehaviour
         //敵の攻撃（EnemyAttackというtag）に触れたとき
         if (other.gameObject.tag == "EnemyAttack")
         {
-            Debug.Log("痛い");
-            //もし無敵状態じゃない且つ気絶してないときなら
-            if (!Invincibility_Flg && !Swoon_Flg)
-            {
-                //フラグがtrueの時、追撃が飛んで来たら
-                if (RecoveryTime_Flg)
-                {
-                    //回復のキャンセル
-                    RecoveryTime_Flg = false;
-                    hael_count = 0.0f;
-                }
+            Attack_ID_Sc attackID;
 
-                Hp -= Attack;               //体力がAttackの攻撃参照で減る
-                Invincibility_Flg = true;   //無敵フラグON
-            }
+            //敵の攻撃を受けたら攻撃の種類を判別するため取得させる
+            attackID = other.GetComponentInChildren<Attack_ID_Sc>();
 
-            //もし体力が0以下になったら
-            if (Hp <= 0)
+            //攻撃したPlayerIDが自分と同じなら攻撃が当たらない
+            if (attackID.PlayerID_Return() == player_sc.PlayerId())
+                return;
+
+            //攻撃の種類判別
+            switch (attackID.AttackID_Retrun())
             {
-                //気絶フラグON
-                Swoon_Flg = true;
+                //攻撃の種類
+
+                //ハネトバシ
+                case Attack_ID_Sc.ATTACK.WING:
+                    Damage();
+                    break;
+
+                //ツバメ返し
+                case Attack_ID_Sc.ATTACK.SWAROWRETURN:
+                    Damage();
+                    break;
+
+                //ストライクバック
+                case Attack_ID_Sc.ATTACK.STRIKE_BACK:
+                    Damage();
+                    break;
+
+                //トッシン
+                case Attack_ID_Sc.ATTACK.RUSHATTACK:
+                    Damage();
+                    break;
             }
 
             //もし攻撃が当たっていてトッシンの範囲に触れているなら
-            if(RushAttack_Flg)
+            if (RushAttack_Flg)
             {
                 //一時行動不能にする。
                 Stun_Flg = true;
@@ -286,5 +300,33 @@ public class PlayerData : MonoBehaviour
             Swaps_Flg = true;               //交換のフラグをtureにする
         }
 
+
+    }
+
+
+    //ダメージ食らった時呼び出す関数
+    void Damage()
+    {
+        //もし無敵状態じゃない且つ気絶してないときなら
+        if (!Invincibility_Flg && !Swoon_Flg)
+        {
+            //フラグがtrueの時、追撃が飛んで来たら
+            if (RecoveryTime_Flg)
+            {
+                //回復のキャンセル
+                RecoveryTime_Flg = false;
+                hael_count = 0.0f;
+            }
+
+            Hp -= Attack;               //体力がAttackの攻撃参照で減る
+            Invincibility_Flg = true;   //無敵フラグON
+        }
+
+        //もし体力が0以下になったら
+        if (Hp <= 0)
+        {
+            //気絶フラグON
+            Swoon_Flg = true;
+        }
     }
 }

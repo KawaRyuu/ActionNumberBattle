@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
         P4
     }
 
-    private PLAYER_ID playerID;
+    [SerializeField]private PLAYER_ID playerID;
 
     public int stBackCount = 0;             //ストライク&backの2度押しカウント
     public bool stBackFlg = false;         //ストライク&backの2度押しフラグ
@@ -77,9 +77,15 @@ public class Player : MonoBehaviour
         Vector3 position = transform.position;
 
         //InputSystemのactionmapからMoveを取得
-        var input_value = playerInput.actions["Move"].ReadValue<Vector2>();
+        Vector2 input_value = playerInput.actions["Move"].ReadValue<Vector2>();
+        //Vector2 right_input_value = playerInput.actions["TechnicalRange"].ReadValue<Vector2>();
         bool input_waza1 = playerInput.actions["Waza"].WasPressedThisFrame();
         bool input_waza2 = playerInput.actions["Waza2"].WasPressedThisFrame();
+
+        //if (right_input_value.x > 0)
+        //{
+        //    Debug.Log("ポモイト");
+        //}
 
         //Playerの基本の動き
         //もし気絶中なら行動不可

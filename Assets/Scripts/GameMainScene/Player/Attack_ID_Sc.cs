@@ -22,5 +22,16 @@ public class Attack_ID_Sc : MonoBehaviour
         attack_type = attack;
         player_id = player;
     }
-   
+
+    //UŒ‚‚Ìí—Ş‚ğæ“¾
+    public ATTACK AttackID_Retrun()
+    {
+        return attack_type;
+    }
+
+    //ƒvƒŒƒCƒ„[‚ÌID‚ğæ“¾
+    public Player.PLAYER_ID PlayerID_Return()
+    {
+        return player_id;
+    }
 }
