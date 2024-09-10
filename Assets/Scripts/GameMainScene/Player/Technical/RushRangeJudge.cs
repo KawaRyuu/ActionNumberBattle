@@ -1,19 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RushRangeJudge : MonoBehaviour
 {
-    //QÆ
+    //å‚ç…§
     TechnicalData tec;
 
-    //eƒIƒuƒWƒFƒNƒg‚ÌTechnicalData‚ğæ“¾‚µ‚½‚¢‚Ì‚Å
-    [SerializeField] GameObject Player;
+    //è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®TechnicalDataã‚’å–å¾—ã—ãŸã„ã®ã§
+    //[SerializeField] GameObject Player;
 
     // Start is called before the first frame update
     void Start()
     {
-        tec = Player.GetComponent<TechnicalData>();
+        //tec = Player.GetComponent<TechnicalData>();
     }
 
     // Update is called once per frame
@@ -22,15 +22,41 @@ public class RushRangeJudge : MonoBehaviour
 
     }
 
-    /************“–‚½‚Á‚½‚Ìˆ—(‰½‚©‚Ì“–‚½‚Á‚½)*****************/
+    public bool CircleBuild(Vector2 circle_position,Vector2 enemy_position)
+    {
+        //[^]â˜šï¼’ä¹—ã®æ„å‘³
+        //(x-a)^2+(y-b)^2
+
+
+        //åŠå¾„ã®æ•°
+        float Radius = 4.0f;
+        
+        //åˆè¨ˆ
+        var sum = 0f;
+
+
+        //(x-a)^2+(y-b)^2ã®å¼
+        //circle_positionãŒå††ã®ä¸­å¿ƒã§x,yã®åº§æ¨™ã‚’å–å¾—ã—ã¦ãã‚‹ã€‚
+        //enemy_positionãŒå††ã®ä¸­ã«ã„ãŸPlayerã®åº§æ¨™ã‚’å–å¾—
+        for (var i = 0; i < 2; i++)
+            sum += Mathf.Pow(circle_position[i] - enemy_position[i], 2);
+
+        GameObject.Find("Player");
+        return sum <= Mathf.Pow(Radius, 2f);
+        
+    }
+
+    /************å½“ãŸã£ãŸæ™‚ã®å‡¦ç†(ä½•ã‹ã®å½“ãŸã£ãŸæ™‚)*****************/
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //‚à‚µƒgƒbƒVƒ“”ÍˆÍ‚Ì‚È‚©‚ÉPlayer‚Ìtag‚ª‚ ‚Á‚½‚È‚ç
-        if (other.gameObject.tag == "Player")
-        {
-            Debug.Log("“G”­Œ©");
-            //target(‹ó‚Ìobj)‚É“ü‚ê‚éB
-            tec.target = other.gameObject;
-        }
+        //ã‚‚ã—ãƒˆãƒƒã‚·ãƒ³ç¯„å›²ã®ãªã‹ã«Playerã®tagãŒã‚ã£ãŸãªã‚‰
+        //if (other.gameObject.tag == "Player")
+        //{
+        //    //tec.SetGameObjectList(other.gameObject);
+
+        //    Debug.Log("æ•µç™ºè¦‹");
+        //    //target(ç©ºã®obj)ã«å…¥ã‚Œã‚‹ã€‚
+        //    tec.target = other.gameObject;
+        //}
     }
 }

@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using DG.Tweening;
 using UnityEngine.Windows;
 using UnityEngine.EventSystems;
+using static UnityEngine.GraphicsBuffer;
 
 public class TechnicalData : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class TechnicalData : MonoBehaviour
     Player player;
     //PlayerDataのスクリプトから参照
     PlayerData playerD;
+
+    RushRangeJudge rushRangeJudge;
 
     //ツバメ返し時に出る自分周辺の当たり判定Obj
     [SerializeField] GameObject Attack_obj_tubame;
@@ -45,6 +48,7 @@ public class TechnicalData : MonoBehaviour
     public static Vector3 PlayerLocationDistance = new Vector2(0.0f, 2.0f);
 
 
+
     public Text TecCool1;                       //技1のクールタイム表示
     public Text TecCool2;                       //技2のクールタイム表示
 
@@ -70,7 +74,7 @@ public class TechnicalData : MonoBehaviour
 
     /****トッシン****/
     public bool rush_target_flg = false;
-    public GameObject target;            //ターゲット
+    Vector3     target_position;            //ターゲット
 
 
     // Start is called before the first frame update
@@ -79,6 +83,7 @@ public class TechnicalData : MonoBehaviour
         //初期化
         player = GetComponent<Player>();
         playerD = GetComponent<PlayerData>();
+        rushRangeJudge = GetComponentInChildren<RushRangeJudge>();
         Attack_obj_tubame.SetActive(false);
         //TecAttack.SetActive(false);
         technicalFlg1 = false;
@@ -90,6 +95,8 @@ public class TechnicalData : MonoBehaviour
         technicalNumber2 = 0;
         Waza_time = 0.0f;
         Player.transform.position = PlayerReturnLocation;
+
+        target_position = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -605,29 +612,43 @@ public class TechnicalData : MonoBehaviour
             Rest1_2();
         }
 
+        //ターゲットを決める
+        DecideTarget();
+       
         //もしtargetが入ってないのなら
-        if (target == null)
-            return;
+        //if (target == null)
+        //    return;
 
         //もしトッシンを一度も発動していないなら
-        if (!rush_target_flg)
+        if (rush_target_flg)
         {
             Debug.Log("トッシン");
-            //技発動中時攻撃判定をつける。
-            //TecAttack.SetActive(true);
+          
+
+            //取得したオブジェクトに対してループでおこなう。
+            //foreach (GameObject player in objects)
+            //{
+            //    Debug.Log("取得したプレイヤーは" + player.name);
+            //}
+
+                //技発動中時攻撃判定をつける。
+                //TecAttack.SetActive(true);
             Attack_obj_tubame.SetActive(true);
 
             //不発じゃなかった際カウントはそのままなので初期化
             player.num2 = player.time2;
 
             //もし自分の位置が見つけた相手の所と同じ位置ではないなら
-            if (this.transform.position != target.transform.position)
+            if (this.transform.position != target_position)
             {
                 //範囲に居るPlayerを取得しTargetに入れ、
                 //(↑この処理はRushRangeJudge)追いかける
-                this.transform.DOMove(target.transform.position, 1.0f);
+                this.transform.DOMove(target_position, 1.0f);
                 //範囲に当たった瞬間、オブジェクトの範囲が早めに消えるので時間差を作る。
-                Invoke("RushTargetFlgON", 1.0f);
+               // Invoke("RushTargetFlgOFF", 1.0f);
+
+               //Invoke("RushTargetFlgON", 1.0f);
+               // Invoke("RushTargetFlgOFF", 1.0f);
             }
         }
         else
@@ -642,7 +663,7 @@ public class TechnicalData : MonoBehaviour
             //TecAttack.SetActive(false);
             Attack_obj_tubame.SetActive(false);
             player.RushFlg = false;
-            target = null;          //targetにしていたPlayerをnullにする
+            target_position = Vector3.zero;          //targetにしていたPlayerをnullにする
             Rest1_2();              //技1or2を使った最後にリセットする
         }
 
@@ -676,6 +697,65 @@ public class TechnicalData : MonoBehaviour
                 else playerD.Tec02_CoolTime = playerD.Rush_CoolTime - 5;
             }
         }
+    }
+
+    void DecideTarget()
+    {
+        //PlayerTagを持っている全ての敵の座標を取得
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
+
+        //Posi配列をobjectsの配列の数だけ生成する。
+        List<Vector3> position_list = new List<Vector3>();
+
+        //objectsの配列数だけiを進める。
+        for (int i = 0; i < objects.Length; i++)
+        {
+            Player another_player = objects[i].GetComponent<Player>();
+
+            if (player.PlayerId() == another_player.PlayerId())
+                continue;
+
+            //Posi[i]の配列に座標を保存する。
+            Vector2 position = objects[i].GetComponent<Transform>().position;
+
+            if (rushRangeJudge.CircleBuild(this.transform.position, position))
+            {
+                position_list.Add(position);
+                Debug.Log("追加した");
+            }
+
+
+        }
+
+        
+       
+        if (position_list.Count == 1)
+        {
+            target_position = position_list[0];
+            RushTargetFlgON();
+            Debug.Log("一人だけ");
+        }
+        else if (1 < position_list.Count)
+        {
+            float goal_distance = 5.0f;
+
+            for (int i = 0; i < position_list.Count; i++)
+            {
+                float distance = Vector2.Distance(this.transform.position, position_list[i]);
+
+                if (goal_distance > distance)
+                {
+                    goal_distance = distance;
+                    target_position = position_list[i];
+                }
+            }
+            RushTargetFlgON();
+            Debug.Log("複数いた");
+        }
+
+        //リストを空にする
+        position_list.Clear();
+
     }
 
     //ストライク後の行動不能を解除する関数
@@ -721,5 +801,4 @@ public class TechnicalData : MonoBehaviour
             yield return null;
         }
     }
-
 }

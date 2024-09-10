@@ -34,7 +34,6 @@ public class MarkBreak : MonoBehaviour
         if (player.stBackFlg)
         {
             destroyFlg = true;
-            Invoke("tec.inactionablebreak()", 1.0f);
             //TimerStop();
         }
         else Timer();

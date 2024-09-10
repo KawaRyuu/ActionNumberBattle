@@ -279,6 +279,8 @@ public class Player : MonoBehaviour
         return playerID;
     }
 
+   
+
     /********‹Œ‘€ìƒvƒƒOƒ‰ƒ€**********/
     //if (Input.GetKey("left"))
     //{
