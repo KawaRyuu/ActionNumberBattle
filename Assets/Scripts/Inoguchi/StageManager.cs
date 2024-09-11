@@ -2,7 +2,8 @@ using UnityEngine;
 using GimmickInfomation;
 using Unity.Collections.LowLevel.Unsafe;
 
-//ギミック
+//ステージ上の管理
+
 public class StageManager : MonoBehaviour
 {
     //ステージの時間帯の種類
@@ -165,7 +166,6 @@ public class StageManager : MonoBehaviour
     //ギミックの生成
     void CreateGimmick()
     {
-        
 
         //生成するギミックの種類に応じて生成の仕方を変える
         switch (create_gimmick_id)
@@ -194,6 +194,7 @@ public class StageManager : MonoBehaviour
                     Instantiate(gimmicks[(int)create_gimmick_id], create_gimmick_position, Quaternion.identity, this.transform);
                 }
                 break;
+
             case GIMMICK_ID.RAINCLOUD:
                 for (int i = 0; i < 5; i++)
                 {

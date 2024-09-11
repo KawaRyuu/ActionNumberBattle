@@ -60,7 +60,6 @@ public class BaseGimmick : MonoBehaviour
     }
 
     //ギミックの進む向き(方向)を決める
-
    public virtual void DecideGimmckDirection()
     {
         //画面サイズ
