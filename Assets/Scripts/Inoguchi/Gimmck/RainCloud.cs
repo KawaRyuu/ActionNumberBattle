@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//雨雲のスクリプト
+
 public class RainCloud : BaseGimmick
 {
     const float rain_cloud_speed = 3.0f;

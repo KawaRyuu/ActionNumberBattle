@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GimmickInfomation;
 
+//凧のスクリプト
 
 public class Kite : BaseGimmick
 {
@@ -12,6 +13,7 @@ public class Kite : BaseGimmick
 
     private void Start()
     {
+        //初期化
         GimmickInitialize(kite_speed, GIMMICK_ID.KITE);
 
         //進む方向を決める
@@ -24,7 +26,7 @@ public class Kite : BaseGimmick
     }
 
   
-
+    //凧の動き
     public override void GimmickMove()
     {
         //ギミックとしてのベクトル

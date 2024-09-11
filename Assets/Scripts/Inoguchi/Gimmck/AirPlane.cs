@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using GimmickInfomation;
 
+//飛行機のスクリプト
+
 public class AirPlane : BaseGimmick
 {
-    const float airplane_speed = 12.0f; //飛行機の速度
+    const float airplane_speed = 12.0f; //飛行機の移動速度
+
 
     private void Start()
     {

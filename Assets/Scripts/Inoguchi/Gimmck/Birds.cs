@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using GimmickInfomation;
 
+
+
 public class Birds : BaseGimmick
 {
     //’¹‚ÌŒQ‚ê‚Ì‘¬“x
@@ -17,6 +19,7 @@ public class Birds : BaseGimmick
         DecideGimmckDirection();
     }
 
+    //XV
     private void Update()
     {
         GimmickUpdate();

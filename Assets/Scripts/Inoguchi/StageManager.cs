@@ -2,6 +2,7 @@ using UnityEngine;
 using GimmickInfomation;
 using Unity.Collections.LowLevel.Unsafe;
 
+//ギミック
 public class StageManager : MonoBehaviour
 {
     //ステージの時間帯の種類
@@ -24,7 +25,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] int[]        gimmick_weights = new int[create_gimmick_num];  //生成されるギミックの確率の重み
 
     //各種定数
-    const float   create_gimmick_time        = 5.0f;                            //ギミック生成のタイマー
+    const float   create_gimmick_time        = 5.0f;                              //ギミック生成のタイマー
     const int     gimmick_num                = (int)GIMMICK_ID.EMPTY;           　//ギミックの種類数
     const int     create_gimmick_num         = 4;                               　//時間帯ごとに生成されるギミックの種類数
                                                                                 　
@@ -69,7 +70,7 @@ public class StageManager : MonoBehaviour
     {
         /*
           生成するギミックの種類が決まっていない時、
-          ステージ上に前回出したギミックが残っている時
+          ステージ上に前回出したギミックが残っている時は返す
         */
         if (!gimmick_decide_flag || this.gameObject.transform.childCount > 0)
             return;
@@ -194,12 +195,24 @@ public class StageManager : MonoBehaviour
                 }
                 break;
             case GIMMICK_ID.RAINCLOUD:
+                for (int i = 0; i < 5; i++)
+                {
+                    Instantiate(gimmicks[(int)create_gimmick_id], create_gimmick_position, Quaternion.identity, this.transform);
+                    DecideGimmickPosition();
+                }
+                break;
+
             case GIMMICK_ID.THUNDERCLOUD:
                 for(int i = 0; i < 5; i++)
                 {
                     Instantiate(gimmicks[(int)create_gimmick_id], create_gimmick_position, Quaternion.identity, this.transform);
                     DecideGimmickPosition();
                 }
+
+                create_gimmick_id = GIMMICK_ID.RAINCLOUD;
+
+                CreateGimmick();
+
                 break;
         }
     }
@@ -270,7 +283,7 @@ public class StageManager : MonoBehaviour
         if (!gimmick_set_flag)
         {
             SetTimeZoneGimmicks(GIMMICK_ID.KITE, GIMMICK_ID.AIRPLANE, GIMMICK_ID.RAINCLOUD, GIMMICK_ID.THUNDERCLOUD);
-            SetGimmickWeights(50, 40, 5, 5);
+            SetGimmickWeights(50, 40, 5, 100);
             gimmick_set_flag = true;
             Debug.Log("朝");
         }

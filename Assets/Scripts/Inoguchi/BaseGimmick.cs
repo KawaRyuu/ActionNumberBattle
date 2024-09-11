@@ -3,45 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using GimmickInfomation;
 
-//ギミックの親オブジェクト
+//ギミックの親クラスのスクリプト
+
 public class BaseGimmick : MonoBehaviour 
 {
     //各種変数
-    protected SpriteRenderer gimmick_sprite;                         //描画コンポーネント
-    protected GIMMICK_ID     gimmick_id　       = GIMMICK_ID.EMPTY;  //識別子
-    protected Vector3        gimmick_position   = Vector3.zero;      //位置座標
-    protected Vector3        gimmick_vector     = Vector3.zero;      //進む力
-    protected Vector3        gimmick_direction  = Vector3.zero;      //方向
-    protected float          gimmick_speed      = 1.0f;              //移動速度
-    protected bool           destroy_flag       = false;             //破壊判定フラグ
-
-
+    protected SpriteRenderer gimmick_sprite;                         //ギミックの描画
+    protected GIMMICK_ID     gimmick_id　       = GIMMICK_ID.EMPTY;  //ギミックの種類の識別ID
+    protected Vector3        gimmick_position   = Vector3.zero;      //ギミックの位置座標
+    protected Vector3        gimmick_vector     = Vector3.zero;      //ギミックに働く力
+    protected Vector3        gimmick_direction  = Vector3.zero;      //ギミックが進む方向
+    protected float          gimmick_speed      = 1.0f;              //ギミックの移動速度
+    protected bool           destroy_flag       = false;             //ギミックを破壊するか判定するフラグ
    
     //初期化
     public virtual void GimmickInitialize(float speed,GIMMICK_ID id)
     {
         //各種初期化
-        gimmick_position    = this.transform.position;
-        gimmick_sprite      = this.GetComponent<SpriteRenderer>();
-        gimmick_vector      = Vector3.zero;
-        gimmick_direction   = Vector3.zero;
-        gimmick_speed       = speed;
-        gimmick_id          = id;
-        destroy_flag        = false;
+        gimmick_position    = this.transform.position;              //現在の座標を取得してくる
+        gimmick_sprite      = this.GetComponent<SpriteRenderer>();  //自身についているSpriteRendererを取得してくる
+        gimmick_vector      = Vector3.zero;                         //x,y,zを0に初期化
+        gimmick_direction   = Vector3.zero;                         //x,y,zを0に初期化
+        gimmick_speed       = speed;                                //引数で受け取った速度を代入
+        gimmick_id          = id;                                   //受けとったギミックの種類の識別IDを取得
+        destroy_flag        = false;                                //今は破壊しないのでFalse
         
     }
 
-    //更新
+    //毎フレーム更新
     public virtual void GimmickUpdate()
     {
-        GimmickMove();
+        //ギミックの動き
+        GimmickMove();  
+        
+        //画面外判定
         CheckOffScreen();
     }
 
     //画面外判定
     public  void CheckOffScreen()
     {
-        //画面に描画された時
+        //画面に描画されいた時
         if (gimmick_sprite.isVisible)
         {
             //破壊判定をtrue
@@ -58,6 +60,7 @@ public class BaseGimmick : MonoBehaviour
     }
 
     //ギミックの進む向き(方向)を決める
+
    public virtual void DecideGimmckDirection()
     {
         //画面サイズ
@@ -130,6 +133,7 @@ public class BaseGimmick : MonoBehaviour
     //ギミックのIDを取得
     public GIMMICK_ID GetGIMMICK_ID()
     {
+        //ギミックを識別するIDを返す
         return gimmick_id;
     }
 
