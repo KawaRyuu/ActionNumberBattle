@@ -485,6 +485,7 @@ MonoBehaviour:
   - {fileID: 1888365967}
   - {fileID: 1051884458}
   - {fileID: 532099165}
+  player_battle_data_canvas: {fileID: 1749275119}
 --- !u!1 &532099165
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class ResultManager : MonoBehaviour
 {
-    [SerializeField] GameObject[] player_winner_panels = new GameObject[4];
+    [SerializeField] GameObject[] player_winner_panels = new GameObject[4]; 
     [SerializeField] GameObject   player_battle_data_canvas;
 
-    const float disp_time         = 3.0f;
+    const float disp_time         = 1.0f;
     float       disp_timer        = 0.0f;
     int         disp_panel_num    = 0;
     bool        disp_ranking_flag = false;
