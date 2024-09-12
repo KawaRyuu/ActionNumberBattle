@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - BluntFootEffect
+  - EnemyAttack
+  - Swoon
+  - RushRange
   layers:
   - Default
   - TransparentFX
@@ -12,12 +15,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - P0
+  - P1
+  - P2
+  - P3
+  - wall
   - 
   - 
   - 

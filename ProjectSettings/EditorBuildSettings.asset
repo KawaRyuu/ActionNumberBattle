@@ -6,12 +6,25 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scripts/Scenes/SelectionScene.unity
+    guid: 1eb5132843b5c12439ca9bcb51c0cf3c
+  - enabled: 1
+    path: Assets/Scripts/Scenes/ControllerScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/Result.unity
     guid: b352b10dbbca68740b14affcddd1b1a0
   - enabled: 1
     path: Assets/Scenes/StageGimmick.unity
     guid: 42bb80756655e984783efad59b344326
   m_configObjects: {}
+=======
+    path: Assets/Scripts/Scenes/GameMain.unity
+    guid: 19999e576295fa74ab7ffb2a3974e438
+  - enabled: 1
+    path: Assets/Scripts/Scenes/Result.unity
+    guid: b352b10dbbca68740b14affcddd1b1a0
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 082c1bff987cea8498ca6ca3da7663c8, type: 2}
+>>>>>>> c46d34de28c6782c64bcfe89574e5480518701ba
