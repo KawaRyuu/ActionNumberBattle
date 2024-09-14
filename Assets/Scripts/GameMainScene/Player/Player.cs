@@ -9,24 +9,23 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
-    //リジットボディから参照
-    Rigidbody2D rb2d;
-
-    //PlayerのInputSystem
-    PlayerInput playerInput;
-
-    //プレイヤーのデータクラスから参照
-    PlayerData info;
-    TechnicalData waza;
+    Rigidbody2D rb2d;           //リジットボディから参照
+    PlayerInput playerInput;    //PlayerのInputSystemから参照
+    PlayerData info;            //プレイヤーのデータクラスから参照
+    TechnicalData waza;         //技のスクリプトから参照
+    EntryAndExitMessages Entry_Exit;
 
     [SerializeField] public GameObject AttackRush;
 
+    public GameObject Input;
+
+    //PlayerのID一覧
     public enum PLAYER_ID
     {
         P1,
         P2,
         P3,
-        P4
+        P4,
     }
 
     [SerializeField]private PLAYER_ID playerID;
@@ -60,6 +59,7 @@ public class Player : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         info = GetComponent<PlayerData>();
         waza = GetComponent<TechnicalData>();
+        Entry_Exit = Input.GetComponent<EntryAndExitMessages>();
         stBackCount = 0;
         num = time;
         num2 = time2;
@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
         Left = false;
         Up = false;
         Down = false;
+        IDSorting();
     }
 
     // Update is called once per frame
@@ -279,8 +280,30 @@ public class Player : MonoBehaviour
         return playerID;
     }
 
-   
-
+    //Playerの数識別
+    void IDSorting()
+    {
+        //i がPlayerの入った数だけ加算させる。
+        for (int i = 0; i < Entry_Exit.PlayerNumberRetun(); i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    playerID = PLAYER_ID.P1;
+                    break;
+                case 1:
+                    playerID = PLAYER_ID.P2;
+                    break;
+                case 2:
+                    playerID = PLAYER_ID.P3;
+                    break;
+                case 3:
+                    playerID = PLAYER_ID.P4;
+                    break;
+            }
+        }
+       
+    }
     /********旧操作プログラム**********/
     //if (Input.GetKey("left"))
     //{

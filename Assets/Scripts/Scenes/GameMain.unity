@@ -1068,7 +1068,6 @@ MonoBehaviour:
   technicalFlg2: 0
   MoveSpeed: 0.005
   rush_target_flg: 0
-  target: {fileID: 0}
 --- !u!50 &537205057
 Rigidbody2D:
   serializedVersion: 4
@@ -1109,6 +1108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackRush: {fileID: 0}
+  Input: {fileID: 0}
   playerID: 0
   stBackCount: 0
   stBackFlg: 0
@@ -3528,6 +3528,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5484890942052471598, guid: 334edf5459f46994bbe44fc84ee08c60, type: 3}
+      propertyPath: Input
+      value: 
+      objectReference: {fileID: 972888121}
     - target: {fileID: 6292624829769408470, guid: 334edf5459f46994bbe44fc84ee08c60, type: 3}
       propertyPath: TecCool1
       value: 
