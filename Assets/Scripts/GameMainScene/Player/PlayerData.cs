@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using GimmickInfomation;
 
 
 /*プレイヤー（ライバルも含む）のデータを管理する。*/
@@ -309,14 +310,57 @@ public class PlayerData : MonoBehaviour
             Swaps_Flg = true;               //交換のフラグをtureにする
         }
 
-        if (other.gameObject.name != "St&Back_Mark(Clone)" &&
-            other.gameObject.tag  != "Gimmick")
+
+        if (other.gameObject.tag == "Gimmick")
+        {
+            CheckHitGimmick(other.gameObject);
+        }
+        else if (other.gameObject.name != "St&Back_Mark(Clone)")
         {
             tec.HitJudgeActiveFalse();
 
         }
 
 
+    }
+
+    void CheckHitGimmick(GameObject gimmick)
+    {
+        GIMMICK_ID hit_gimmick_id = gimmick.GetComponent<BaseGimmick>().GetGIMMICK_ID();
+
+        switch(hit_gimmick_id)
+        {
+            case GIMMICK_ID.EMPTY:
+                break;
+
+            case GIMMICK_ID.KITE:
+
+                break;
+
+            case GIMMICK_ID.AIRPLANE:
+
+                break;
+
+            case GIMMICK_ID.UFO:
+
+                break;
+
+            case GIMMICK_ID.BIRD:
+
+                break;
+
+            case GIMMICK_ID.STAR:
+               
+                break;
+
+            case GIMMICK_ID.RAINCLOUD:
+               
+                break;
+
+            case GIMMICK_ID.THUNDERCLOUD:
+
+                break;
+        }
     }
 
 
