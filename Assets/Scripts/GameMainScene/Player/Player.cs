@@ -42,11 +42,11 @@ public class Player : MonoBehaviour
     public float time2 = 3.0f;    //トッシンの入力受付時間(定数化)
     public float num = 0;         //数を入れる(ストライクバック)
     public float num2 = 0;        //数を入れる(トッシン)
-    private bool RushFlg = false;  //トッシン不発したかのフラグ
-    private bool Right = false;    //右方向に向いた際フラグがONになる
-    private bool Left = false;     //左方向に向いた際フラグがONになる。
-    private bool Up = false;       //上方向に向いた際フラグがONになる。
-    private bool Down = false;     //下方向に向いた際フラグがONになる。
+    public  bool RushFlg = false;  //トッシン不発したかのフラグ
+    public bool Right = false;    //右方向に向いた際フラグがONになる
+    public bool Left = false;     //左方向に向いた際フラグがONになる。
+    public bool Up = false;       //上方向に向いた際フラグがONになる。
+    public bool Down = false;     //下方向に向いた際フラグがONになる。
 
     private void Awake()
     {
