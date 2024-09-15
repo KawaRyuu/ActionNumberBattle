@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     TechnicalData waza;         //技のスクリプトから参照
     EntryAndExitMessages Entry_Exit;
 
-    [SerializeField] public GameObject AttackRush;
+    //[SerializeField] public GameObject AttackRush;
 
 
     public GameObject Input;    //InputManagerから参照に必要なやつ
@@ -195,14 +195,14 @@ public class Player : MonoBehaviour
         //もし技4がある且つ、技枠1のフラグがTrueなら
         if (waza.technicalNumber == 4 && waza.technicalFlg1)
         {
-            AttackRush.SetActive(true);
+            //AttackRush.SetActive(true);
             RushTimer();
         }
 
         //もし技4がある且つ、技枠2のフラグがTrueなら
         else if (waza.technicalNumber == 4 && waza.technicalFlg2)
         {
-            AttackRush.SetActive(true);
+            //AttackRush.SetActive(true);
             RushTimer();
         }
     }
