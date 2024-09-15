@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] public GameObject AttackRush;
 
-    public GameObject Input;
+
+    public GameObject Input;    //InputManagerから参照に必要なやつ
 
     //PlayerのID一覧
     public enum PLAYER_ID
@@ -41,11 +42,11 @@ public class Player : MonoBehaviour
     public float time2 = 3.0f;    //トッシンの入力受付時間(定数化)
     public float num = 0;         //数を入れる(ストライクバック)
     public float num2 = 0;        //数を入れる(トッシン)
-    public bool RushFlg = false;  //トッシン不発したかのフラグ
-    public bool Right = false;    //右方向に向いた際フラグがONになる
-    public bool Left = false;     //左方向に向いた際フラグがONになる。
-    public bool Up = false;       //上方向に向いた際フラグがONになる。
-    public bool Down = false;     //下方向に向いた際フラグがONになる。
+    private bool RushFlg = false;  //トッシン不発したかのフラグ
+    private bool Right = false;    //右方向に向いた際フラグがONになる
+    private bool Left = false;     //左方向に向いた際フラグがONになる。
+    private bool Up = false;       //上方向に向いた際フラグがONになる。
+    private bool Down = false;     //下方向に向いた際フラグがONになる。
 
     private void Awake()
     {
@@ -69,7 +70,7 @@ public class Player : MonoBehaviour
         Left = false;
         Up = false;
         Down = false;
-        IDSorting();
+        //IDSorting();
     }
 
     // Update is called once per frame
@@ -280,6 +281,12 @@ public class Player : MonoBehaviour
         return playerID;
     }
 
+    public void SetPlayerId(PLAYER_ID id)
+    {
+        playerID = id;
+    }
+
+
     //Playerの数識別
     void IDSorting()
     {
@@ -304,6 +311,7 @@ public class Player : MonoBehaviour
         }
        
     }
+
     /********旧操作プログラム**********/
     //if (Input.GetKey("left"))
     //{
