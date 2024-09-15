@@ -114,8 +114,6 @@ public class BaseGimmick : MonoBehaviour
         //画面枠とギミックのz座標は同じとする
         gimmick_direction.z = 0;
 
-        //求めた方向にギミックを向く
-        this.transform.rotation = Quaternion.FromToRotation(Vector3.right, gimmick_direction);
 
     }
 

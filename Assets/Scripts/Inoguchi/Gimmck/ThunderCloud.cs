@@ -15,10 +15,21 @@ public class ThunderCloud : BaseGimmick
 
         //進む方向を決める
         DecideGimmckDirection();
+        
     }
 
     private void Update()
     {
         GimmickUpdate();
     }
+
+    public override void DecideGimmckDirection()
+    {
+        base.DecideGimmckDirection();
+
+        //求めた方向にギミックを向く
+        this.transform.rotation = Quaternion.FromToRotation(Vector3.right, gimmick_direction);
+    }
+
+  
 }

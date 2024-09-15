@@ -25,15 +25,23 @@ public class Kite : BaseGimmick
         GimmickUpdate();
     }
 
-  
+    public override void DecideGimmckDirection()
+    {
+        base.DecideGimmckDirection();
+
+        //求めた方向にギミックを向く
+        this.transform.rotation = Quaternion.FromToRotation(Vector3.up, gimmick_direction);
+    }
+
+
     //凧の動き
     public override void GimmickMove()
     {
         //ギミックとしてのベクトル
-        gimmick_vector = transform.right * gimmick_speed;
+        gimmick_vector = transform.up * gimmick_speed;
 
         ///カイト特有の左右に揺れる動き
-        kite_vector = transform.up * Mathf.Sin(kite_angle) * gimmick_speed;
+        kite_vector = transform.right * Mathf.Sin(kite_angle) * gimmick_speed;
         kite_angle += 0.01f;
 
         //ギミックとカイト特有を合わせたベクトル

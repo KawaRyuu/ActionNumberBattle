@@ -284,7 +284,7 @@ public class StageManager : MonoBehaviour
         if (!gimmick_set_flag)
         {
             SetTimeZoneGimmicks(GIMMICK_ID.KITE, GIMMICK_ID.AIRPLANE, GIMMICK_ID.RAINCLOUD, GIMMICK_ID.THUNDERCLOUD);
-            SetGimmickWeights(50, 40, 5, 100);
+            SetGimmickWeights(50, 40, 5, 5);
             gimmick_set_flag = true;
             Debug.Log("’©");
         }

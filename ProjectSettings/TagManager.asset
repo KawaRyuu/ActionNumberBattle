@@ -8,6 +8,7 @@ TagManager:
   - EnemyAttack
   - Swoon
   - RushRange
+  - Gimmick
   layers:
   - Default
   - TransparentFX

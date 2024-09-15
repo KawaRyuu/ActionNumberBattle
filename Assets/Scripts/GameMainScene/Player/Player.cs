@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     PlayerData info;
     TechnicalData waza;
 
-    [SerializeField] public GameObject AttackRush;
+    //[SerializeField] public GameObject AttackRush;
 
     public enum PLAYER_ID
     {
@@ -193,14 +193,14 @@ public class Player : MonoBehaviour
         //‚à‚µ‹Z4‚ª‚ ‚éŠ‚ÂA‹Z˜g1‚Ìƒtƒ‰ƒO‚ªTrue‚È‚ç
         if (waza.technicalNumber == 4 && waza.technicalFlg1)
         {
-            AttackRush.SetActive(true);
+            //AttackRush.SetActive(true);
             RushTimer();
         }
 
         //‚à‚µ‹Z4‚ª‚ ‚éŠ‚ÂA‹Z˜g2‚Ìƒtƒ‰ƒO‚ªTrue‚È‚ç
         else if (waza.technicalNumber == 4 && waza.technicalFlg2)
         {
-            AttackRush.SetActive(true);
+            //AttackRush.SetActive(true);
             RushTimer();
         }
     }

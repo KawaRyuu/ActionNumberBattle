@@ -19,6 +19,14 @@ public class Birds : BaseGimmick
         DecideGimmckDirection();
     }
 
+    public override void DecideGimmckDirection()
+    {
+        base.DecideGimmckDirection();
+
+        //求めた方向にギミックを向く
+        this.transform.rotation = Quaternion.FromToRotation(Vector3.right, gimmick_direction);
+    }
+
     //更新
     private void Update()
     {

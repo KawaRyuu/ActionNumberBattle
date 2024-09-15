@@ -21,4 +21,12 @@ public class RainCloud : BaseGimmick
     {
         GimmickUpdate();
     }
+
+    public override void DecideGimmckDirection()
+    {
+        base.DecideGimmckDirection();
+
+        //‹‚ß‚½•ûŒü‚ÉƒMƒ~ƒbƒN‚ğŒü‚­
+        this.transform.rotation = Quaternion.FromToRotation(Vector3.right, gimmick_direction);
+    }
 }
