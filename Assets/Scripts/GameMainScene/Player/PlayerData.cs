@@ -324,21 +324,26 @@ public class PlayerData : MonoBehaviour
 
     }
 
+    //衝突したギミックを判定
     void CheckHitGimmick(GameObject gimmick)
     {
+        //衝突したギミックの種類を取得
         GIMMICK_ID hit_gimmick_id = gimmick.GetComponent<BaseGimmick>().GetGIMMICK_ID();
 
+        //ギミックの種類に応じて様々な効果がつく
         switch(hit_gimmick_id)
         {
             case GIMMICK_ID.EMPTY:
                 break;
 
+            
             case GIMMICK_ID.KITE:
-
+                //鈍足状態を二秒間付与
+                //この鈍足時間はスティック操作で時短する
                 break;
 
             case GIMMICK_ID.AIRPLANE:
-
+                //1ダメージと0.5秒間のスタン付与
                 break;
 
             case GIMMICK_ID.UFO:
