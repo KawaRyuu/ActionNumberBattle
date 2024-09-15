@@ -9,24 +9,24 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
-    Rigidbody2D rb2d;           //リジットボディから参照
-    PlayerInput playerInput;    //PlayerのInputSystemから参照
-    PlayerData info;            //プレイヤーのデータクラスから参照
-    TechnicalData waza;         //技のスクリプトから参照
-    EntryAndExitMessages Entry_Exit;
+    //リジットボディから参照
+    Rigidbody2D rb2d;
+
+    //PlayerのInputSystem
+    PlayerInput playerInput;
+
+    //プレイヤーのデータクラスから参照
+    PlayerData info;
+    TechnicalData waza;
 
     //[SerializeField] public GameObject AttackRush;
 
-
-    public GameObject Input;    //InputManagerから参照に必要なやつ
-
-    //PlayerのID一覧
     public enum PLAYER_ID
     {
         P1,
         P2,
         P3,
-        P4,
+        P4
     }
 
     [SerializeField]private PLAYER_ID playerID;
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     public float time2 = 3.0f;    //トッシンの入力受付時間(定数化)
     public float num = 0;         //数を入れる(ストライクバック)
     public float num2 = 0;        //数を入れる(トッシン)
-    public  bool RushFlg = false;  //トッシン不発したかのフラグ
+    public bool RushFlg = false;  //トッシン不発したかのフラグ
     public bool Right = false;    //右方向に向いた際フラグがONになる
     public bool Left = false;     //左方向に向いた際フラグがONになる。
     public bool Up = false;       //上方向に向いた際フラグがONになる。
@@ -60,7 +60,6 @@ public class Player : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         info = GetComponent<PlayerData>();
         waza = GetComponent<TechnicalData>();
-        Entry_Exit = Input.GetComponent<EntryAndExitMessages>();
         stBackCount = 0;
         num = time;
         num2 = time2;
@@ -70,7 +69,6 @@ public class Player : MonoBehaviour
         Left = false;
         Up = false;
         Down = false;
-        //IDSorting();
     }
 
     // Update is called once per frame
@@ -281,36 +279,7 @@ public class Player : MonoBehaviour
         return playerID;
     }
 
-    public void SetPlayerId(PLAYER_ID id)
-    {
-        playerID = id;
-    }
-
-
-    //Playerの数識別
-    void IDSorting()
-    {
-        //i がPlayerの入った数だけ加算させる。
-        for (int i = 0; i < Entry_Exit.PlayerNumberRetun(); i++)
-        {
-            switch (i)
-            {
-                case 0:
-                    playerID = PLAYER_ID.P1;
-                    break;
-                case 1:
-                    playerID = PLAYER_ID.P2;
-                    break;
-                case 2:
-                    playerID = PLAYER_ID.P3;
-                    break;
-                case 3:
-                    playerID = PLAYER_ID.P4;
-                    break;
-            }
-        }
-       
-    }
+   
 
     /********旧操作プログラム**********/
     //if (Input.GetKey("left"))
