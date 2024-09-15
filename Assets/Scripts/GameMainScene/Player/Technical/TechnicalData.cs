@@ -20,9 +20,6 @@ public class TechnicalData : MonoBehaviour
 
     RushRangeJudge rushRangeJudge;
 
-    //子オブジェクトの当たり判定についているスクリプト
-    Attack_ID_Sc attack_id_sc;
-
     //ツバメ返し時に出る自分周辺の当たり判定Obj
     [SerializeField] GameObject Attack_obj_tubame;
 
@@ -71,13 +68,12 @@ public class TechnicalData : MonoBehaviour
     //public GameObject TecAttack;                //技の当たり判定
 
     /****ストライク＆バック****/
-    [SerializeField] private const float MoveSpeed = 1.0f;      //移動速度
-    Rigidbody2D player_rb2d;
-    float move_distance = 3.0f;
+    [SerializeField] private float MoveSpeed = 0f;      //移動速度
+    private int TargetDistance = 3;                     //目的距離
+    private float NowDistance = 0;                      //現在地
 
     /****トッシン****/
     public bool rush_target_flg = false;
-    bool target_flg = false;
     Vector3     target_position;            //ターゲット
 
 
@@ -87,16 +83,13 @@ public class TechnicalData : MonoBehaviour
         //初期化
         player = GetComponent<Player>();
         playerD = GetComponent<PlayerData>();
-        player_rb2d = GetComponent<Rigidbody2D>();
         rushRangeJudge = GetComponentInChildren<RushRangeJudge>();
-       attack_id_sc = GetComponentInChildren<Attack_ID_Sc>();
         Attack_obj_tubame.SetActive(false);
         //TecAttack.SetActive(false);
         technicalFlg1 = false;
         technicalFlg2 = false;
         inactionableFlg = false;
         swallowReturn_F = false;
-        target_flg = false;
         technicalNumber = 0;
         technicalNumber1 = 0;
         technicalNumber2 = 0;
@@ -336,14 +329,12 @@ public class TechnicalData : MonoBehaviour
     //トッシンの動き
     void Rush()
     {
-       
         //技１なら
         if (technicalFlg1)
         {
             //もし技1のクールタイムが0秒以下なら
             if (playerD.Tec01_CoolTime <= 0)
             {
-
                 RushWaza();
             }
         }
@@ -470,13 +461,9 @@ public class TechnicalData : MonoBehaviour
     /***************ストライク＆バック処理*******************/
     void StrikeBackWaza()
     {
-        //当たり判定の情報をストライク＆バックの情報に書き換える
-        attack_id_sc.InitializeAttackInfo(Attack_ID_Sc.ATTACK.RUSHATTACK, player.PlayerId());
-
         //ここで前進する
-        if (player.stBackCount < 1)
+        if (player.stBackCount <= 1)
         {
-
             //技発動中行動不可
             inactionableFlg = true;
 
@@ -489,27 +476,27 @@ public class TechnicalData : MonoBehaviour
             //もしPlayerが右のフラグをtrueにしたなら右へ進む
             if (player.Right)
             {
-                PlayerLocationDistance = new Vector2(move_distance, 0);
+                PlayerLocationDistance = new Vector2(2, 0);
                 Location();
                 Debug.Log("右方向");
             }
             //もし右斜め上なら
             else if (player.Right && player.Up)
             {
-                PlayerLocationDistance = new Vector2(move_distance, move_distance);
+                PlayerLocationDistance = new Vector2(2, 2);
                 Location();
             }
             //もし左斜め下なら
             else if (player.Right && player.Down)
             {
-                PlayerLocationDistance = new Vector2(move_distance, -move_distance);
+                PlayerLocationDistance = new Vector2(2, -2);
                 Location();
             }
 
             //もしPlayerが左のフラグをtrueにしたなら左へ進む
             if (player.Left)
             {
-                PlayerLocationDistance = new Vector2(-move_distance, 0);
+                PlayerLocationDistance = new Vector2(-2, 0);
                 Location();
                 Debug.Log("左方向");
             }
@@ -517,33 +504,27 @@ public class TechnicalData : MonoBehaviour
             //もしPlayerが上のフラグをtrueにしたなら上へ進む
             if (player.Up)
             {
-                PlayerLocationDistance = new Vector2(0, move_distance);
+                PlayerLocationDistance = new Vector2(0, 2);
                 Location();
             }
             //もしPlayerが下のフラグをtrueにしたなら下へ進む
             else if (player.Down)
             {
-                PlayerLocationDistance = new Vector2(0, -move_distance);
+                PlayerLocationDistance = new Vector2(0, -2);
                 Location();
             }
 
             Debug.Log("一回目");
-            
+
+
+            //前進時、ぬるりと移動を始める。
+            this.transform.DOMove(PlayerLocation, 1.0f);
+
             //マーク付与
             Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
             PlayerReturnLocation,   //初期位置は移動前にいた場所
             Quaternion.identity);   //初期回転情報
                                     //技発動中行動不可
-            
-            //当たり判定出現
-            Attack_obj_tubame.SetActive(true);
-
-            Invoke("HitJudgeActiveFalse", 1.0f);
-
-            //前進時、ぬるりと移動を始める。
-            player_rb2d.DOMove(PlayerLocation, 1.0f);
-          
-
             player.stBackCount++;   //ストライク&バックの押した回数をカウント
 
             //ストライクぬるりと移動する処理（呼び出し）
@@ -555,21 +536,11 @@ public class TechnicalData : MonoBehaviour
         {
             if (!player.StBc_TimeOverFlg)
             {
-                //当たり判定出現
-                Attack_obj_tubame.SetActive(true);
-
-                Invoke("HitJudgeActiveFalse", 1.0f);
-
                 //座標登録のところへ戻るよう、現在の位置に反映させる
                 this.transform.DOMove(PlayerReturnLocation, 1.0f);
-
                 Invoke("inactionablebreak", 1.0f);
-
-                
-
                 //技発動中行動不可
                 inactionableFlg = true;
-                
             }
 
             //PlayerのDataにある、空きのクールタイムに
@@ -582,11 +553,8 @@ public class TechnicalData : MonoBehaviour
             player.StBc_TimeOverFlg = false;
             player.waza1_2 = false;
 
-
             Rest1_2();              //技1or2を使った最後にリセットする
         }
-
-        
 
         //移動する前の計算関数
         void Location()
@@ -607,7 +575,7 @@ public class TechnicalData : MonoBehaviour
                     //技1のクールタイムを入れる。
                     playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime;
                 }
-                //そうでなければ待ち時間を+5秒追加する。s
+                //そうでなければ待ち時間を+5秒追加する。
                 else playerD.Tec01_CoolTime = playerD.StrikeBack_CoolTime + 5;
             }
             //もし技2の所にこの技をセットしたなら
@@ -626,8 +594,6 @@ public class TechnicalData : MonoBehaviour
         }
     }
 
-   
-
     /*****************トッシンの処理*********************/
     void RushWaza()
     {
@@ -635,27 +601,20 @@ public class TechnicalData : MonoBehaviour
         * playerDataでスタン処理を行います*/
         /*ここの関数の処理は自分の周囲から最も近いPlayerを検知し移動する処理*/
 
-        //当たり判定の情報を突進の情報に書き換える
-        attack_id_sc.InitializeAttackInfo(Attack_ID_Sc.ATTACK.RUSHATTACK, player.PlayerId());
-
         //もし不発なら
         if (player.RushFlg)
         {
             CoolTime();             //クールタイムの処理
                                     //全てを初期化
             technicalNumber = 0;
-            //player.AttackRush.SetActive(false);
+            player.AttackRush.SetActive(false);
             player.RushFlg = false;
             Rest1_2();
         }
 
-        
-       //ターゲットを決める
-       DecideTarget();
-        
-
-        Debug.Log(rush_target_flg);
-
+        //ターゲットを決める
+        DecideTarget();
+       
         //もしtargetが入ってないのなら
         //if (target == null)
         //    return;
@@ -663,6 +622,8 @@ public class TechnicalData : MonoBehaviour
         //もしトッシンを一度も発動していないなら
         if (rush_target_flg)
         {
+            Debug.Log("トッシン");
+          
 
             //取得したオブジェクトに対してループでおこなう。
             //foreach (GameObject player in objects)
@@ -680,26 +641,28 @@ public class TechnicalData : MonoBehaviour
             //もし自分の位置が見つけた相手の所と同じ位置ではないなら
             if (this.transform.position != target_position)
             {
-                //範囲に当たった瞬間、オブジェクトの範囲が早めに消えるので時間差を作る。
-                Invoke("RushTargetFlgOFF", 1.0f);
                 //範囲に居るPlayerを取得しTargetに入れ、
                 //(↑この処理はRushRangeJudge)追いかける
                 this.transform.DOMove(target_position, 1.0f);
+                //範囲に当たった瞬間、オブジェクトの範囲が早めに消えるので時間差を作る。
+               // Invoke("RushTargetFlgOFF", 1.0f);
+
+               //Invoke("RushTargetFlgON", 1.0f);
+               // Invoke("RushTargetFlgOFF", 1.0f);
             }
         }
         else
         {
-
             CoolTime();             //クールタイムの処理
 
             //全てを初期化
             technicalNumber = 0;
             //時間差でtrueにしているためこっちも時間差でfalseにする
-            //player.AttackRush.SetActive(false);
+            Invoke("RushTargetFlgOFF", 1.0f);
+            player.AttackRush.SetActive(false);
             //TecAttack.SetActive(false);
             Attack_obj_tubame.SetActive(false);
             player.RushFlg = false;
-            target_flg = false;
             target_position = Vector3.zero;          //targetにしていたPlayerをnullにする
             Rest1_2();              //技1or2を使った最後にリセットする
         }
@@ -738,9 +701,6 @@ public class TechnicalData : MonoBehaviour
 
     void DecideTarget()
     {
-        if (target_flg)
-            return;
-
         //PlayerTagを持っている全ての敵の座標を取得
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
 
@@ -772,12 +732,7 @@ public class TechnicalData : MonoBehaviour
         if (position_list.Count == 1)
         {
             target_position = position_list[0];
-
-            if (!rush_target_flg)
-                RushTargetFlgON();
-
-            target_flg = true;
-           
+            RushTargetFlgON();
             Debug.Log("一人だけ");
         }
         else if (1 < position_list.Count)
@@ -794,11 +749,7 @@ public class TechnicalData : MonoBehaviour
                     target_position = position_list[i];
                 }
             }
-
-            if (!rush_target_flg)
-                RushTargetFlgON();
-
-            target_flg = true;
+            RushTargetFlgON();
             Debug.Log("複数いた");
         }
 
@@ -825,35 +776,29 @@ public class TechnicalData : MonoBehaviour
          rush_target_flg = false;   //初期化するのでfalseへ
     }
 
-    //技判定を消す処理
-    public void HitJudgeActiveFalse()
-    {
-        Attack_obj_tubame.SetActive(false);
-    }
-
     //移動(ストライク処理)※現在は使用していません。
-    //IEnumerator Move(Vector3 TmpVector)
-    //{
-    //    while (true)
-    //    {
-    //        //終了条件を満たしているか確認
-    //        //現在の座標が移動する
-    //        //もし現在の座標が移動先未満なら
-    //        if (TargetDistance <= NowDistance + (MoveSpeed * Time.deltaTime))//終了条件
-    //        {
-    //            transform.position += TmpVector * (TargetDistance - NowDistance);
-    //            playerD.ActionFlg = true;   //技発動中は他の操作を受け付けない（未完成）
-    //            NowDistance = 0;            //移動前の座標リセット
-    //            yield break;
-    //        }
-    //        //入力方向に移動
-    //        transform.position += TmpVector * Time.deltaTime * MoveSpeed;
+    IEnumerator Move(Vector3 TmpVector)
+    {
+        while (true)
+        {
+            //終了条件を満たしているか確認
+            //現在の座標が移動する
+            //もし現在の座標が移動先未満なら
+            if (TargetDistance <= NowDistance + (MoveSpeed * Time.deltaTime))//終了条件
+            {
+                transform.position += TmpVector * (TargetDistance - NowDistance);
+                playerD.ActionFlg = true;   //技発動中は他の操作を受け付けない（未完成）
+                NowDistance = 0;            //移動前の座標リセット
+                yield break;
+            }
+            //入力方向に移動
+            transform.position += TmpVector * Time.deltaTime * MoveSpeed;
 
-    //        //移動した距離を更新
-    //        NowDistance += MoveSpeed * Time.deltaTime;
-    //        //Debug.Log("前回からの移動距離" + MoveSpeed * Time.deltaTime);
-    //        //Debug.Log("累計移動距離"+NowDistance);
-    //        yield return null;
-    //    }
-    //}
+            //移動した距離を更新
+            NowDistance += MoveSpeed * Time.deltaTime;
+            //Debug.Log("前回からの移動距離" + MoveSpeed * Time.deltaTime);
+            //Debug.Log("累計移動距離"+NowDistance);
+            yield return null;
+        }
+    }
 }

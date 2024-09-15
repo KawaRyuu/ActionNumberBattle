@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
-using GimmickInfomation;
 
 
 /*プレイヤー（ライバルも含む）のデータを管理する。*/
@@ -231,8 +230,6 @@ public class PlayerData : MonoBehaviour
     /************当たった時の処理(何かの当たった時)*****************/
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("当たったのは"+ other.gameObject.name);
-
         //敵の攻撃（EnemyAttackというtag）に触れたとき
         if (other.gameObject.tag == "EnemyAttack")
         {
@@ -240,8 +237,6 @@ public class PlayerData : MonoBehaviour
 
             //敵の攻撃を受けたら攻撃の種類を判別するため取得させる
             attackID = other.GetComponentInChildren<Attack_ID_Sc>();
-
-            Debug.Log(attackID.AttackID_Retrun());
 
             //攻撃したPlayerIDが自分と同じなら攻撃が当たらない
             if (attackID.PlayerID_Return() == player_sc.PlayerId())
@@ -269,12 +264,7 @@ public class PlayerData : MonoBehaviour
 
                 //トッシン
                 case Attack_ID_Sc.ATTACK.RUSHATTACK:
-
-                    //ダメージ処理
                     Damage();
-
-                    //行動不能をかける
-                    Stun_Flg = true;
                     break;
             }
 
@@ -311,56 +301,6 @@ public class PlayerData : MonoBehaviour
         }
 
 
-        if (other.gameObject.tag == "Gimmick")
-        {
-            CheckHitGimmick(other.gameObject);
-        }
-        else if (other.gameObject.name != "St&Back_Mark(Clone)")
-        {
-            tec.HitJudgeActiveFalse();
-
-        }
-
-
-    }
-
-    void CheckHitGimmick(GameObject gimmick)
-    {
-        GIMMICK_ID hit_gimmick_id = gimmick.GetComponent<BaseGimmick>().GetGIMMICK_ID();
-
-        switch(hit_gimmick_id)
-        {
-            case GIMMICK_ID.EMPTY:
-                break;
-
-            case GIMMICK_ID.KITE:
-
-                break;
-
-            case GIMMICK_ID.AIRPLANE:
-
-                break;
-
-            case GIMMICK_ID.UFO:
-
-                break;
-
-            case GIMMICK_ID.BIRD:
-
-                break;
-
-            case GIMMICK_ID.STAR:
-               
-                break;
-
-            case GIMMICK_ID.RAINCLOUD:
-               
-                break;
-
-            case GIMMICK_ID.THUNDERCLOUD:
-
-                break;
-        }
     }
 
 
