@@ -66,7 +66,7 @@ public class BaseGimmick : MonoBehaviour
         Vector2 screen_size = new Vector3(Screen.width, Screen.height);
 
         //画面サイズとギミック(自身)の座標をビューポート座標に変換
-        Vector3 screen_view_position  = Camera.main.ScreenToViewportPoint(screen_size);
+        Vector3 screen_view_position = Camera.main.ScreenToViewportPoint(screen_size);
         Vector3 gimmick_view_position = Camera.main.WorldToViewportPoint(gimmick_position);
 
         //画面枠上の一箇所の座標
@@ -80,6 +80,8 @@ public class BaseGimmick : MonoBehaviour
             //画面枠右の一点をランダム取得
             screen_frame_position.x = 1;
             screen_frame_position.y = Random.value;
+
+
 
         }
         else if (gimmick_view_position.x >= screen_view_position.x)
@@ -114,6 +116,8 @@ public class BaseGimmick : MonoBehaviour
         //画面枠とギミックのz座標は同じとする
         gimmick_direction.z = 0;
 
+        //求めた方向にギミックを向く
+        this.transform.rotation = Quaternion.FromToRotation(Vector3.right, gimmick_direction);
 
     }
 

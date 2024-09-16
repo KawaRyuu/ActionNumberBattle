@@ -76,6 +76,7 @@ public class TechnicalData : MonoBehaviour
     float move_distance = 3.0f;
 
     /****トッシン****/
+    [SerializeField] private GameObject rush_attack_range;
     public bool rush_target_flg = false;
     bool target_flg = false;
     Vector3     target_position;            //ターゲット
@@ -89,8 +90,9 @@ public class TechnicalData : MonoBehaviour
         playerD = GetComponent<PlayerData>();
         player_rb2d = GetComponent<Rigidbody2D>();
         rushRangeJudge = GetComponentInChildren<RushRangeJudge>();
-       attack_id_sc = GetComponentInChildren<Attack_ID_Sc>();
+        attack_id_sc = GetComponentInChildren<Attack_ID_Sc>();
         Attack_obj_tubame.SetActive(false);
+        rush_attack_range.SetActive(false);
         //TecAttack.SetActive(false);
         technicalFlg1 = false;
         technicalFlg2 = false;
@@ -530,10 +532,13 @@ public class TechnicalData : MonoBehaviour
             Debug.Log("一回目");
             
             //マーク付与
-            Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
-            PlayerReturnLocation,   //初期位置は移動前にいた場所
-            Quaternion.identity);   //初期回転情報
-                                    //技発動中行動不可
+            GameObject mark = Instantiate(Mark,       //生成するオブジェクトのプレハブ(Mark)
+                              PlayerReturnLocation,   //初期位置は移動前にいた場所
+                              Quaternion.identity);   //初期回転情報
+                                                      //技発動中行動不可
+
+            mark.GetComponentInChildren<Attack_ID_Sc>().InitializeAttackInfo
+                                                        (Attack_ID_Sc.ATTACK.STRIKE_BACK, player.PlayerId());
             
             //当たり判定出現
             Attack_obj_tubame.SetActive(true);
@@ -638,11 +643,14 @@ public class TechnicalData : MonoBehaviour
         //当たり判定の情報を突進の情報に書き換える
         attack_id_sc.InitializeAttackInfo(Attack_ID_Sc.ATTACK.RUSHATTACK, player.PlayerId());
 
+        rush_attack_range.SetActive(true);
+
         //もし不発なら
         if (player.RushFlg)
         {
             CoolTime();             //クールタイムの処理
                                     //全てを初期化
+            rush_attack_range.SetActive(false);
             technicalNumber = 0;
             //player.AttackRush.SetActive(false);
             player.RushFlg = false;
@@ -698,6 +706,7 @@ public class TechnicalData : MonoBehaviour
             //player.AttackRush.SetActive(false);
             //TecAttack.SetActive(false);
             Attack_obj_tubame.SetActive(false);
+            rush_attack_range.SetActive(false);
             player.RushFlg = false;
             target_flg = false;
             target_position = Vector3.zero;          //targetにしていたPlayerをnullにする
@@ -740,6 +749,8 @@ public class TechnicalData : MonoBehaviour
     {
         if (target_flg)
             return;
+
+       
 
         //PlayerTagを持っている全ての敵の座標を取得
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");

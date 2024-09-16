@@ -89,7 +89,8 @@ public class Player : MonoBehaviour
 
         //Playerの基本の動き
         //もし気絶中なら行動不可
-        if (!info.Swoon_Flg)
+        if (info.GetPlayerState() != PlayerData.PLAYER_STATE.SWOON &&
+            info.GetPlayerState() != PlayerData.PLAYER_STATE.STUN)
         {
             //技発動中は行動不可
             if (!waza.inactionableFlg)
@@ -279,6 +280,10 @@ public class Player : MonoBehaviour
         return playerID;
     }
 
+    public void SetPlayerId(PLAYER_ID Id)
+    {
+        playerID = Id;
+    }
    
 
     /********旧操作プログラム**********/
