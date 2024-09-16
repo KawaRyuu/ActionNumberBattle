@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Message_Sc : MonoBehaviour
+public class CpuPanelText : MonoBehaviour
 {
-    public Text ControllerMessage;
+    public Text CPUPanelMessage;
+
     // Start is called before the first frame update
     void Start()
     {
-        ControllerMessage.text = ("コントローラー設定");
+        CPUPanelMessage.text = ("強さを決めてね!!");
     }
 
     // Update is called once per frame
