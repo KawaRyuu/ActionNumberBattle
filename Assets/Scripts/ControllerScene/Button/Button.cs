@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class Button : MonoBehaviour
 {
     //PlayerのInputSystem
     PlayerInput playerInput;
     ControllerConnection connection;
+
     [SerializeField] GameObject CPUPanel;
+    [SerializeField] GameObject PlayerPanel;
+
+    bool push_flg = false;
 
     private void Awake()
     {
@@ -21,32 +25,46 @@ public class Button : MonoBehaviour
     void Start()
     {
         connection = GetComponent<ControllerConnection>();
+        push_flg = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         bool SelectButton = playerInput.actions["SelectButton"].WasPressedThisFrame();
+        bool BackButton = playerInput.actions["BackButton"].WasPressedThisFrame();
 
         //もしコントローラーのBボタンを押したら
         if(SelectButton)
         {
-            //もし接続が全てPlayerなら
-            if (connection.Controller() == 2)
+            if (!push_flg)
             {
-                //一秒後に技選択シーンへ移行する。
-                Invoke("GotoSelectScene", 1.0f);
+                push_flg = true;
+                //もし接続が全てPlayerなら
+                if (connection.Controller() == 4)
+                    PlayerPanel.SetActive(true);
+                else
+                    //CPU難易度パネルの表示をONにする。
+                    CPUPanel.SetActive(true);
             }
             else
             {
-                //CPU難易度パネルの表示をONにする。
-                CPUPanel.SetActive(true);
+                GotoScene();
+                push_flg = false;
             }
+        }
+
+        //もしコントローラーのAボタンを押したら
+        if(BackButton)
+        {
+            push_flg = false;
+            PlayerPanel.SetActive(false);
+            CPUPanel.SetActive(false);
         }
     }
 
-    //選択シーンへ移行する関数
-    void GotoSelectScene()
+    //シーン行く
+    void GotoScene()
     {
         SceneManager.LoadScene("SelectionScene");
     }
