@@ -6,6 +6,9 @@ TagManager:
   tags:
   - BluntFootEffect
   - EnemyAttack
+  - Swoon
+  - RushRange
+  - Gimmick
   layers:
   - Default
   - TransparentFX
@@ -13,12 +16,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - P0
+  - P1
+  - P2
+  - P3
+  - wall
   - 
   - 
   - 

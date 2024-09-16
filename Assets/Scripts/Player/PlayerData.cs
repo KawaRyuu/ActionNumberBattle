@@ -2,120 +2,242 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
+using GimmickInfomation;
 
 
 /*プレイヤー（ライバルも含む）のデータを管理する。*/
 //プレイヤーの基礎的なデータ
 public class PlayerData : MonoBehaviour
 {
-    public SpriteRenderer player;
-    public TechnicalData tec;
+    //プレイヤーの状態の種類
+    public enum PLAYER_STATE 
+    {
+        NORMAL,         //通常
+        BLUNTFOOT,      //鈍足
+        SWOON,          //気絶
+        STUN,           //行動不能
+        INVINCIBLE,     //無敵
+        CONFUSION,      //混乱
+        RECOVERY,       //回復
+        EMPTY           //空
+    }
 
+    //プレイヤーの状態
+    PLAYER_STATE player_state = PLAYER_STATE.EMPTY;
+
+    Player player_sc;
+    public TechnicalData tec;
+    public NumberData number;
+    
     public string Id = ("");         //おそらく名前
     public int Hp = 3;               //体力（耐久値）
     public int Attack = 1;           //攻撃
+<<<<<<< HEAD:Assets/Scripts/Player/PlayerData.cs
     public int NomberBox = 4;        //4つの数を保持する
     public int RandomNomber = 0;     //自分の数を出すランダム数をここに
     public float Speed = 5.0f;       //移動速度
     public float CoolTime = 4f;
     //技や奪取（交換）を含めたクールタイム全般
+=======
+    public float Speed = 3.0f;       //移動速度
+
+    //文字表示
+    public Text SwoonFont;           //気絶時の文字&カウントを表示
+
+    /********クールタイムのカウントたち************/
+    public float Tec01_CoolTime = 0.0f;           //技1:空のクールタイム
+    public float Tec02_CoolTime = 0.0f;           //技2:空のクールタイム
+    public float FlyingFeather_CoolTime = 11.0f;  //技1専用のクールタイム時間
+    public float SwallowReturn_CoolTime = 11.0f;  //技2専用のクールタイム時間
+    public float StrikeBack_CoolTime = 11.0f;     //技3専用のクールタイム時間
+    public float Rush_CoolTime = 11.0f;           //技4専用のクールタイム時間
+>>>>>>> 0a42d127e33ec19dfda3e8dc3e38f60f26d39725:Assets/Scripts/GameMainScene/Player/PlayerData.cs
 
     public float invincibility = 0.5f;          //ダメージ喰らった際の無敵時間
-    public bool Swoon_Flg = false;              //気絶フラグ
-    public bool Stun_Flg = false;               //スタンフラグ
-    public bool RecoveryTime_Flg = false;       //回復タイムに入るフラグ
-    public bool Invincibility_Flg = false;      //無敵フラグ
+    public bool ActionFlg = true;               //アクションできるかどうかのフラグ
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ
-    public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
+    public bool Swaps_Flg = false;              //交換のフラグ
+    [SerializeField]bool RushAttack_Flg = false;
 
     public float inv_count = 0.0f;              //無敵時間中のカウント
     public float stun_count = 0.0f;             //スタン中のカウント
     public float blunt_count = 0.0f;            //鈍足中のカウント
     public float hael_count = 0.0f;             //回復中のカウント
     public float swoon_count = 0.0f;            //気絶中のカウント
+    public float swoon_countDown = 2.0f;        //気絶時の文字(カウントダウン)
+
+    public SpriteRenderer player;
+    public GameObject SwoonObj;                 //気絶時に出るobj(これで判定させる)
+    public GameObject Stun_PiyoPiyo;            //行動不能時に表示する
 
     //初期化
     void Start()
     {
+        player_state = PLAYER_STATE.NORMAL;
+
+        player_sc = GetComponent<Player>();
         tec = GetComponent<TechnicalData>();
-        Invincibility_Flg = false;
-        Swoon_Flg = false;
-        Stun_Flg = false;
-        BluntFootEffect_Flg = false;
+        number = GetComponent<NumberData>();
+        SwoonObj.SetActive(false);
+        Stun_PiyoPiyo.SetActive(false);
+        Swaps_Flg = false;
+        RushAttack_Flg = false;
+
         inv_count = 0.0f;
         blunt_count = 0.0f;
         hael_count = 0.0f;
         swoon_count = 0.0f;
+        swoon_countDown = 2.0f;
         stun_count = 0.0f;
+<<<<<<< HEAD:Assets/Scripts/Player/PlayerData.cs
+=======
+        Tec01_CoolTime = 0.0f;
+        Tec02_CoolTime = 0.0f;
+        FlyingFeather_CoolTime = 10.0f;
+        SwallowReturn_CoolTime = 10.0f;
+        StrikeBack_CoolTime = 10.0f;
+        Rush_CoolTime = 10.0f;
+>>>>>>> 0a42d127e33ec19dfda3e8dc3e38f60f26d39725:Assets/Scripts/GameMainScene/Player/PlayerData.cs
     }
 
     void Update()
     {
+<<<<<<< HEAD:Assets/Scripts/Player/PlayerData.cs
         /**********スタンの処理************/
+=======
+       CheckPlayerState();
+
+
+       Debug.Log("PLAYER_STATE="+player_state);
+    }
+
+    void CheckPlayerState()
+    {
+        switch (player_state)
+        {
+            case PLAYER_STATE.NORMAL:       Normal();       break;
+            case PLAYER_STATE.BLUNTFOOT:    BluntFoot();    break;
+            case PLAYER_STATE.SWOON:        Swoon();        break;
+            case PLAYER_STATE.STUN:         Stun();         break;
+            case PLAYER_STATE.INVINCIBLE:   Inv();          break;
+            case PLAYER_STATE.CONFUSION:                    break;
+            case PLAYER_STATE.RECOVERY:     Recovery();     break;
+        }
+    }
+
+
+    public PLAYER_STATE GetPlayerState()
+    {
+        return player_state;
+    }
+
+    public void SetPlayerState(PLAYER_STATE change_state)
+    {
+        if(change_state != PLAYER_STATE.STUN)
+            Stun_PiyoPiyo.SetActive(false);
+
+        player_state = change_state;
+    }
+
+
+    void Normal()
+    {
+        if(Hp < 3)
+            SetPlayerState(PLAYER_STATE.RECOVERY);
+    }
+
+    /**********スタンの処理************/
+    public void Stun()
+    {
+>>>>>>> 0a42d127e33ec19dfda3e8dc3e38f60f26d39725:Assets/Scripts/GameMainScene/Player/PlayerData.cs
         //もしスタンフラグがtrue且つカウントが1.0秒以下なら
-        if (Stun_Flg && stun_count <= 1.0f)
+        if (stun_count <= 1.0f)
         {
             Debug.Log("スタン中");
+            Stun_PiyoPiyo.SetActive(true);
             stun_count += Time.deltaTime;   //カウント加算
         }
         else if (stun_count >= 1)           //もしカウントが1秒を超えたら
         {
             //スタン状態を解除
             stun_count = 0.0f;
-            Stun_Flg = false;
+
+            Stun_PiyoPiyo.SetActive(false);
+
+            SetPlayerState(PLAYER_STATE.NORMAL);
         }
 
         /**********気絶の処理*************/
         //もし気絶フラグがtrue且つカウントが1.5秒以下なら
-        if (Swoon_Flg && swoon_count <= 1.5f)
+        if (swoon_count <= 2f)
         {
             Debug.Log("気絶now");
-            swoon_count += Time.deltaTime;    //カウントの加算
+            //気絶時プレイヤーが分かりやすいように文字を表示
+            //SwoonFont.text = "気絶中..." + (int)swoon_countDown;
+            SwoonObj.SetActive(true);                   //気絶時交換されるように当たり判定をON
+            swoon_count += Time.deltaTime;              //カウントの加算
+            swoon_countDown -= Time.deltaTime;          //カウントダウン
         }
-        else if (swoon_count >= 1.5)          //もしカウントが1.5秒を超えたら
+        else if (swoon_count > 2)          //もしカウントが1.5秒を超えたら
         {
-            swoon_count = 0.0f;               //気絶カウントをリセット
-            Swoon_Flg = false;              //気絶フラグをfalseに変える
-            Hp = 3;                  //HPは強制で全回復
+            swoon_count = 0.0f;             //気絶カウントをリセット
+            swoon_countDown = 2.0f;         //カウントリセット
+            //SwoonFont.text = " ";           //文字を消す
+            Hp = 3;                         //HPは強制で全回復
+            SwoonObj.SetActive(false);
+            SetPlayerState(PLAYER_STATE.NORMAL);
         }
 
 
         /**********回復の処理*************/
         //もし回復フラグがtrue且つカウントが5.0秒以下なら
         //※次の攻撃が来るのが5秒以降になるなら全回復する。
-        if (RecoveryTime_Flg && hael_count <= 5.0f)
+        if (hael_count <= 5.0f)
         {
             hael_count += Time.deltaTime;
             Debug.Log("回復中");
             //Debug.Log("回復カウントは" + hael_count);
+
+
         }
-        //もし回復のカウントが5秒を超えたなら
         else if (hael_count > 5.0)
         {
+            //もし回復のカウントが5秒を超えたなら
             Debug.Log("回復");
             Hp = 3;                                 //Hpを回復する。
             hael_count = 0;                         //カウントリセット
-            RecoveryTime_Flg = false;               //回復フラグOFF
+            SetPlayerState(PLAYER_STATE.NORMAL) ;
         }
 
+<<<<<<< HEAD:Assets/Scripts/Player/PlayerData.cs
 
         /**********無敵の処理*************/
+=======
+    /**********無敵の処理*************/
+    public void Inv()
+    {
+        Debug.Log("無敵だぜ");
+
+>>>>>>> 0a42d127e33ec19dfda3e8dc3e38f60f26d39725:Assets/Scripts/GameMainScene/Player/PlayerData.cs
         //無敵フラグがON且つもし無敵時間が0.5秒以下なら
-        if (Invincibility_Flg && invincibility >= inv_count)
+        if (invincibility >= inv_count)
         {
             inv_count += Time.deltaTime;
-            RecoveryTime_Flg = true;                //回復フラグをONにする
             StartCoroutine(BlinkingControl());
             Invincibility();                        //無敵時の点滅処理関数へ
-            Debug.Log("無敵時間" + inv_count);
+            //Debug.Log("無敵時間" + inv_count);
+            
         }
         else
         {
             //無敵解除
-            Invincibility_Flg = false;
             inv_count = 0;
+            SetPlayerState(PLAYER_STATE.RECOVERY);
         }
 
+<<<<<<< HEAD:Assets/Scripts/Player/PlayerData.cs
 
         /**********鈍足効果の処理************/
         //もし鈍足効果のフラグがfalseなら通常の速度
@@ -124,16 +246,24 @@ public class PlayerData : MonoBehaviour
             Speed = 5.0f;
         }
 
+=======
+    /**********鈍足効果の処理************/
+    public void BluntFoot()
+    {
+       
+>>>>>>> 0a42d127e33ec19dfda3e8dc3e38f60f26d39725:Assets/Scripts/GameMainScene/Player/PlayerData.cs
         //鈍足効果がtrue且つ鈍足カウントが2.0秒以下なら
-        if (BluntFootEffect_Flg && blunt_count <= 2.0)
+        if (blunt_count <= 2.0)
         {
+            Speed = 1.0f;
             blunt_count += Time.deltaTime;
         }
         else
         {
             //鈍足状態解除
-            BluntFootEffect_Flg = false;
+            Speed = 3.0f;
             blunt_count = 0;
+            SetPlayerState (PLAYER_STATE.NORMAL );
         }
     }
 
@@ -155,6 +285,7 @@ public class PlayerData : MonoBehaviour
     {
         //0.5秒の間点滅を繰り返す
         yield return new WaitForSeconds(0.5f);
+
         // 通常状態に戻す
         player.color = new Color(1f, 1f, 1f, 1f);
     }
@@ -167,44 +298,187 @@ public class PlayerData : MonoBehaviour
     /************当たった時の処理(何かの当たった時)*****************/
     private void OnTriggerEnter2D(Collider2D other)
     {
+
+
+        if (player_state == PLAYER_STATE.SWOON || 
+            player_state == PLAYER_STATE.INVINCIBLE)
+            return;
+
+
+        Debug.Log("当たったのは"+ other.gameObject.name);
+
         //敵の攻撃（EnemyAttackというtag）に触れたとき
         if (other.gameObject.tag == "EnemyAttack")
         {
+            Attack_ID_Sc attackID;
 
-            //もし無敵状態じゃない且つ気絶してないときなら
-            if (!Invincibility_Flg && !Swoon_Flg)
+            //敵の攻撃を受けたら攻撃の種類を判別するため取得させる
+            attackID = other.GetComponentInChildren<Attack_ID_Sc>();
+
+            Debug.Log(attackID.AttackID_Retrun());
+
+            //攻撃したPlayerIDが自分と同じなら攻撃が当たらない
+            if (attackID.PlayerID_Return() == player_sc.PlayerId())
+                return;
+
+            //攻撃の種類判別
+            switch (attackID.AttackID_Retrun())
             {
-                //フラグがtrueの時、追撃が飛んで来たら
-                if (RecoveryTime_Flg)
-                {
-                    //回復のキャンセル
-                    RecoveryTime_Flg = false;
-                    hael_count = 0.0f;
-                }
+                //攻撃の種類
 
-                Hp -= Attack;               //体力がAttackの攻撃参照で減る
-                Invincibility_Flg = true;   //無敵フラグON
+                //ハネトバシ
+                case Attack_ID_Sc.ATTACK.WING:
+                    Damage();
+                    break;
+
+                //ツバメ返し
+                case Attack_ID_Sc.ATTACK.SWAROWRETURN:
+                    Damage();
+                    break;
+
+                //ストライクバック
+                case Attack_ID_Sc.ATTACK.STRIKE_BACK:
+                    Damage();
+                    break;
+
+                //トッシン
+                case Attack_ID_Sc.ATTACK.RUSHATTACK:
+
+                    //ダメージ処理
+                    Damage();
+
+                    //今のダメージで気絶していなければ行動不能をかける
+                    if (player_state != PLAYER_STATE.SWOON)
+                        SetPlayerState(PLAYER_STATE.STUN);
+
+                    break;
             }
 
-            //もし体力が0以下になったら
-            if (Hp <= 0)
+            //もし攻撃が当たっていてトッシンの範囲に触れているなら
+            if (RushAttack_Flg)
             {
-                //気絶フラグON
-                Swoon_Flg = true;
+                //一時行動不能にする。
+                SetPlayerState(PLAYER_STATE.STUN);
+                //フラグは初期化する。
+                RushAttack_Flg = false;
             }
         }
 
         //もし鈍足効果のTagに触れたら
         if (other.gameObject.tag == "BluntFootEffect")
         {
+<<<<<<< HEAD:Assets/Scripts/Player/PlayerData.cs
             //速度を5から2.5の速度に変化する。
             Speed = 2.5f;
             BluntFootEffect_Flg = true;
+=======
+            //速度を3から1.5の速度に変化する。
+            Speed = 1.5f;
+            SetPlayerState (PLAYER_STATE.BLUNTFOOT);
+>>>>>>> 0a42d127e33ec19dfda3e8dc3e38f60f26d39725:Assets/Scripts/GameMainScene/Player/PlayerData.cs
         }
-        //トッシン(技)が発動した際Playerに触れたとき
-        if (other.gameObject.tag == "Player" && tec.technicalNumber == 4)
+
+        //トッシン(技)が発動した際トッシン範囲に触れたなら
+        if (other.gameObject.tag == "RushRange")
         {
-            Stun_Flg = true;
+            //当たったフラグをONにする
+            RushAttack_Flg = true;
+        }
+
+        //もし気絶tagに触れたら
+        if (other.gameObject.tag == "Swoon")
+        {
+            Debug.Log("交換フラグは" + Swaps_Flg);
+            Swaps_Flg = true;               //交換のフラグをtureにする
+        }
+
+
+        if (other.gameObject.tag == "Gimmick")
+        {
+            CheckHitGimmick(other.gameObject);
+        }
+        else if (other.gameObject.name != "St&Back_Mark(Clone)")
+        {
+            tec.HitJudgeActiveFalse();
+
+        }
+
+
+    }
+
+    //衝突したギミックを判定
+    void CheckHitGimmick(GameObject gimmick)
+    {
+        //衝突したギミックの種類を取得
+        GIMMICK_ID hit_gimmick_id = gimmick.GetComponent<BaseGimmick>().GetGIMMICK_ID();
+
+        //ギミックの種類に応じて様々な効果がつく
+        switch(hit_gimmick_id)
+        {
+            case GIMMICK_ID.EMPTY:
+                break;
+
+            
+            case GIMMICK_ID.KITE:
+                //鈍足状態を二秒間付与
+                SetPlayerState(PLAYER_STATE.BLUNTFOOT);
+                //この鈍足時間はスティック操作で時短する
+                break;
+
+            case GIMMICK_ID.AIRPLANE:
+                //1ダメージと0.5秒間のスタン付与
+                Damage();
+                if(player_state != PLAYER_STATE.SWOON)
+                    SetPlayerState(PLAYER_STATE.STUN);
+                break;
+
+            case GIMMICK_ID.UFO:
+                //1ダメージと1秒間の閉じ込め
+                break;
+
+            case GIMMICK_ID.BIRD:
+                //1ダメージと0.5ノックバック
+                Damage();
+                break;
+
+            case GIMMICK_ID.STAR:
+                //1秒間の混乱状態
+                break;
+
+            case GIMMICK_ID.RAINCLOUD:
+                //二秒間の鈍足
+                SetPlayerState(PLAYER_STATE.BLUNTFOOT);
+                break;
+
+            case GIMMICK_ID.THUNDERCLOUD:
+                //1秒間の行動不能
+                SetPlayerState(PLAYER_STATE.STUN);
+                break;
+        }
+    }
+
+    //ダメージ食らった時呼び出す関数
+    void Damage()
+    {
+        //もし無敵状態じゃない且つ気絶してないときなら
+        if (player_state != PLAYER_STATE.INVINCIBLE && 
+            player_state != PLAYER_STATE.SWOON)
+        {
+            Hp -= Attack;               //体力がAttackの攻撃参照で減る
+            hael_count = 0.0f;
+
+        }
+
+        //もし体力が0以下になったら
+        if (Hp <= 0)
+        {
+            Hp = 0;
+            //気絶フラグON
+            SetPlayerState(PLAYER_STATE.SWOON);
+        }
+        else
+        {
+            SetPlayerState(PLAYER_STATE.INVINCIBLE);  //無敵フラグON
         }
     }
 }
