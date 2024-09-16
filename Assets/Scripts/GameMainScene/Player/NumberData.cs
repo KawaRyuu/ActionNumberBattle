@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class NumberData : MonoBehaviour
 {
-    PlayerData pD;
+   
+    Player player;
 
     //自身が持っているNumberを配列で保持
     public int []MyNumber = {0,0,0,0};
@@ -15,7 +16,8 @@ public class NumberData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pD = GameObject.Find("Player").GetComponent<PlayerData>();
+       
+        player = GetComponent<Player>();
        
         //ゲーム開始時と同時に数を1～9のランダムで取得する
         for (int i = 0; i < 4; i++)
@@ -30,7 +32,7 @@ public class NumberData : MonoBehaviour
     void Update()
     {
         //交換やアイテム使用時に毎度入れ替わる。
-        Sort();
+        //Sort();
     }
 
     //ソート関数
@@ -63,18 +65,25 @@ public class NumberData : MonoBehaviour
         return MyNumber[num];
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log("おんこりじょん");
-        if (collision.gameObject.tag == "Player" &&pD.Swaps_Flg)
+
+        if (collision.gameObject.tag != "Player")
+            return;
+
+        Player     hit_player      = collision.gameObject.GetComponent<Player>();
+        PlayerData hit_player_data = collision.gameObject.GetComponent<PlayerData>();
+
+        if ( player.PlayerId() != hit_player.PlayerId() && hit_player_data.Swaps_Flg)
         {
             Debug.Log("交換");
+
             //触れた相手のNumberDataを取得
-            NumberData num_data = collision.gameObject.GetComponent<NumberData>();
-            PlayerData player_data = collision.GetComponent<PlayerData>();
+            NumberData num_data    = collision.gameObject.GetComponent<NumberData>();
 
             //相手が気絶したなら
-            if (player_data.Swoon_Flg)
+            if (hit_player_data.GetPlayerState() == PlayerData.PLAYER_STATE.SWOON)
             {
                 //1～10を100%換算する
                 int RandomNumber = Random.Range(1, 11);
@@ -106,7 +115,7 @@ public class NumberData : MonoBehaviour
                 }
                 
                 MyNumber[3] = tmp;                      //相手の数字を自分の所へ入れる。
-                pD.Swaps_Flg = false;                   //交換フラグをOFFにする。
+                hit_player_data.Swaps_Flg = false;                   //交換フラグをOFFにする。
             }
         }
     }

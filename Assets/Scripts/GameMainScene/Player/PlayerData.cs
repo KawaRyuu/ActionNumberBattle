@@ -11,6 +11,22 @@ using GimmickInfomation;
 //プレイヤーの基礎的なデータ
 public class PlayerData : MonoBehaviour
 {
+    //プレイヤーの状態の種類
+    public enum PLAYER_STATE 
+    {
+        NORMAL,         //通常
+        BLUNTFOOT,      //鈍足
+        SWOON,          //気絶
+        STUN,           //行動不能
+        INVINCIBLE,     //無敵
+        CONFUSION,      //混乱
+        RECOVERY,       //回復
+        EMPTY           //空
+    }
+
+    //プレイヤーの状態
+    PLAYER_STATE player_state = PLAYER_STATE.EMPTY;
+
     Player player_sc;
     public TechnicalData tec;
     public NumberData number;
@@ -32,13 +48,8 @@ public class PlayerData : MonoBehaviour
     public float Rush_CoolTime = 11.0f;           //技4専用のクールタイム時間
 
     public float invincibility = 0.5f;          //ダメージ喰らった際の無敵時間
-    public bool Swoon_Flg = false;              //気絶フラグ
-    public bool Stun_Flg = false;               //スタンフラグ
     public bool ActionFlg = true;               //アクションできるかどうかのフラグ
-    public bool RecoveryTime_Flg = false;       //回復タイムに入るフラグ
-    public bool Invincibility_Flg = false;      //無敵フラグ
     public bool ExchangeTakeover_Flg = false;   //交換奪取するフラグ
-    public bool BluntFootEffect_Flg = false;    //鈍足効果のフラグ
     public bool Swaps_Flg = false;              //交換のフラグ
     [SerializeField]bool RushAttack_Flg = false;
 
@@ -56,15 +67,13 @@ public class PlayerData : MonoBehaviour
     //初期化
     void Start()
     {
+        player_state = PLAYER_STATE.NORMAL;
+
         player_sc = GetComponent<Player>();
         tec = GetComponent<TechnicalData>();
         number = GetComponent<NumberData>();
         SwoonObj.SetActive(false);
         Stun_PiyoPiyo.SetActive(false);
-        Invincibility_Flg = false;
-        Swoon_Flg = false;
-        Stun_Flg = false;
-        BluntFootEffect_Flg = false;
         Swaps_Flg = false;
         RushAttack_Flg = false;
 
@@ -84,28 +93,52 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
-        //スタン関数
-        Stun();
+       CheckPlayerState();
 
-        //気絶関数
-        Swoon();
 
-        //回復関数
-        Recovery();
-
-        //無敵関数
-        Inv();
-
-        //鈍足関数
-        BluntFoot();
+       Debug.Log("PLAYER_STATE="+player_state);
     }
 
+    void CheckPlayerState()
+    {
+        switch (player_state)
+        {
+            case PLAYER_STATE.NORMAL:       Normal();       break;
+            case PLAYER_STATE.BLUNTFOOT:    BluntFoot();    break;
+            case PLAYER_STATE.SWOON:        Swoon();        break;
+            case PLAYER_STATE.STUN:         Stun();         break;
+            case PLAYER_STATE.INVINCIBLE:   Inv();          break;
+            case PLAYER_STATE.CONFUSION:                    break;
+            case PLAYER_STATE.RECOVERY:     Recovery();     break;
+        }
+    }
+
+
+    public PLAYER_STATE GetPlayerState()
+    {
+        return player_state;
+    }
+
+    public void SetPlayerState(PLAYER_STATE change_state)
+    {
+        if(change_state != PLAYER_STATE.STUN)
+            Stun_PiyoPiyo.SetActive(false);
+
+        player_state = change_state;
+    }
+
+
+    void Normal()
+    {
+        if(Hp < 3)
+            SetPlayerState(PLAYER_STATE.RECOVERY);
+    }
 
     /**********スタンの処理************/
     public void Stun()
     {
         //もしスタンフラグがtrue且つカウントが1.0秒以下なら
-        if (Stun_Flg && stun_count <= 1.0f)
+        if (stun_count <= 1.0f)
         {
             Debug.Log("スタン中");
             Stun_PiyoPiyo.SetActive(true);
@@ -115,8 +148,10 @@ public class PlayerData : MonoBehaviour
         {
             //スタン状態を解除
             stun_count = 0.0f;
-            Stun_Flg = false;
+
             Stun_PiyoPiyo.SetActive(false);
+
+            SetPlayerState(PLAYER_STATE.NORMAL);
         }
     }
 
@@ -124,23 +159,23 @@ public class PlayerData : MonoBehaviour
     public void Swoon()
     {
         //もし気絶フラグがtrue且つカウントが1.5秒以下なら
-        if (Swoon_Flg && swoon_count <= 2f)
+        if (swoon_count <= 2f)
         {
             Debug.Log("気絶now");
             //気絶時プレイヤーが分かりやすいように文字を表示
-            SwoonFont.text = "気絶中..." + (int)swoon_countDown;
-            SwoonObj.SetActive(true);         //気絶時交換されるように当たり判定をON
-            swoon_count += Time.deltaTime;    //カウントの加算
+            //SwoonFont.text = "気絶中..." + (int)swoon_countDown;
+            SwoonObj.SetActive(true);                   //気絶時交換されるように当たり判定をON
+            swoon_count += Time.deltaTime;              //カウントの加算
             swoon_countDown -= Time.deltaTime;          //カウントダウン
         }
-        else if (swoon_count >= 2)          //もしカウントが1.5秒を超えたら
+        else if (swoon_count > 2)          //もしカウントが1.5秒を超えたら
         {
             swoon_count = 0.0f;             //気絶カウントをリセット
             swoon_countDown = 2.0f;         //カウントリセット
-            Swoon_Flg = false;              //気絶フラグをfalseに変える
-            SwoonFont.text = " ";           //文字を消す
+            //SwoonFont.text = " ";           //文字を消す
             Hp = 3;                         //HPは強制で全回復
             SwoonObj.SetActive(false);
+            SetPlayerState(PLAYER_STATE.NORMAL);
         }
     }
 
@@ -149,61 +184,62 @@ public class PlayerData : MonoBehaviour
     {
         //もし回復フラグがtrue且つカウントが5.0秒以下なら
         //※次の攻撃が来るのが5秒以降になるなら全回復する。
-        if (RecoveryTime_Flg && hael_count <= 5.0f)
+        if (hael_count <= 5.0f)
         {
             hael_count += Time.deltaTime;
             Debug.Log("回復中");
             //Debug.Log("回復カウントは" + hael_count);
+
+
         }
-        //もし回復のカウントが5秒を超えたなら
         else if (hael_count > 5.0)
         {
+            //もし回復のカウントが5秒を超えたなら
             Debug.Log("回復");
             Hp = 3;                                 //Hpを回復する。
             hael_count = 0;                         //カウントリセット
-            RecoveryTime_Flg = false;               //回復フラグOFF
+            SetPlayerState(PLAYER_STATE.NORMAL) ;
         }
     }
 
     /**********無敵の処理*************/
     public void Inv()
     {
+        Debug.Log("無敵だぜ");
+
         //無敵フラグがON且つもし無敵時間が0.5秒以下なら
-        if (Invincibility_Flg && invincibility >= inv_count)
+        if (invincibility >= inv_count)
         {
             inv_count += Time.deltaTime;
-            RecoveryTime_Flg = true;                //回復フラグをONにする
             StartCoroutine(BlinkingControl());
             Invincibility();                        //無敵時の点滅処理関数へ
             //Debug.Log("無敵時間" + inv_count);
+            
         }
         else
         {
             //無敵解除
-            Invincibility_Flg = false;
             inv_count = 0;
+            SetPlayerState(PLAYER_STATE.RECOVERY);
         }
     }
 
     /**********鈍足効果の処理************/
     public void BluntFoot()
     {
-        //もし鈍足効果のフラグがfalseなら通常の速度
-        if (!BluntFootEffect_Flg)
-        {
-            Speed = 3.0f;
-        }
-
+       
         //鈍足効果がtrue且つ鈍足カウントが2.0秒以下なら
-        if (BluntFootEffect_Flg && blunt_count <= 2.0)
+        if (blunt_count <= 2.0)
         {
+            Speed = 1.0f;
             blunt_count += Time.deltaTime;
         }
         else
         {
             //鈍足状態解除
-            BluntFootEffect_Flg = false;
+            Speed = 3.0f;
             blunt_count = 0;
+            SetPlayerState (PLAYER_STATE.NORMAL );
         }
     }
 
@@ -220,6 +256,7 @@ public class PlayerData : MonoBehaviour
     {
         //0.5秒の間点滅を繰り返す
         yield return new WaitForSeconds(0.5f);
+
         // 通常状態に戻す
         player.color = new Color(1f, 1f, 1f, 1f);
     }
@@ -231,6 +268,13 @@ public class PlayerData : MonoBehaviour
     /************当たった時の処理(何かの当たった時)*****************/
     private void OnTriggerEnter2D(Collider2D other)
     {
+
+
+        if (player_state == PLAYER_STATE.SWOON || 
+            player_state == PLAYER_STATE.INVINCIBLE)
+            return;
+
+
         Debug.Log("当たったのは"+ other.gameObject.name);
 
         //敵の攻撃（EnemyAttackというtag）に触れたとき
@@ -273,8 +317,10 @@ public class PlayerData : MonoBehaviour
                     //ダメージ処理
                     Damage();
 
-                    //行動不能をかける
-                    Stun_Flg = true;
+                    //今のダメージで気絶していなければ行動不能をかける
+                    if (player_state != PLAYER_STATE.SWOON)
+                        SetPlayerState(PLAYER_STATE.STUN);
+
                     break;
             }
 
@@ -282,7 +328,7 @@ public class PlayerData : MonoBehaviour
             if (RushAttack_Flg)
             {
                 //一時行動不能にする。
-                Stun_Flg = true;
+                SetPlayerState(PLAYER_STATE.STUN);
                 //フラグは初期化する。
                 RushAttack_Flg = false;
             }
@@ -293,7 +339,7 @@ public class PlayerData : MonoBehaviour
         {
             //速度を3から1.5の速度に変化する。
             Speed = 1.5f;
-            BluntFootEffect_Flg = true;
+            SetPlayerState (PLAYER_STATE.BLUNTFOOT);
         }
 
         //トッシン(技)が発動した際トッシン範囲に触れたなら
@@ -339,59 +385,64 @@ public class PlayerData : MonoBehaviour
             
             case GIMMICK_ID.KITE:
                 //鈍足状態を二秒間付与
+                SetPlayerState(PLAYER_STATE.BLUNTFOOT);
                 //この鈍足時間はスティック操作で時短する
                 break;
 
             case GIMMICK_ID.AIRPLANE:
                 //1ダメージと0.5秒間のスタン付与
+                Damage();
+                if(player_state != PLAYER_STATE.SWOON)
+                    SetPlayerState(PLAYER_STATE.STUN);
                 break;
 
             case GIMMICK_ID.UFO:
-
+                //1ダメージと1秒間の閉じ込め
                 break;
 
             case GIMMICK_ID.BIRD:
-
+                //1ダメージと0.5ノックバック
+                Damage();
                 break;
 
             case GIMMICK_ID.STAR:
-               
+                //1秒間の混乱状態
                 break;
 
             case GIMMICK_ID.RAINCLOUD:
-               
+                //二秒間の鈍足
+                SetPlayerState(PLAYER_STATE.BLUNTFOOT);
                 break;
 
             case GIMMICK_ID.THUNDERCLOUD:
-
+                //1秒間の行動不能
+                SetPlayerState(PLAYER_STATE.STUN);
                 break;
         }
     }
-
 
     //ダメージ食らった時呼び出す関数
     void Damage()
     {
         //もし無敵状態じゃない且つ気絶してないときなら
-        if (!Invincibility_Flg && !Swoon_Flg)
+        if (player_state != PLAYER_STATE.INVINCIBLE && 
+            player_state != PLAYER_STATE.SWOON)
         {
-            //フラグがtrueの時、追撃が飛んで来たら
-            if (RecoveryTime_Flg)
-            {
-                //回復のキャンセル
-                RecoveryTime_Flg = false;
-                hael_count = 0.0f;
-            }
-
             Hp -= Attack;               //体力がAttackの攻撃参照で減る
-            Invincibility_Flg = true;   //無敵フラグON
+            hael_count = 0.0f;
+
         }
 
         //もし体力が0以下になったら
         if (Hp <= 0)
         {
+            Hp = 0;
             //気絶フラグON
-            Swoon_Flg = true;
+            SetPlayerState(PLAYER_STATE.SWOON);
+        }
+        else
+        {
+            SetPlayerState(PLAYER_STATE.INVINCIBLE);  //無敵フラグON
         }
     }
 }
