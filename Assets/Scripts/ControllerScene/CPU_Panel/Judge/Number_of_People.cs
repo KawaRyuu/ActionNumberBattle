@@ -27,7 +27,8 @@ public class Number_of_People : MonoBehaviour
         switch (connection.GetControllerNumber())
         {
             case 0:
-                return;
+                TextChange(4);
+                break;
             case 1:
                 Debug.Log("PlayerÇÕ1êl");
                 TextChange(3);
@@ -62,6 +63,11 @@ public class Number_of_People : MonoBehaviour
                 text3.text = ("CPU2");
                 break;
             case 3:
+                text1.text = ("CPU1");
+                text2.text = ("CPU2");
+                text3.text = ("CPU3");
+                break;
+            case 4:
                 text1.text = ("CPU1");
                 text2.text = ("CPU2");
                 text3.text = ("CPU3");
