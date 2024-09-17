@@ -71,8 +71,8 @@ public class PlayerTextManager : MonoBehaviour
             player_cooltime_texts[num].text   = tecD[i].GetCoolTime1().ToString();
             player_cooltime_texts[num+1].text = tecD[i].GetCoolTime2().ToString();
 
-            Debug.Log("tecD = "+ tecD.Length);
-            Debug.Log("num = "+ num);
+           // Debug.Log("tecD = "+ tecD.Length);
+           // Debug.Log("num = "+ num);
 
             if(num+1 < player_cooltime_texts.Length)
                 num += 2;

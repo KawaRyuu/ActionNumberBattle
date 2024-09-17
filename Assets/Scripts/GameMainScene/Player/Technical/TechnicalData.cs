@@ -539,6 +539,8 @@ public class TechnicalData : MonoBehaviour
 
             mark.GetComponentInChildren<Attack_ID_Sc>().InitializeAttackInfo
                                                         (Attack_ID_Sc.ATTACK.STRIKE_BACK, player.PlayerId());
+
+            mark.GetComponent<MarkBreak>().SetPlayerScript(player);
             
             //“–‚½‚è”»’èoŒ»
             Attack_obj_tubame.SetActive(true);
@@ -583,7 +585,7 @@ public class TechnicalData : MonoBehaviour
             //î•ñ‚ğ‰Šú‰»
             technicalNumber = 0;
             player.stBackCount = 0;
-            player.stBackFlg = false;
+            //player.stBackFlg = false;
             player.StBc_TimeOverFlg = false;
             player.waza1_2 = false;
 

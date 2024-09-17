@@ -9,8 +9,14 @@ public class EntryAndExitMessages : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] Image[] circle_mains;
+    [SerializeField] Vector3[] positions = new Vector3[4];
+    [SerializeField] ResultScoreScriptableObject result_score;
+
+
+
     private void Awake()
     {
+        
         PlayerClone();
     }
 
@@ -18,8 +24,11 @@ public class EntryAndExitMessages : MonoBehaviour
     {
         for(int i = 0;i<4;i++)
         {
-            GameObject clone = Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
-            clone.GetComponent<Player>().SetPlayerId((Player.PLAYER_ID)i);
+            result_score.players_array[i] = Instantiate(player, positions[i], Quaternion.identity);
+            result_score.players_array[i].GetComponent<Player>().SetPlayerId((Player.PLAYER_ID)i);
+            result_score.players_array[i].transform.position = positions[i];
+            Debug.Log("ƒ|ƒWƒVƒ‡ƒ“");
+
             //clone.GetComponent<WazaCoolTimeMove>().SetObj(circle_mains[i]);
         }
     }

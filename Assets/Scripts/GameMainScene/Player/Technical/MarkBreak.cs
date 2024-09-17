@@ -6,11 +6,11 @@ public class MarkBreak : MonoBehaviour
 {
     //Playerスクリプトを参照する
     Player player;
-
+    Attack_ID_Sc attack_id_sc;
     TechnicalData tec;
 
     //5秒後に削除をする設定
-    float deleteTime = 5.0f;
+    const float deleteTime = 5.0f;
     float time = 0.0f;
 
     //破壊フラグ
@@ -21,9 +21,9 @@ public class MarkBreak : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        tec = GameObject.Find("Player").GetComponent<TechnicalData>()
- ;       destroyFlg = false;
+        attack_id_sc = GetComponentInChildren<Attack_ID_Sc>();
+
+        destroyFlg = false;
         TimeStopFlg = false;
     }
 
@@ -36,7 +36,14 @@ public class MarkBreak : MonoBehaviour
             destroyFlg = true;
             //TimerStop();
         }
-        else Timer();
+
+
+        Timer();
+    }
+
+    public void SetPlayerScript(Player parent_player)
+    {
+        player = parent_player;
     }
 
     //時間をカウントダウンする
@@ -45,13 +52,14 @@ public class MarkBreak : MonoBehaviour
         if (!TimeStopFlg)
         {
             time += Time.deltaTime;
-            Debug.Log("いのいの" + time);
+            //Debug.Log("いのいの" + time);
         }
             
 
         //5秒経過後破壊する
         if (deleteTime <= time)
         {
+            player.stBackFlg = false;
             Destroy(gameObject);
         }
     }
@@ -68,10 +76,18 @@ public class MarkBreak : MonoBehaviour
         //もしマークとPlayerが触れたなら
         if(collision.gameObject.tag=="Player")
         {
+            Player hit_player = collision.gameObject.GetComponent<Player>();
+
+            if (hit_player.PlayerId() != attack_id_sc.PlayerID_Return())
+                return;
+
             //破壊フラグを取得済みなら
             if (destroyFlg)
             {
                 Debug.Log("破壊");
+
+                player.stBackFlg = false;
+
                 //マーク破壊
                 Destroy(gameObject);
             }

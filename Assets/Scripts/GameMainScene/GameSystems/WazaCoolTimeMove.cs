@@ -59,7 +59,7 @@ public class WazaCoolTimeMove : MonoBehaviour
             {
                 //技1の待ち時間演出を始める。
                 Ui_cooltime[i].fillAmount -= 1.0f / Tec1_countTime * Time.deltaTime;
-                Debug.Log("amout1=" + Time.deltaTime);
+               // Debug.Log("amout1=" + Time.deltaTime);
             }
 
 
@@ -68,7 +68,7 @@ public class WazaCoolTimeMove : MonoBehaviour
                 //技2の待ち時間演出を始める。
                 //UIobj2.fillAmount -= 1.0f / Tec2_countTime * Time.deltaTime;
                 Ui_cooltime[i + 1].fillAmount -= 1.0f / Tec2_countTime * Time.deltaTime;
-                Debug.Log("amout=" + Time.deltaTime);
+                //Debug.Log("amout=" + Time.deltaTime);
             }
 
             //もし1周したらもう一度もとに戻しループさせる
