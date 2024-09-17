@@ -60,6 +60,7 @@ public class PlayerData : MonoBehaviour
     public float swoon_count = 0.0f;            //気絶中のカウント
     public float swoon_countDown = 2.0f;        //気絶時の文字(カウントダウン)
 
+
     public SpriteRenderer player;
     public GameObject SwoonObj;                 //気絶時に出るobj(これで判定させる)
     public GameObject Stun_PiyoPiyo;            //行動不能時に表示する
@@ -161,6 +162,7 @@ public class PlayerData : MonoBehaviour
         //もし気絶フラグがtrue且つカウントが1.5秒以下なら
         if (swoon_count <= 2f)
         {
+            Swaps_Flg = true;
             Debug.Log("気絶now");
             //気絶時プレイヤーが分かりやすいように文字を表示
             //SwoonFont.text = "気絶中..." + (int)swoon_countDown;
@@ -175,6 +177,7 @@ public class PlayerData : MonoBehaviour
             //SwoonFont.text = " ";           //文字を消す
             Hp = 3;                         //HPは強制で全回復
             SwoonObj.SetActive(false);
+            Swaps_Flg = false;
             SetPlayerState(PLAYER_STATE.NORMAL);
         }
     }
@@ -350,11 +353,11 @@ public class PlayerData : MonoBehaviour
         }
 
         //もし気絶tagに触れたら
-        if (other.gameObject.tag == "Swoon")
-        {
-            Debug.Log("交換フラグは" + Swaps_Flg);
-            Swaps_Flg = true;               //交換のフラグをtureにする
-        }
+        //if (other.gameObject.tag == "Swoon")
+        //{
+        //    Debug.Log("交換フラグは" + Swaps_Flg);
+        //    Swaps_Flg = true;               //交換のフラグをtureにする
+        //}
 
 
         if (other.gameObject.tag == "Gimmick")

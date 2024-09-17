@@ -28,9 +28,12 @@ public class StageManager : MonoBehaviour
     //各種定数
     const float   create_gimmick_time        = 5.0f;                              //ギミック生成のタイマー
     const int     gimmick_num                = (int)GIMMICK_ID.EMPTY;           　//ギミックの種類数
-    const int     create_gimmick_num         = 4;                               　//時間帯ごとに生成されるギミックの種類数
-                                                                                　
-    //各種変数                                                                  　
+    const int     create_gimmick_num         = 4;                                //時間帯ごとに生成されるギミックの種類数
+
+    //各種変数
+    GameObject[] players;
+    NumberData[] player_number_datas = new NumberData[4];
+
     Vector3       create_gimmick_position    = Vector3.zero;                    　//生成ギミックの位置座標
     float         create_gimmick_timer       = 0.0f;                            　//ギミック生成時間
     bool          gimmick_decide_flag        = false;                           　//ギミックが決まっているか判定
@@ -38,6 +41,8 @@ public class StageManager : MonoBehaviour
     bool          meteor_shower_flag         = false;                             //流星群が発動するか判定
     int           total_weight               = 0;                               　//ギミックの重みの総計
 
+    //ScritableObjectを使用した変数
+    [SerializeField] ResultScoreScriptableObject result_score;
 
     private void Start()
     {
@@ -51,6 +56,12 @@ public class StageManager : MonoBehaviour
         gimmick_decide_flag = false;
         gimmick_set_flag    = false;
 
+
+        for(int i = 0; i < 4; i++)
+        {
+            player_number_datas[i] = result_score.players_array[i].GetComponent<NumberData>();
+        }
+
         SetTimeZoneGimmicks(GIMMICK_ID.EMPTY,GIMMICK_ID.EMPTY,GIMMICK_ID.EMPTY,GIMMICK_ID.EMPTY);
         SetGimmickWeights(0, 0, 0, 0);
     }
@@ -59,6 +70,7 @@ public class StageManager : MonoBehaviour
     {
         StageGimmick();
         CheckStageTimeZone();
+        SetPlayerData();
 
         Debug.Log(stage_time_zone);
         Debug.Log(create_gimmick_id);
@@ -246,7 +258,43 @@ public class StageManager : MonoBehaviour
         gimmick_decide_flag = true;
     }
 
-  
+    //ギミックの重みの設定
+    void SetGimmickWeights(int first_weight, int second_weight, int third_weight, int force_weight)
+    {
+        gimmick_weights[0] = first_weight;
+        gimmick_weights[1] = second_weight;
+        gimmick_weights[2] = third_weight;
+        gimmick_weights[3] = force_weight;
+
+        total_weight = 0;
+
+        for (int i = 0; i < gimmick_weights.Length; i++)
+        {
+            total_weight += gimmick_weights[i];
+        }
+    }
+
+    //流星群にするか決める
+    void DecideWeatherMeteorShower()
+    {
+        //次に生成するギミックが星以外なら返す
+        if (create_gimmick_id != GIMMICK_ID.STAR)
+            return;
+
+        //乱数を生成
+        int num = Random.Range(0, 10);
+
+
+        if (num > 7)
+        {
+            meteor_shower_flag = true;
+        }
+        else
+        {
+            meteor_shower_flag = false;
+        }
+    }
+
     /*時間帯の処理*/
 
     //ステージの時間帯の確認
@@ -364,30 +412,6 @@ public class StageManager : MonoBehaviour
         return stage_time_zone;
     }
 
-
-    /*その他の処理*/
-
-    //流星群にするか決める
-    void DecideWeatherMeteorShower()
-    {
-        //次に生成するギミックが星以外なら返す
-        if (create_gimmick_id != GIMMICK_ID.STAR)
-            return;
-
-        //乱数を生成
-        int num = Random.Range(0, 10);
-
-        
-        if(num > 7)
-        {
-            meteor_shower_flag = true;
-        }
-        else
-        {
-            meteor_shower_flag=false;
-        }
-    }
-
     //時間帯ごとのギミック識別子の設定
     void SetTimeZoneGimmicks( GIMMICK_ID first_id,  GIMMICK_ID second_id,  GIMMICK_ID third_id,  GIMMICK_ID force_id)
     {
@@ -397,19 +421,21 @@ public class StageManager : MonoBehaviour
         time_zone_gimmicks[3] = force_id;
     }
 
-    //ギミックの重みの設定
-    void SetGimmickWeights(int first_weight, int second_weight, int third_weight, int force_weight)
+
+    /*その他の処理*/
+
+   void SetPlayerData()
     {
-        gimmick_weights[0] = first_weight;
-        gimmick_weights[1] = second_weight;
-        gimmick_weights[2] = third_weight;
-        gimmick_weights[3] = force_weight;
-
-        total_weight = 0;
-
-        for(int i = 0;i < gimmick_weights.Length;i++)
+        for(int i = 0; i < 4; i++)
         {
-            total_weight += gimmick_weights[i];
+            result_score.player_total_sums[i]           = player_number_datas[i].GetTotalSum();
+            result_score.player_number_sums[i]          = player_number_datas[i].GetNumberSum();
+            result_score.player_total_bonus_points[i]   = player_number_datas[i].GetTotalBonusPoint();
+            result_score.player_change_number_counts[i] = player_number_datas[i].GetChangeNumberCount();
         }
     }
+
+    
+
+    
 }

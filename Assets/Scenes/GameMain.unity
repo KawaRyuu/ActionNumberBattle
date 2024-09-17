@@ -2686,6 +2686,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  positions:
+  - {x: -8, y: 6, z: 0}
+  - {x: 8, y: 6, z: 0}
+  - {x: -8, y: -6, z: 0}
+  - {x: 8, y: -6, z: 0}
+  result_score: {fileID: 11400000, guid: 1f7a1edf3be84d640904d11087ea4c95, type: 2}
 --- !u!1 &1006887008
 GameObject:
   m_ObjectHideFlags: 0
@@ -5656,7 +5662,8 @@ MonoBehaviour:
   - {fileID: 370895348690271002, guid: 69776532f23bb194b88d3a7d9aee6640, type: 3}
   - {fileID: 4579508916090882969, guid: a3550c4717a8e1f439e2bebeadda6b31, type: 3}
   game_timer: {fileID: 641934904}
-  gimmick_weights: 00000000000000000000000000000000
+  gimmick_weights: 00000000f40100000000000000000000
+  result_score: {fileID: 11400000, guid: 1f7a1edf3be84d640904d11087ea4c95, type: 2}
 --- !u!4 &1879749004
 Transform:
   m_ObjectHideFlags: 0

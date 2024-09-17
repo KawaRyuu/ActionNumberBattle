@@ -72,6 +72,8 @@ public class BaseGimmick : MonoBehaviour
         //画面枠上の一箇所の座標
         Vector3 screen_frame_position = Vector3.zero;
 
+        Vector3 gimmick_rotation_shaft = Vector3.right;
+
         //ギミックと画面の比較した位置に応じて取得する枠を決める
         if (gimmick_view_position.x <= 0)
         {
@@ -80,7 +82,6 @@ public class BaseGimmick : MonoBehaviour
             //画面枠右の一点をランダム取得
             screen_frame_position.x = 1;
             screen_frame_position.y = Random.value;
-
 
 
         }
@@ -92,6 +93,7 @@ public class BaseGimmick : MonoBehaviour
             screen_frame_position.x = 0;
             screen_frame_position.y = Random.value;
 
+
         }
         else if (gimmick_view_position.y <= 0)
         {
@@ -100,6 +102,8 @@ public class BaseGimmick : MonoBehaviour
             //画面枠下の一点をランダム取得
             screen_frame_position.x = Random.value;
             screen_frame_position.y = 1;
+
+
         }
         else if (gimmick_view_position.y >= screen_view_position.y)
         {
@@ -108,6 +112,7 @@ public class BaseGimmick : MonoBehaviour
             //画面枠上の一点をランダム取得
             screen_frame_position.x = Random.value;
             screen_frame_position.y = 0;
+
         }
 
         //取得した画面枠座標から進む向きを算出
@@ -117,7 +122,10 @@ public class BaseGimmick : MonoBehaviour
         gimmick_direction.z = 0;
 
         //求めた方向にギミックを向く
-        this.transform.rotation = Quaternion.FromToRotation(Vector3.right, gimmick_direction);
+        Quaternion gimmick_rotation  = Quaternion.FromToRotation(gimmick_rotation_shaft, gimmick_direction);
+
+
+        this.transform.rotation = gimmick_rotation;
 
     }
 

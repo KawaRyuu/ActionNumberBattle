@@ -214,7 +214,7 @@ public class Player : MonoBehaviour
         {
             stBackCount++;
             //ボタンを最大条件に達したら
-            if (stBackCount == 3)
+            if (stBackCount == 2)
             {
                 //もし技ボタンを2回押したなら
                 Debug.Log("2度通った");
@@ -240,7 +240,6 @@ public class Player : MonoBehaviour
             {
                 num = time;
                 StBc_TimeOverFlg = true;
-                stBackFlg = true;
             }
         }
     }
