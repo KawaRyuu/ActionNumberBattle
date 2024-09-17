@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 //リザルトシーンで表示を管理しながら実行するマネージャー
@@ -11,11 +12,20 @@ public class ResultManager : MonoBehaviour
     [SerializeField] GameObject[] player_winner_panels = new GameObject[4]; 
     [SerializeField] GameObject   player_battle_data_canvas;
 
+
+    //PlayerのInputSystem
+    PlayerInput playerInput;
+
+
     const float disp_time         = 1.0f;
     float       disp_timer        = 0.0f;
     int         disp_panel_num    = 0;
     bool        disp_ranking_flag = false;
 
+    private void Awake()
+    {
+        TryGetComponent(out playerInput);
+    }
     private void Start()
     {
         disp_timer = 0.0f;
@@ -66,13 +76,18 @@ public class ResultManager : MonoBehaviour
     //各プレイヤーの成績を表示する
     void DisplayResult()
     {
+        bool SelectButton = playerInput.actions["SelectButton"].WasPressedThisFrame();
+        bool BackButton = playerInput.actions["BackButton"].WasPressedThisFrame();
+
         //ランキングを表示中は返す
         if (disp_ranking_flag)
             return;
 
         //ボタンが押されたら、成績を表示する
-        if (Input.GetKeyDown(KeyCode.A))
+        if (SelectButton)
             player_battle_data_canvas.SetActive(true);
+        if (BackButton)
+            player_battle_data_canvas.SetActive(false);
     }
 
     

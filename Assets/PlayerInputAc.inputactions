@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SelectButton",
+                    "type": "Button",
+                    "id": "081ea5b2-2696-4c11-82cf-575323f96b42",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BackButton",
+                    "type": "Button",
+                    "id": "a7849487-081b-4867-b182-3c06f0c98a3f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -333,6 +351,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "TechnicalRange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae6b5d4a-f046-4f98-b4a6-a037d50912f1",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SelectButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8dde6eb2-6bbe-4d0d-b4a5-139ea65bd381",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BackButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
