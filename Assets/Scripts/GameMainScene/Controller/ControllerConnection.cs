@@ -34,7 +34,7 @@ public class ControllerConnection : MonoBehaviour
     }
 
     //コントローラー接続の数を返す
-    public int Controller()
+    public int GetControllerNumber()
     {
         return connection;
     }

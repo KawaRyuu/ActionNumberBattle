@@ -41,7 +41,7 @@ public class Button : MonoBehaviour
             {
                 push_flg = true;
                 //もし接続が全てPlayerなら
-                if (connection.Controller() == 4)
+                if (connection.GetControllerNumber() == 4)
                     PlayerPanel.SetActive(true);
                 else
                     //CPU難易度パネルの表示をONにする。
