@@ -83,7 +83,6 @@ public class ButtonScripts : MonoBehaviour
     public void ChangeScene_SettingScene()
     {
         //タイトルシーンからコントローラー設定のシーンへ
-        //SceneManager.LoadScene("ControllerScene");
-        Debug.Log("設定画面へ");
+        SceneManager.LoadScene("SettingScene");
     }
 }
