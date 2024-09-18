@@ -19,6 +19,7 @@ public class OptionMove : MonoBehaviour
     private float time;
     private int count;
 
+
     //ƒnƒ“ƒhƒ‹2ŒÂ•ª
     public Slider SE_Handle; 
     public Slider Light_Handle;
@@ -120,7 +121,7 @@ public class OptionMove : MonoBehaviour
             LightWaku.SetActive(false);
         }
 
-        LightNum.text = ("Œ»İ‚Ì‰¹—Ê" + Light_Handle.value);
+        LightNum.text = ("Œ»İ‚Ì–¾‚é‚³" + Light_Handle.value);
     }
 
     void ChangeScene_Title()
