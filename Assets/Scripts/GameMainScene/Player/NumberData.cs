@@ -97,10 +97,12 @@ public class NumberData :MonoBehaviour
 
     void ChangeNumber()
     {
-        Debug.Log(can_change_flag);
+        Debug.Log("can = "+can_change_flag);
 
         if (Input.GetKeyDown(KeyCode.E) && can_change_flag)
         {
+            can_change_flag = false;
+
             Debug.Log("交換ボタンを押した");
 
             //1～10を100%換算する
@@ -133,32 +135,30 @@ public class NumberData :MonoBehaviour
             }
 
             MyNumber[3] = tmp;                      //相手の数字を自分の所へ入れる。
-            hit_player_data.Swaps_Flg = false;                   //交換フラグをOFFにする。
-            can_change_flag = false;
 
             total_bonus_point += bonus_point;
             change_number_count++;
-
-            //SumCulc();
-            //num_data.SumCulc();
 
             Debug.Log("交換した！");
         }
 
     }
 
+ 
+
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("おんこりじょん");
 
         if (collision.gameObject.tag != "Player")
             return;
 
-         hit_player       = collision.gameObject.GetComponent<Player>();
-         hit_player_data  = collision.gameObject.GetComponent<PlayerData>();
 
-        if ( player.PlayerId() != hit_player.PlayerId() && hit_player_data.Swaps_Flg)
+        hit_player = collision.gameObject.GetComponent<Player>();
+        hit_player_data = collision.gameObject.GetComponent<PlayerData>();
+
+
+        if (player.PlayerId() != hit_player.PlayerId() && hit_player_data.Swaps_Flg)
         {
             Debug.Log("交換");
 
@@ -167,9 +167,12 @@ public class NumberData :MonoBehaviour
 
             can_change_flag = true;
             //相手が気絶したなら
-          
+
+            hit_player_data.Swaps_Flg = false;                   //交換フラグをOFFにする。
+
         }
-       
+        else 
+            can_change_flag = false;
     }
 
     public void SumCulc()
