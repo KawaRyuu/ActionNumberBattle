@@ -16,12 +16,12 @@ public class PlayerWakuMove : MonoBehaviour
     private void Awake()
     {
         TryGetComponent(out playerInput);
-        playerWaku.SetActive(false);
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        playerWaku.SetActive(false);
         Waku_flg = false;
     }
 
