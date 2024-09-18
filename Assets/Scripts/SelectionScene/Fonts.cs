@@ -62,7 +62,7 @@ public class Fonts : MonoBehaviour
                     //もし1週すらしてないなら
                     if (!oneTecFlg)
                     {
-                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":ハネトバシ(仮称)";
+                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":ハネトバシ";
                         TecSelectionCoverNum = tecButton.public_number;//保持
                         Tec1 = tecButton.public_number;                //技1選択保持
                         OneTec();
@@ -70,7 +70,7 @@ public class Fonts : MonoBehaviour
                     //もし１週目且つボタンが押されたら
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
-                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ハネトバシ(仮称)";
+                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ハネトバシ";
                         Tec2 = tecButton.public_number;                //技2選択保持
                         TwoTec();
                     }
@@ -81,7 +81,7 @@ public class Fonts : MonoBehaviour
                     //もし1週すらしてないなら
                     if (!oneTecFlg)
                     {
-                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":ツバメ返し(仮称)";
+                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":ツバメ返し";
                         TecSelectionCoverNum = tecButton.public_number;//保持
                         Tec1 = tecButton.public_number;                //技1選択保持
                         OneTec();
@@ -89,7 +89,7 @@ public class Fonts : MonoBehaviour
                     //もし１週目且つボタンが押されたら
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
-                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ツバメ返し(仮称)";
+                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":ツバメ返し";
                         Tec2 = tecButton.public_number;                //技2選択保持
                         TwoTec();
                     }
@@ -101,7 +101,7 @@ public class Fonts : MonoBehaviour
                     if (!oneTecFlg)
                     {
                         OnePlayer_Tec_Select_F.text = "1Pの技" + 1 +
-                            ":ストライク&バック(仮称)";
+                            ":ストライク&バック";
                         TecSelectionCoverNum = tecButton.public_number;//保持
                         Tec1 = tecButton.public_number;                //技1選択保持
                         OneTec();
@@ -110,7 +110,7 @@ public class Fonts : MonoBehaviour
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
                         OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 +
-                            ":ストライク&バック(仮称)";
+                            ":ストライク&バック";
                         Tec2 = tecButton.public_number;                //技2選択保持
                         TwoTec();
                     }
@@ -121,7 +121,7 @@ public class Fonts : MonoBehaviour
                     //もし1週すらしてないなら
                     if (!oneTecFlg)
                     {
-                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":トッシン(仮称)";
+                        OnePlayer_Tec_Select_F.text = "1Pの技" + 1 + ":トッシン";
                         TecSelectionCoverNum = tecButton.public_number;//保持
                         Tec1 = tecButton.public_number;                //技1選択保持
                         OneTec();
@@ -129,7 +129,7 @@ public class Fonts : MonoBehaviour
                     //もし１週目且つボタンが押されたら
                     else if (oneTecFlg && tecButton.PushButtonFlg)
                     {
-                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":トッシン(仮称)";
+                        OnePlayer_Tec_Select_F2.text = "1Pの技" + 2 + ":トッシン";
                         Tec2 = tecButton.public_number;                //技2選択保持
                         TwoTec();
                     }
