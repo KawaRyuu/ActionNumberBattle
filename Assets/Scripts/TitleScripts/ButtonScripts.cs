@@ -12,6 +12,9 @@ public class ButtonScripts : MonoBehaviour
     public GameObject SentakuWaku1;
     public GameObject SentakuWaku2;
 
+    bool Sentaku_flg1 = false;
+    bool Sentaku_flg2 = false;
+
     private void Awake()
     {
         TryGetComponent(out playerInput);
@@ -21,6 +24,8 @@ public class ButtonScripts : MonoBehaviour
     {
         SentakuWaku1.SetActive(false);
         SentakuWaku2.SetActive(false);
+        Sentaku_flg1 = false;
+        Sentaku_flg2 = false;
     }
 
     // Update is called once per frame
@@ -33,10 +38,18 @@ public class ButtonScripts : MonoBehaviour
         Vector2 MoveLeftButton = playerInput.actions["Move"].ReadValue<Vector2>();
 
         //特定の操作を確認したら
-        if (SelectButton)
+        //ボタンを押すとき特定の動きができるようにする。
+        if (SelectButton && Sentaku_flg1)
         {
-            //ChangeScene();
-            //ボタンを押すとき特定の動きができるようにする。
+            /*もしカーソルがゲームスタートにいて
+             決定ボタンを押したら*/
+            ChangeScene_Controller();
+        }
+        else if (SelectButton && Sentaku_flg2)
+        {
+            /*もしカーソルが設定にいて
+             決定ボタンを押したら*/
+            ChangeScene_SettingScene();
         }
 
         //もしYが0より小さい場合
@@ -45,6 +58,8 @@ public class ButtonScripts : MonoBehaviour
             //スタートボタンに枠を表示
             SentakuWaku1.SetActive(true);
             SentakuWaku2.SetActive(false);
+            Sentaku_flg1 = true;
+            Sentaku_flg2 = false;
         }
         //もしYが0より大きい場合
         else if (MoveLeftButton.y > 0)
@@ -52,13 +67,23 @@ public class ButtonScripts : MonoBehaviour
             //歯車に選択枠を表示
             SentakuWaku2.SetActive(true);
             SentakuWaku1.SetActive(false);
+            Sentaku_flg1 = false;
+            Sentaku_flg2 = true;
         }
     }
 
-    //ボタンを押したら実行する関数　実行するためにはボタンへ関数登録が必要
-    public void ChangeScene()
+    //コントローラシーンへ移行する関数
+    public void ChangeScene_Controller()
     {
         //タイトルシーンからコントローラー設定のシーンへ
         SceneManager.LoadScene("ControllerScene");
+    }
+
+    //設定画面のシーンへ移行する関数
+    public void ChangeScene_SettingScene()
+    {
+        //タイトルシーンからコントローラー設定のシーンへ
+        //SceneManager.LoadScene("ControllerScene");
+        Debug.Log("設定画面へ");
     }
 }
