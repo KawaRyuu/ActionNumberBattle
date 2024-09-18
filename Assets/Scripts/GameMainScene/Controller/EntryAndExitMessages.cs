@@ -20,13 +20,18 @@ public class EntryAndExitMessages : MonoBehaviour
         PlayerClone();
     }
 
+    private void Start()
+    {
+        result_score.players_array = GameObject.FindGameObjectsWithTag("Player");
+    }
+
     void PlayerClone()
     {
         for(int i = 0;i<4;i++)
         {
-            result_score.players_array[i] = Instantiate(player, positions[i], Quaternion.identity);
-            result_score.players_array[i].GetComponent<Player>().SetPlayerId((Player.PLAYER_ID)i);
-            result_score.players_array[i].transform.position = positions[i];
+            GameObject clone = Instantiate(player, positions[i], Quaternion.identity);
+            clone.GetComponent<Player>().SetPlayerId((Player.PLAYER_ID)i);
+            clone.transform.position = positions[i];
             Debug.Log("ƒ|ƒWƒVƒ‡ƒ“");
 
             //clone.GetComponent<WazaCoolTimeMove>().SetObj(circle_mains[i]);

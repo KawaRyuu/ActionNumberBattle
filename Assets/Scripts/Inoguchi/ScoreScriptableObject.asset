@@ -12,3 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3ad4abaa1345b468f648976c72a8d2, type: 3}
   m_Name: ScoreScriptableObject
   m_EditorClassIdentifier: 
+  players_array:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  player_total_sums: 0d000000190000001700000012000000
+  player_total_bonus_points: 00000000000000000000000000000000
+  player_number_sums: 0d000000190000001700000012000000
+  player_change_number_counts: 00000000000000000000000000000000

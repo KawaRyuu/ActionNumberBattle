@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class ThunderCloud : BaseGimmick
 {
-    const float thunder_cloud_speed = 3.0f;
+    const float thunder_cloud_speed = 5.0f;
 
     private void Start()
     {

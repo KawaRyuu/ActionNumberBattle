@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.UI;
 using UnityEngine.Windows;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerTextManager : MonoBehaviour
 {
