@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class RainCloud : BaseGimmick
 {
-    const float rain_cloud_speed = 3.0f;
+    const float rain_cloud_speed = 5.0f;
 
     private void Start()
     {

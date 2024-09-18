@@ -9,7 +9,7 @@ public class Kite : BaseGimmick
 {
     Vector3     kite_vector = Vector3.zero;  //凧特有の力
     float       kite_angle  = 0.0f;          //角度
-    const float kite_speed  = 5.0f;          //凧の速度
+    const float kite_speed  = 3.0f;          //凧の速度
 
     private void Start()
     {
@@ -41,7 +41,7 @@ public class Kite : BaseGimmick
         gimmick_vector = transform.up * gimmick_speed;
 
         ///カイト特有の左右に揺れる動き
-        kite_vector = transform.right * Mathf.Sin(kite_angle) * gimmick_speed;
+        kite_vector = transform.right * Mathf.Cos(kite_angle) * gimmick_speed;
         kite_angle += 0.01f;
 
         //ギミックとカイト特有を合わせたベクトル

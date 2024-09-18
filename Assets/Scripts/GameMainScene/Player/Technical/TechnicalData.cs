@@ -1,15 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using DG.Tweening;
 using UnityEngine.Windows;
 using UnityEngine.EventSystems;
-using static UnityEngine.GraphicsBuffer;
 
 public class TechnicalData : MonoBehaviour
 {
@@ -473,7 +470,7 @@ public class TechnicalData : MonoBehaviour
     void StrikeBackWaza()
     {
         //当たり判定の情報をストライク＆バックの情報に書き換える
-        attack_id_sc.InitializeAttackInfo(Attack_ID_Sc.ATTACK.RUSHATTACK, player.PlayerId());
+        attack_id_sc.InitializeAttackInfo(Attack_ID_Sc.ATTACK.STRIKE_BACK, player.PlayerId());
 
         //ここで前進する
         if (player.stBackCount < 1)
@@ -752,8 +749,6 @@ public class TechnicalData : MonoBehaviour
         if (target_flg)
             return;
 
-       
-
         //PlayerTagを持っている全ての敵の座標を取得
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
 
@@ -777,11 +772,8 @@ public class TechnicalData : MonoBehaviour
                 Debug.Log("追加した");
             }
 
-
         }
 
-        
-       
         if (position_list.Count == 1)
         {
             target_position = position_list[0];
@@ -842,6 +834,8 @@ public class TechnicalData : MonoBehaviour
     public void HitJudgeActiveFalse()
     {
         Attack_obj_tubame.SetActive(false);
+        rush_attack_range.SetActive(false);
+
     }
 
     //移動(ストライク処理)※現在は使用していません。

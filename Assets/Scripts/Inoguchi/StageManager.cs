@@ -428,6 +428,7 @@ public class StageManager : MonoBehaviour
     {
         for(int i = 0; i < 4; i++)
         {
+            //‚»‚ê‚¼‚ê‚Ìƒf[ƒ^‚É“ü‚ê‚é
             result_score.player_total_sums[i]           = player_number_datas[i].GetTotalSum();
             result_score.player_number_sums[i]          = player_number_datas[i].GetNumberSum();
             result_score.player_total_bonus_points[i]   = player_number_datas[i].GetTotalBonusPoint();

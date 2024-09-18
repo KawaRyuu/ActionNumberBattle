@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,11 +12,11 @@ public class ResultManager : MonoBehaviour
 {
     [SerializeField] GameObject[] player_winner_panels = new GameObject[4]; 
     [SerializeField] GameObject   player_battle_data_canvas;
+    [SerializeField] ResultScoreScriptableObject result_score;
 
 
     //PlayerのInputSystem
     PlayerInput playerInput;
-
 
     const float disp_time         = 1.0f;
     float       disp_timer        = 0.0f;
@@ -25,6 +26,8 @@ public class ResultManager : MonoBehaviour
     private void Awake()
     {
         TryGetComponent(out playerInput);
+
+        SettingResultText();
     }
     private void Start()
     {
@@ -42,12 +45,65 @@ public class ResultManager : MonoBehaviour
     }
 
     //毎フレーム最後に実行
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         //すべてのパネルを表示し終えたら、ランキング表示を止める
         if (disp_panel_num < 0)
             disp_ranking_flag = false;
     }
+
+    void SettingResultText()
+    {
+        //ランキング
+        RankingPlayer();
+
+        for(int i = 0;i< player_winner_panels.Length;i++)
+        {
+            Text winner_text = player_winner_panels[i].GetComponentInChildren<Text>();
+            winner_text.text = CheckPlayerId(result_score.GetComponent<Player>().PlayerId()); ;
+        }
+
+    }
+
+    void RankingPlayer()
+    {
+
+        for(int i = 0; i < result_score.players_array.Length -1; i++)
+        {
+            for(int j  = i+1; j< result_score.players_array.Length; j++)
+            {
+                if (result_score.players_array[i].GetComponent<NumberData>().GetTotalSum() <
+                    result_score.players_array[j].GetComponent<NumberData>().GetTotalSum())
+                {
+                    GameObject middle = result_score.players_array[i];
+                    result_score.players_array[i] = result_score.players_array[j];
+                    result_score.players_array[j] = middle;
+                }
+            }
+        }
+    }
+
+    string CheckPlayerId(Player.PLAYER_ID id)
+    {
+        switch (id)
+        {
+            case Player.PLAYER_ID.P1:
+                return "1Player";
+
+            case Player.PLAYER_ID.P2:
+                return "1Player";
+                
+            case Player.PLAYER_ID.P3:
+                return "1Player";
+                
+            case Player.PLAYER_ID.P4:
+                return "1Player";
+
+            default:
+                return "プレイやーが設定できてないぞ";
+        }
+    }
+
 
     //プレイヤーの順位を表示する関数
     void DisplayRanking()

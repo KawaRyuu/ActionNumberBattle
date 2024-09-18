@@ -97,6 +97,9 @@ public class PlayerData : MonoBehaviour
        CheckPlayerState();
 
 
+        if (player_state != PLAYER_STATE.BLUNTFOOT)
+            Speed = 3.0f;
+
        Debug.Log("PLAYER_STATE="+player_state);
     }
 
@@ -234,7 +237,7 @@ public class PlayerData : MonoBehaviour
         //鈍足効果がtrue且つ鈍足カウントが2.0秒以下なら
         if (blunt_count <= 2.0)
         {
-            Speed = 1.0f;
+            Speed = 1.5f;
             blunt_count += Time.deltaTime;
         }
         else
@@ -271,7 +274,7 @@ public class PlayerData : MonoBehaviour
     /************当たった時の処理(何かの当たった時)*****************/
     private void OnTriggerEnter2D(Collider2D other)
     {
-
+      
 
         if (player_state == PLAYER_STATE.SWOON || 
             player_state == PLAYER_STATE.INVINCIBLE)
@@ -316,7 +319,6 @@ public class PlayerData : MonoBehaviour
 
                 //トッシン
                 case Attack_ID_Sc.ATTACK.RUSHATTACK:
-
                     //ダメージ処理
                     Damage();
 
@@ -328,29 +330,29 @@ public class PlayerData : MonoBehaviour
             }
 
             //もし攻撃が当たっていてトッシンの範囲に触れているなら
-            if (RushAttack_Flg)
-            {
-                //一時行動不能にする。
-                SetPlayerState(PLAYER_STATE.STUN);
-                //フラグは初期化する。
-                RushAttack_Flg = false;
-            }
+            //if (RushAttack_Flg)
+            //{
+            //    //一時行動不能にする。
+            //    SetPlayerState(PLAYER_STATE.STUN);
+            //    //フラグは初期化する。
+            //    RushAttack_Flg = false;
+            //}
         }
 
-        //もし鈍足効果のTagに触れたら
-        if (other.gameObject.tag == "BluntFootEffect")
-        {
-            //速度を3から1.5の速度に変化する。
-            Speed = 1.5f;
-            SetPlayerState (PLAYER_STATE.BLUNTFOOT);
-        }
+        ////もし鈍足効果のTagに触れたら
+        //if (other.gameObject.tag == "BluntFootEffect")
+        //{
+        //    //速度を3から1.5の速度に変化する。
+        //    Speed = 1.5f;
+        //    SetPlayerState (PLAYER_STATE.BLUNTFOOT);
+        //}
 
-        //トッシン(技)が発動した際トッシン範囲に触れたなら
-        if (other.gameObject.tag == "RushRange")
-        {
-            //当たったフラグをONにする
-            RushAttack_Flg = true;
-        }
+        ////トッシン(技)が発動した際トッシン範囲に触れたなら
+        //if (other.gameObject.tag == "RushRange")
+        //{
+        //    //当たったフラグをONにする
+        //    RushAttack_Flg = true;
+        //}
 
         //もし気絶tagに触れたら
         //if (other.gameObject.tag == "Swoon")
