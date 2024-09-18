@@ -97,10 +97,7 @@ public class PlayerData : MonoBehaviour
        CheckPlayerState();
 
 
-        if (player_state != PLAYER_STATE.BLUNTFOOT)
-            Speed = 3.0f;
 
-       Debug.Log("PLAYER_STATE="+player_state);
     }
 
     void CheckPlayerState()
@@ -136,6 +133,8 @@ public class PlayerData : MonoBehaviour
     {
         if(Hp < 3)
             SetPlayerState(PLAYER_STATE.RECOVERY);
+
+        Speed = 3.0f;
     }
 
     /**********ƒXƒ^ƒ“‚Ìˆ—************/
@@ -274,7 +273,6 @@ public class PlayerData : MonoBehaviour
     /************“–‚½‚Á‚½Žž‚Ìˆ—(‰½‚©‚Ì“–‚½‚Á‚½Žž)*****************/
     private void OnTriggerEnter2D(Collider2D other)
     {
-      
 
         if (player_state == PLAYER_STATE.SWOON || 
             player_state == PLAYER_STATE.INVINCIBLE)
